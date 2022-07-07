@@ -1,0 +1,179 @@
+body{
+    font-family: sans-serif;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+h2, h3, p{
+    padding: 0;
+    margin: 0;
+}
+
+
+.App{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+header, .main, .footer{
+    width: 90%;
+    max-width: 950px;
+}
+
+.header-container{
+    position: sticky;
+    background-color: white;
+    top: 0; z-index: 100;
+    padding-bottom: .5em;
+    box-shadow: 0 .5px 5px lightgray;
+
+    header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; align-items: center;
+        margin: 0 auto;
+    
+        ul{
+            all: unset;
+        }
+    
+        li{
+            all: unset;
+            padding: 2em;
+        }
+    
+    }
+}
+
+.main-container{
+    padding-bottom: 3em;
+    box-shadow: 0 .5px 5px lightgray;
+}
+
+
+.footer-container{
+    min-height: 5em;
+    align-items: center;
+    display: flex;
+
+    .footer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto auto;
+        >*{
+            flex-basis: 100%;
+        }
+    }
+}
+
+@media (max-width: 650px){
+    .header-container header{
+        flex-direction: column;
+    }
+}
+
+.main-info{
+
+    box-shadow: 0 .5px 5px lightgray;
+
+    .bg{
+        background: url('./components/bg-image.jpg');
+        height: 300px;
+
+        .bg-image{
+            width: 90%;
+            max-width: 850px;
+            margin: 0 auto;
+            height: 100%;
+            background: url('./components/insta-background.png');
+            border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;
+        }
+
+    }
+
+
+    .profile-info-flex{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        height: 100px;
+
+        .profile-info{
+            width: 80%;
+            max-width: 755px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0 3em;
+        }
+    }
+
+    .profile-img-container{
+        flex-basis: 15%;
+
+        .profile-img{
+            width: 80px;
+            border-radius: 50%;
+            border: 1px solid lightgray;
+        }
+    }
+
+    .profile-name{
+        flex-basis: 50%;
+
+        .checkmark{
+            width: 15px;
+            background-color: #1B74E4;
+            border-radius: 50%;
+        }
+    }
+
+    .profile-link{
+        flex-basis: 35%;
+
+        .profile-link-button{
+            background-color: #1B74E4;
+            border: none;
+            width: 90%;
+            padding: 0 2em;
+            border-radius: 5px;
+            height: 3em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: .4em;
+
+            span{
+                color: white;
+                font-weight: 500;
+                font-size: 1.1em;
+            }
+        }
+        
+        .cube-icon{
+            width: 17px;
+        }
+
+        .open-icon{
+            width: 1em;
+        }
+
+        .website-link{
+            font-size: .8rem;
+            color: lightslategray;
+
+            width: 90%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 1.5em;
+            margin-top: .2rem;
+            gap: .5em;
+        }
+    }
+}
+
