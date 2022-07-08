@@ -1,0 +1,234 @@
+body {
+  font-family: sans-serif;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+h2, h3, p {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+header, .main, .footer {
+  width: 90%;
+  max-width: 950px;
+}
+
+.header-container {
+  position: -webkit-sticky;
+  position: sticky;
+  background-color: white;
+  top: 0;
+  z-index: 100;
+  padding-bottom: 0.5em;
+  box-shadow: 0 0.5px 5px lightgray;
+}
+.header-container header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+.header-container header ul {
+  all: unset;
+}
+.header-container header li {
+  all: unset;
+  padding: 2em;
+}
+
+.main-container {
+  padding-bottom: 3em;
+  box-shadow: 0 0.5px 5px lightgray;
+}
+
+.footer-container {
+  min-height: 5em;
+  align-items: center;
+  display: flex;
+}
+.footer-container .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto auto;
+}
+.footer-container .footer > * {
+  flex-basis: 100%;
+}
+
+@media (max-width: 650px) {
+  .header-container header {
+    flex-direction: column;
+  }
+}
+.inline-icon {
+  width: 1em;
+}
+
+.main-info {
+  box-shadow: 0 0.5px 5px lightgray;
+}
+.main-info .bg {
+  background: url("./components/bg-image.jpg");
+  height: 300px;
+}
+.main-info .bg .bg-image {
+  width: 90%;
+  max-width: 850px;
+  margin: 0 auto;
+  height: 100%;
+  background: url("./components/insta-background.png");
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.main-info .profile-info-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100px;
+}
+.main-info .profile-info-flex .profile-info {
+  width: 80%;
+  max-width: 755px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 3em;
+}
+.main-info .profile-img-container {
+  flex-basis: 15%;
+}
+.main-info .profile-img-container .profile-img {
+  width: 80px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  transition: all 0.2s ease-out;
+}
+.main-info .profile-img-container .profile-img:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+.main-info .profile-name {
+  flex-basis: 50%;
+}
+.main-info .profile-name .inline-icon {
+  width: 15px;
+  background-color: #1B74E4;
+  border-radius: 50%;
+}
+.main-info .profile-link {
+  flex-basis: 35%;
+}
+.main-info .profile-link .profile-link-button {
+  background-color: #1B74E4;
+  border: none;
+  width: 90%;
+  padding: 0 2em;
+  border-radius: 5px;
+  height: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  cursor: pointer;
+}
+.main-info .profile-link .profile-link-button span {
+  color: white;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+.main-info .profile-link .cube-icon {
+  width: 17px;
+}
+.main-info .profile-link .open-icon {
+  width: 1em;
+}
+.main-info .profile-link .website-link {
+  font-size: 0.8rem;
+  color: lightslategray;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 1.5em;
+  margin-top: 0.2rem;
+  gap: 0.5em;
+  cursor: pointer;
+}
+
+.profile-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  max-width: 755px;
+  margin: 0 auto;
+  border-top: 1px solid lightgray;
+}
+.profile-nav > *:nth-child(2) {
+  height: 4em;
+}
+.profile-nav .profile-nav-selections {
+  display: flex;
+  flex-direction: row;
+}
+.profile-nav .profile-nav-selections > * {
+  width: 4em;
+  text-align: center;
+  padding: 1em;
+  margin: 0.5em 0;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+.profile-nav .profile-nav-selections > *:hover {
+  background-color: lightgray;
+  border-radius: 4px;
+}
+.profile-nav .curr-selection {
+  border-bottom: 2px solid #1B74E4;
+}
+.profile-nav .dropdown-selection {
+  position: relative;
+}
+.profile-nav .dropdown {
+  position: absolute;
+  background-color: white;
+  top: 3em;
+  left: -0.2em;
+  width: 15em;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  box-shadow: 0 0.5px 5px lightgray;
+  align-items: center;
+}
+.profile-nav .dropdown > * {
+  padding: 0.5em;
+  margin: 0.3em;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: start;
+  transition: all 0.2s ease-out;
+}
+.profile-nav .dropdown > *:hover {
+  background-color: lightgray;
+  border-radius: 4px;
+}
+.profile-nav .dropdown-selection {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  cursor: pointer;
+}/*# sourceMappingURL=index-style.css.map */
