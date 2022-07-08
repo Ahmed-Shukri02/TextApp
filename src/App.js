@@ -1,3 +1,4 @@
+import React from "react";
 import "./index-style.css"
 import Header from "./Header";
 import Main from "./Main";

@@ -1,7 +1,8 @@
 import React from "react";
 import profile from "./insta-profile.jpg";
 import ProfileLink from "./profileLink";
-import Checkmark from "./checkmark-circle-outline";
+import Checkmark from "../icon-components/checkmark-circle-outline";
+import ProfileNav from "./profileNav";
 
 
 export default function Main_info(){
@@ -24,7 +25,10 @@ export default function Main_info(){
                     
                     <ProfileLink />
                 </div>
-            </div>
+            </div>  
+
+            <ProfileNav/>
+
         </div>
     )
 }

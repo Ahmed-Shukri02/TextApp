@@ -1,6 +1,6 @@
 import React from "react";
-import Cube from "./cube-outline";
-import Open from "./open-outline";
+import Cube from "../icon-components/cube-outline";
+import Open from "../icon-components/open-outline";
 
 export default function profileLink(){
     return(

@@ -74,6 +74,10 @@ header, .main, .footer{
     }
 }
 
+.inline-icon{
+    width: 1em;
+}
+
 .main-info{
 
     box-shadow: 0 .5px 5px lightgray;
@@ -117,13 +121,19 @@ header, .main, .footer{
             width: 80px;
             border-radius: 50%;
             border: 1px solid lightgray;
+            transition: all .2s ease-out;
+
+            &:hover{
+                cursor: pointer;
+                transform: scale(1.2);
+            }
         }
     }
 
     .profile-name{
         flex-basis: 50%;
 
-        .checkmark{
+        .inline-icon{
             width: 15px;
             background-color: #1B74E4;
             border-radius: 50%;
@@ -151,6 +161,8 @@ header, .main, .footer{
                 font-weight: 500;
                 font-size: 1.1em;
             }
+
+            cursor: pointer;
         }
         
         .cube-icon{
@@ -173,7 +185,87 @@ header, .main, .footer{
             height: 1.5em;
             margin-top: .2rem;
             gap: .5em;
+
+            cursor: pointer;
         }
     }
 }
 
+.profile-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 755px;
+    margin: 0 auto;
+    border-top: 1px solid lightgray;
+
+    >*:nth-child(2){
+        height: 4em;
+    }
+
+
+    .profile-nav-selections{
+        display: flex;
+        flex-direction: row;
+        
+        >*{
+            width: 4em;
+            text-align: center;
+            padding:1em;
+            margin: .5em 0;
+            cursor: pointer;
+            transition: all .2s ease-out;
+
+            &:hover{
+                background-color: lightgray;
+                border-radius: 4px;
+            }
+            
+        }
+    }
+
+    .curr-selection{
+        border-bottom: 2px solid #1B74E4;
+    }
+
+    .dropdown-selection{
+        position: relative;
+    }
+    
+    .dropdown{
+        position: absolute;
+        background-color: white;
+        top: 3em; left: -0.2em;
+        width: 15em;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        box-shadow: 0 .5px 5px lightgray;
+        align-items: center;
+
+        >*{
+            padding: 0.5em;
+            margin: 0.3em;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: start;
+            transition: all .2s ease-out;
+
+            &:hover{
+                background-color: lightgray;
+                border-radius: 4px;
+            }
+        }
+    }
+
+
+    .dropdown-selection{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        cursor: pointer;
+    }
+}
