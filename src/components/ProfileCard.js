@@ -5,10 +5,10 @@ import Checkmark from "../icon-components/checkmark-circle-outline";
 import ProfileNav from "./profileNav";
 
 
-export default function Main_info(){
+export default function ProfileCard(){
     
     return (
-        <div className="main-info">
+        <div className="profile-card">
             <div className="bg">
                 <div className="bg-image"></div>
             </div>

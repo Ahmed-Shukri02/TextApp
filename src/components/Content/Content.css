@@ -1,0 +1,43 @@
+.content-container {
+  margin: 0 auto;
+  background-color: rgb(247, 247, 247);
+}
+
+.content {
+  width: 80%;
+  max-width: 755px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  padding-top: 1em;
+}
+.content .content-right {
+  flex-basis: 100%;
+}
+.content .content-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  flex-basis: 80%;
+}
+.content .content-left > * {
+  min-height: 100px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 0.5px 5px lightgray;
+  border-radius: 5px;
+  padding: 1em;
+  font-size: 1rem;
+}
+.content .content-left .about {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.content .content-left .about > * {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 0.5em;
+}/*# sourceMappingURL=Content.css.map */

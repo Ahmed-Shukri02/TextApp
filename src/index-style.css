@@ -45,7 +45,6 @@ header, .main, .footer {
 }
 
 .main-container {
-  padding-bottom: 3em;
   box-shadow: 0 0.5px 5px lightgray;
 }
 
@@ -73,14 +72,14 @@ header, .main, .footer {
   width: 1em;
 }
 
-.main-info {
+.profile-card {
   box-shadow: 0 0.5px 5px lightgray;
 }
-.main-info .bg {
+.profile-card .bg {
   background: url("./components/bg-image.jpg");
   height: 300px;
 }
-.main-info .bg .bg-image {
+.profile-card .bg .bg-image {
   width: 90%;
   max-width: 850px;
   margin: 0 auto;
@@ -89,13 +88,13 @@ header, .main, .footer {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.main-info .profile-info-flex {
+.profile-card .profile-info-flex {
   display: flex;
   flex-direction: row;
   justify-content: center;
   height: 100px;
 }
-.main-info .profile-info-flex .profile-info {
+.profile-card .profile-info-flex .profile-info {
   width: 80%;
   max-width: 755px;
   display: flex;
@@ -103,31 +102,31 @@ header, .main, .footer {
   align-items: center;
   padding: 0 3em;
 }
-.main-info .profile-img-container {
+.profile-card .profile-img-container {
   flex-basis: 15%;
 }
-.main-info .profile-img-container .profile-img {
+.profile-card .profile-img-container .profile-img {
   width: 80px;
   border-radius: 50%;
   border: 1px solid lightgray;
   transition: all 0.2s ease-out;
 }
-.main-info .profile-img-container .profile-img:hover {
+.profile-card .profile-img-container .profile-img:hover {
   cursor: pointer;
   transform: scale(1.2);
 }
-.main-info .profile-name {
+.profile-card .profile-name {
   flex-basis: 50%;
 }
-.main-info .profile-name .inline-icon {
+.profile-card .profile-name .inline-icon {
   width: 15px;
   background-color: #1B74E4;
   border-radius: 50%;
 }
-.main-info .profile-link {
+.profile-card .profile-link {
   flex-basis: 35%;
 }
-.main-info .profile-link .profile-link-button {
+.profile-card .profile-link .profile-link-button {
   background-color: #1B74E4;
   border: none;
   width: 90%;
@@ -141,18 +140,18 @@ header, .main, .footer {
   gap: 0.4em;
   cursor: pointer;
 }
-.main-info .profile-link .profile-link-button span {
+.profile-card .profile-link .profile-link-button span {
   color: white;
   font-weight: 500;
   font-size: 1.1em;
 }
-.main-info .profile-link .cube-icon {
+.profile-card .profile-link .cube-icon {
   width: 17px;
 }
-.main-info .profile-link .open-icon {
+.profile-card .profile-link .open-icon {
   width: 1em;
 }
-.main-info .profile-link .website-link {
+.profile-card .profile-link .website-link {
   font-size: 0.8rem;
   color: lightslategray;
   width: 90%;
@@ -176,8 +175,17 @@ header, .main, .footer {
   margin: 0 auto;
   border-top: 1px solid lightgray;
 }
-.profile-nav > *:nth-child(2) {
-  height: 4em;
+.profile-nav .profile-nav-right {
+  height: 3.5em;
+  width: 4em;
+}
+.profile-nav .profile-nav-right .dropdown-selection {
+  display: flex;
+  justify-content: center;
+}
+.profile-nav .profile-nav-right .dropdown-selection:hover {
+  background-color: lightgray;
+  border-radius: 4px;
 }
 .profile-nav .profile-nav-selections {
   display: flex;

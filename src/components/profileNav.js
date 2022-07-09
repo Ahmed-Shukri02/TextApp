@@ -37,7 +37,7 @@ export default function ProfileNav(){
                 <DropDown className="dropdown-selection" info={more_content}/>
             </div>
 
-            <div>
+            <div className="profile-nav-right">
                 <DropDown className="dropdown-selection" info={icon_content}/>
             </div>
         </div>
