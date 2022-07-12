@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { Link } from "react-router-dom";
 import DropDown from "./Dropdown";
 import ArrowIcon from "../icon-components/arrow-redo-outline";
 import DotsIcon from "../icon-components/ellipsis-horizontal-outline";
@@ -7,6 +8,20 @@ import ExpandDownIcon from "../icon-components/chevron-down-outline";
 
 export default function ProfileNav(){
 
+    const [current, setCurrent] = useState([true, false, false, false])
+
+
+    function handleClick(e){        
+        // find div with current class
+        let prevNav = document.querySelector(".currentNav");
+        prevNav && prevNav.classList.remove("currentNav");
+
+        // add current class to clicked element
+        let newNav = e.target.parentElement;
+
+        newNav.classList.add("currentNav");
+    }
+    
     const more_dropdown = (
     <div className="dropdown">
         <div>About</div>
@@ -30,10 +45,27 @@ export default function ProfileNav(){
     return (
         <div className="profile-nav">
             <div className="profile-nav-selections">
-                <div>Home</div>
-                <div>Reviews</div>
-                <div>Videos</div>
-                <div>Photos</div>
+                <div>
+                    <Link to='/home' onClick={ (e) => handleClick(e)}> </Link>
+                    <div className="selection-content">Home</div> 
+                </div>
+
+                <div>
+                    <Link to='/reviews' onClick={(e) => handleClick(e)}></Link>
+                    <div className="selection-content">Reviews</div>
+                </div>
+
+                <div>
+                    <Link to='/videos' onClick={(e) => handleClick(e)}> </Link>
+                    <div className="selection-content">Videos</div>
+                </div>
+
+                <div>
+                    <Link to='/photos' onClick={(e) => handleClick(e)}> </Link>
+
+                    <div className="selection-content">Photos</div> 
+                </div>
+
                 <DropDown className="dropdown-selection" info={more_content}/>
             </div>
 

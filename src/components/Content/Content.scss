@@ -1,11 +1,13 @@
+a{
+    all: unset;
+}
+
 .content-container{
     margin: 0 auto;
-
     background-color: rgb(247, 247, 247);
 }
 
 .content{
-    
     width: 80%;
     max-width: 755px;
     margin: 0 auto;
@@ -13,12 +15,14 @@
     display: flex;
     flex-direction: row;
     padding-top: 1em;
+}
 
-    .content-right{
+.content-home{
+    .content-home-right{
         flex-basis: 100%;
     }
 
-    .content-left{
+    .content-home-left{
         display: flex;
         flex-direction: column;
         gap: 1em;
@@ -46,6 +50,31 @@
                 justify-content: start;
                 gap: 0.5em;
             }
+        }
+    }
+}
+
+
+.content-review{
+    
+    .content-review-right{
+        flex-basis: 100%;
+    }
+
+    .content-review-left{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        flex-basis: 80%;
+
+        >*{
+            min-height: 100px;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 .5px 5px lightgray;
+            border-radius: 5px;
+            padding: 1em;
+            font-size: 1rem;
         }
     }
 }

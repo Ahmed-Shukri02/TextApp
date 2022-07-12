@@ -1,3 +1,7 @@
+a {
+  all: unset;
+}
+
 .content-container {
   margin: 0 auto;
   background-color: rgb(247, 247, 247);
@@ -11,16 +15,17 @@
   flex-direction: row;
   padding-top: 1em;
 }
-.content .content-right {
+
+.content-home .content-home-right {
   flex-basis: 100%;
 }
-.content .content-left {
+.content-home .content-home-left {
   display: flex;
   flex-direction: column;
   gap: 1em;
   flex-basis: 80%;
 }
-.content .content-left > * {
+.content-home .content-home-left > * {
   min-height: 100px;
   width: 100%;
   background-color: white;
@@ -29,15 +34,34 @@
   padding: 1em;
   font-size: 1rem;
 }
-.content .content-left .about {
+.content-home .content-home-left .about {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
-.content .content-left .about > * {
+.content-home .content-home-left .about > * {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: start;
   gap: 0.5em;
+}
+
+.content-review .content-review-right {
+  flex-basis: 100%;
+}
+.content-review .content-review-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  flex-basis: 80%;
+}
+.content-review .content-review-left > * {
+  min-height: 100px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 0.5px 5px lightgray;
+  border-radius: 5px;
+  padding: 1em;
+  font-size: 1rem;
 }/*# sourceMappingURL=Content.css.map */

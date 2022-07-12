@@ -1,24 +1,26 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./index-style.css";
 import "./components/Content/Content.css";
 import ProfileCard from "./components/ProfileCard";
-import ContentLeft from "./components/Content/ContentLeft";
-import ContentRight from "./components/Content/ContentRight";
+import ContentHome from "./components/Content/ContentHome/ContentHome";
+import ContentReview from "./components/Content/ContentReview/ContentReview";
 
 
 export default function Main(){
-
+    
     return (
-        <div className="main-container">
-            <ProfileCard/>
-
-            <div className="content-container">
-                <div className="content">
-                    <ContentLeft/>
-                    <ContentRight/>
-                </div>
-            </div>
+        <Router>
+            <div className="main-container">
+                <ProfileCard/>
+                <div className="content-container">
+                        <Switch>
+                            <Route path={"/home"}> <ContentHome/> </Route>
+                            <Route path={"/reviews"}> <ContentReview/> </Route>
+                        </Switch>
+                    </div>
             
-        </div>
+            </div>
+        </Router>
     )
 }

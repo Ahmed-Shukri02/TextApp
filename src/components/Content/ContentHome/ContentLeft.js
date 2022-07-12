@@ -1,12 +1,12 @@
 import React from "react";
-import FolderIcon from "../../icon-components/folder-outline";
-import GlobeIcon from "../../icon-components/globe-outline";
-import InfoIcon from "../../icon-components/information-circle-outline";
-import ThumbUpIcon from "../../icon-components/thumbs-up-outline";
+import FolderIcon from "../../../icon-components/folder-outline";
+import GlobeIcon from "../../../icon-components/globe-outline";
+import InfoIcon from "../../../icon-components/information-circle-outline";
+import ThumbUpIcon from "../../../icon-components/thumbs-up-outline";
 
 export default function ContentLeft(){
     return (
-        <div className="content-left">
+        <div className="content-home-left">
             <div className="about">
                 <h3>About</h3>
                 <div><InfoIcon/>Discover what's next on Instagram</div>
