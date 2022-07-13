@@ -8,9 +8,6 @@ import ExpandDownIcon from "../icon-components/chevron-down-outline";
 
 export default function ProfileNav(){
 
-    const [current, setCurrent] = useState([true, false, false, false])
-
-
     function handleClick(e){        
         // find div with current class
         let prevNav = document.querySelector(".currentNav");
