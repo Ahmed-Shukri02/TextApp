@@ -231,7 +231,7 @@ header, .main, .footer{
             padding:1em;
             margin: .5em 0;
             cursor: pointer;
-            transition: all .2s ease-out;
+            transition: background-color, border-radius .2s ease-out;
 
             a{
                 position: absolute;

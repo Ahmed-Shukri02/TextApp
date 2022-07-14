@@ -201,7 +201,7 @@ header, .main, .footer {
   padding: 1em;
   margin: 0.5em 0;
   cursor: pointer;
-  transition: all 0.2s ease-out;
+  transition: background-color, border-radius 0.2s ease-out;
 }
 .profile-nav .profile-nav-selections > * a {
   position: absolute;
