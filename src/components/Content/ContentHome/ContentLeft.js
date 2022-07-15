@@ -1,10 +1,6 @@
 import React, {useState, useEffect} from "react";
-import FolderIcon from "../../../icon-components/folder-outline";
-import GlobeIcon from "../../../icon-components/globe-outline";
-import InfoIcon from "../../../icon-components/information-circle-outline";
-import ThumbUpIcon from "../../../icon-components/thumbs-up-outline";
 import ContentLeftVideos from "./ContentLeftVideos";
-import Checkmark from "../../../icon-components/checkmark-circle-outline"
+import IconComponents from "../../../icon-components/icon-components"
 
 export default function ContentLeft(){
     
@@ -48,11 +44,11 @@ export default function ContentLeft(){
         <div className="content-home-left">
             <div className="about">
                 <h3>About</h3>
-                <div><InfoIcon/>Discover what's next on Instagram</div>
-                <div><ThumbUpIcon/>60,932,562 people like this</div>
-                <div><ThumbUpIcon/>64,622,910 people follow this</div>
-                <div><GlobeIcon/>http://instagram.com/</div>
-                <div><FolderIcon/>App Page · Home</div>
+                <div><IconComponents.InfoIcon/>Discover what's next on Instagram</div>
+                <div><IconComponents.ThumbUpIcon/>60,932,562 people like this</div>
+                <div><IconComponents.ThumbUpIcon/>64,622,910 people follow this</div>
+                <div><IconComponents.GlobeIcon/>http://instagram.com/</div>
+                <div><IconComponents.FolderIcon/>App Page · Home</div>
 
             </div>
             <div className="photos">
@@ -68,21 +64,21 @@ export default function ContentLeft(){
                 <div className="related-card">
                     <div className="related-card-image">image</div>
                     <div>
-                        <div>Google play <Checkmark/> </div>
+                        <div>Google play <IconComponents.Checkmark/> </div>
                         <div>product/service</div>
                     </div>
                 </div>
                 <div className="related-card">
                     <div className="related-card-image">image</div>
                     <div>
-                        <div>Twitter <Checkmark/> </div>
+                        <div>Twitter <IconComponents.Checkmark/> </div>
                         <div>App page</div>
                     </div>
                 </div>
                 <div className="related-card">
                     <div className="related-card-image">image</div>
                     <div>
-                        <div>Harry styles <Checkmark/> </div>
+                        <div>Harry styles <IconComponents.Checkmark/> </div>
                         <div>Musician</div>
                     </div>
                 </div>

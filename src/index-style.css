@@ -76,7 +76,7 @@ header, .main, .footer {
   box-shadow: 0 0.5px 5px lightgray;
 }
 .profile-card .bg {
-  background: url("./components/bg-image.jpg");
+  background: url("images/bg-image.jpg");
   height: 300px;
 }
 .profile-card .bg .bg-image {
@@ -84,7 +84,7 @@ header, .main, .footer {
   max-width: 850px;
   margin: 0 auto;
   height: 100%;
-  background: url("./components/insta-background.png");
+  background: url("images/insta-background.png");
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }

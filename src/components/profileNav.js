@@ -1,10 +1,7 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import DropDown from "./Dropdown";
-import ArrowIcon from "../icon-components/arrow-redo-outline";
-import DotsIcon from "../icon-components/ellipsis-horizontal-outline";
-import CircleCrossIcon from "../icon-components/close-circle-outline";
-import ExpandDownIcon from "../icon-components/chevron-down-outline";
+import IconComponents from "../icon-components/icon-components";
 
 export default function ProfileNav(){
 
@@ -27,17 +24,17 @@ export default function ProfileNav(){
     </div>
     )
     
-    const more_content = {content: <>More <ExpandDownIcon/></>, dropDown: more_dropdown}
+    const more_content = {content: <>More <IconComponents.ExpandDownIcon/></>, dropDown: more_dropdown}
 
 
     const icon_dropdown = (
         <div className="dropdown icon-dropdown">
-            <div><ArrowIcon/> Share </div>
-            <div><CircleCrossIcon/> Block</div>
+            <div><IconComponents.ArrowIcon/> Share </div>
+            <div><IconComponents.CircleCrossIcon/> Block</div>
         </div>
     )
 
-    const icon_content = {content: <DotsIcon/>, dropDown: icon_dropdown}
+    const icon_content = {content: <IconComponents.DotsIcon/>, dropDown: icon_dropdown}
 
     return (
         <div className="profile-nav">
