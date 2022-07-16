@@ -72,6 +72,12 @@ header, .main, .footer {
   width: 1em;
 }
 
+.checkmark {
+  width: 0.8rem;
+  background-color: #1B74E4;
+  border-radius: 50%;
+}
+
 .profile-card {
   box-shadow: 0 0.5px 5px lightgray;
 }

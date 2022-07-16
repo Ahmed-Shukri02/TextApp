@@ -26,9 +26,141 @@ a{
 
     .content-home-right{
         flex-basis: 55%;
-        background-color: white;
-        box-shadow: .5px .5px 5px lightgray;
-        border-radius: 5px;
+        overflow: hidden;
+
+        .content-post{
+            min-height: 500px;
+            background-color: white;
+            box-shadow: .5px .5px 5px lightgray;
+            border-radius: 5px;
+
+            // for all profile images within the post
+            .person-detail-image img, .reply-profile-img img{
+                width: 50px;
+                border-radius: 50%;
+                border: 1px solid lightgray;
+                aspect-ratio: 1/1;
+            }
+            .reply-profile-img img{ width: 40px;}
+            
+            // specific selections
+            .person-detail-flex{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 1em;
+
+                .person-detail-image, .person-detail-info{
+                    padding: 0.5em;
+                }
+
+                .post-time{
+                    font-size: 0.8rem;
+                }
+
+                .post-time{
+                    font-size: 0.75rem;
+                    color: lightslategray;
+                }
+            }
+
+            .post{
+
+                .media, .media-loading{
+                    height: 400px;
+                }
+
+                .media-loading{
+                    background-color: lightgray;
+                }
+
+                .post-content{
+                    padding: 0 1em 1em 1em;
+                }
+            }
+
+            .post-interaction{
+
+                display: flex;
+                flex-direction: column;
+                gap: 0.5em;
+                padding: 0 0.5em;
+
+                .interaction-stats, .interaction-prompt{
+                    display: flex;
+                    flex-direction: row;
+                    padding: 0.5em 1em;
+                }
+
+                .interaction-stats{
+                    justify-content: space-between;
+                    color: lightslategray;
+                }
+
+                .interaction-prompt{
+                    width: 95%;
+                    margin: 0 auto;
+                    justify-content: space-evenly;
+                    gap: 1em;
+                    border-bottom: 1px solid lightslategray;
+                    border-top: 1px solid lightslategray;
+                    color: lightslategray;
+
+                }
+
+                .replies{
+                    padding: 0 0.5em;
+
+                    .reply{
+                        display: flex;
+                        flex-direction: row;
+                        padding: 1em 0;
+                        gap: 0.5em;
+                        align-items: center;
+                    }
+                    
+                    .most-relevant{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: end;
+                        color: lightslategray;
+
+                    }
+
+                    .reply-profile-content{
+                        background-color: rgb(247, 247, 247);
+                        box-shadow: .5px .5px 5px lightgray;
+                        border-radius: 10px;
+                        padding: 0.7em;
+
+                        .reply-profile-name{
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                        }
+
+                        .reply-profile-reply{
+                            font-size: 0.85rem;
+                        }
+                    }
+
+                    .reply-stats{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        font-size: 0.8rem;
+                        color: lightslategray;
+                        margin-top: 5px;
+
+                        >*{
+                            padding: 0 0.5em;
+                        }
+                    }
+                    
+                }
+
+
+            }
+        }
     }
 
     .content-home-left{
@@ -153,17 +285,29 @@ a{
         .related-pages{
             display: flex;
             flex-direction: column;
-            gap: 1em;
+            gap: 0.5em;
 
             .related-card{
                 display: flex; flex: row;
+                align-items: center;
 
                 >*{
                     padding: 0.5em;
                 }
                 
-                .related-card-image{
-                    flex-basis: 20%;
+                .related-card-image img, .related-image-loading{
+                    width: 50px;
+                    border-radius: 50%;
+                    border: 1px solid lightgray;
+                    aspect-ratio: 1/1;
+                }
+
+                .related-image-loading{
+                    background-color: gray;
+                }
+
+                .related-about{
+                    font-size: 0.9rem;
                 }
             }
         }

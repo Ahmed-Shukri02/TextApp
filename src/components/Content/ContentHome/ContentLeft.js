@@ -25,6 +25,12 @@ export default function ContentLeft(){
         )
     }
 
+    function loadSingleImg(num){
+        return images? 
+            <img src={images[num].download_url}/> : 
+            <div className="related-image-loading"></div>
+    }
+
 
     // grab random images from picsum
     async function LoadData(){
@@ -62,24 +68,24 @@ export default function ContentLeft(){
             <div className="related-pages">
                 <h3>Related Pages</h3>
                 <div className="related-card">
-                    <div className="related-card-image">image</div>
+                    <div className="related-card-image">{loadSingleImg(12)}</div>
                     <div>
                         <div>Google play <IconComponents.Checkmark/> </div>
-                        <div>product/service</div>
+                        <div className="related-about">product/service</div>
                     </div>
                 </div>
                 <div className="related-card">
-                    <div className="related-card-image">image</div>
+                    <div className="related-card-image">{loadSingleImg(13)}</div>
                     <div>
                         <div>Twitter <IconComponents.Checkmark/> </div>
-                        <div>App page</div>
+                        <div className="related-about">App page</div>
                     </div>
                 </div>
                 <div className="related-card">
-                    <div className="related-card-image">image</div>
+                    <div className="related-card-image">{loadSingleImg(14)}</div>
                     <div>
                         <div>Harry styles <IconComponents.Checkmark/> </div>
-                        <div>Musician</div>
+                        <div className="related-about">Musician</div>
                     </div>
                 </div>
             </div>
