@@ -1,0 +1,13 @@
+.submit-button{
+    border: none;
+    background-color: rgb(247, 247, 247);
+    box-shadow: .5px .5px 5px lightgray;
+    border-radius: 5px;
+
+    transition: background-color .1s ease-out;
+}
+
+.submit-button:hover{
+    background-color: lightgray;
+    border: 1px solid lightslategray;
+}

@@ -88,6 +88,32 @@ a {
   border-top: 1px solid lightslategray;
   color: lightslategray;
 }
+.content-home .content-home-right .content-post .post-interaction .comment-box {
+  padding: 0.5em;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  flex-direction: row;
+}
+.content-home .content-home-right .content-post .post-interaction .comment-box .comment-form {
+  flex-basis: 100%;
+}
+.content-home .content-home-right .content-post .post-interaction .comment-box .comment-form textarea {
+  resize: none;
+  font: inherit;
+  font-size: 0.85rem;
+  width: 100%;
+  height: 5em !important;
+  box-shadow: 0.5px 0.5px 5px lightgray;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(247, 247, 247);
+  box-sizing: border-box;
+  padding: 0.7em;
+}
+.content-home .content-home-right .content-post .post-interaction .comment-box .comment-form textarea:focus {
+  border: 1px solid lightslategray;
+}
 .content-home .content-home-right .content-post .post-interaction .replies {
   padding: 0 0.5em;
 }

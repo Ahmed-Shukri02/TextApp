@@ -108,6 +108,35 @@ a{
 
                 }
 
+                .comment-box{
+                    padding: 0.5em;
+                    display: flex;
+                    gap: 0.5em;
+                    align-items: center;
+                    flex-direction: row;
+
+                    .comment-form {
+                        flex-basis: 100%;
+
+                        textarea{
+                            resize: none;
+                            font: inherit; font-size: 0.85rem;
+                            width: 100%;
+                            height: 5em !important;
+                            box-shadow: .5px .5px 5px lightgray;
+                            border: none;
+                            border-radius: 5px;
+                            background-color: rgb(247, 247, 247);
+                            box-sizing: border-box;
+                            padding: 0.7em;
+
+                            &:focus{
+                                border: 1px solid lightslategray
+                            }
+                        }
+                    }
+                }
+
                 .replies{
                     padding: 0 0.5em;
 
