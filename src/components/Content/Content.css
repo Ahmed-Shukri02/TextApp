@@ -25,19 +25,28 @@ a {
   overflow: hidden;
 }
 .content-home .content-home-right .content-post {
-  min-height: 500px;
   background-color: white;
   box-shadow: 0.5px 0.5px 5px lightgray;
   border-radius: 5px;
+  margin-bottom: 1em;
 }
 .content-home .content-home-right .content-post .person-detail-image img, .content-home .content-home-right .content-post .reply-profile-img img {
   width: 50px;
   border-radius: 50%;
   border: 1px solid lightgray;
   aspect-ratio: 1/1;
+  transition: all 0.2s ease-out;
+}
+.content-home .content-home-right .content-post .person-detail-image img:hover, .content-home .content-home-right .content-post .reply-profile-img img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }
 .content-home .content-home-right .content-post .reply-profile-img img {
   width: 40px;
+}
+.content-home .content-home-right .content-post .post-author:hover, .content-home .content-home-right .content-post .reply-profile-name:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 .content-home .content-home-right .content-post .person-detail-flex {
   display: flex;
@@ -48,8 +57,8 @@ a {
 .content-home .content-home-right .content-post .person-detail-flex .person-detail-image, .content-home .content-home-right .content-post .person-detail-flex .person-detail-info {
   padding: 0.5em;
 }
-.content-home .content-home-right .content-post .person-detail-flex .post-time {
-  font-size: 0.8rem;
+.content-home .content-home-right .content-post .person-detail-flex .post-author {
+  font-weight: 600;
 }
 .content-home .content-home-right .content-post .person-detail-flex .post-time {
   font-size: 0.75rem;
@@ -73,11 +82,11 @@ a {
 .content-home .content-home-right .content-post .post-interaction .interaction-stats, .content-home .content-home-right .content-post .post-interaction .interaction-prompt {
   display: flex;
   flex-direction: row;
-  padding: 0.5em 1em;
 }
 .content-home .content-home-right .content-post .post-interaction .interaction-stats {
   justify-content: space-between;
   color: lightslategray;
+  padding: 0.5em 1em;
 }
 .content-home .content-home-right .content-post .post-interaction .interaction-prompt {
   width: 95%;
@@ -87,6 +96,17 @@ a {
   border-bottom: 1px solid lightslategray;
   border-top: 1px solid lightslategray;
   color: lightslategray;
+  padding: 0 1em;
+}
+.content-home .content-home-right .content-post .post-interaction .interaction-prompt > * {
+  transition: all 0.1s ease-out;
+  padding: 0.5em;
+  margin: 0.2em;
+  border-radius: 5px;
+}
+.content-home .content-home-right .content-post .post-interaction .interaction-prompt > *:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }
 .content-home .content-home-right .content-post .post-interaction .comment-box {
   padding: 0.5em;
@@ -97,6 +117,12 @@ a {
 }
 .content-home .content-home-right .content-post .post-interaction .comment-box .comment-form {
   flex-basis: 100%;
+  transition: all 0.2s ease-out;
+}
+.content-home .content-home-right .content-post .post-interaction .comment-box .comment-form .empty-prompt {
+  padding: 0 0 0.5em 0;
+  font-size: 0.8rem;
+  color: rgb(204, 58, 58);
 }
 .content-home .content-home-right .content-post .post-interaction .comment-box .comment-form textarea {
   resize: none;
@@ -138,7 +164,7 @@ a {
 }
 .content-home .content-home-right .content-post .post-interaction .replies .reply-profile-content .reply-profile-name {
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 .content-home .content-home-right .content-post .post-interaction .replies .reply-profile-content .reply-profile-reply {
   font-size: 0.85rem;

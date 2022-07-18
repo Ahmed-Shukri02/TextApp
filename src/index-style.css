@@ -119,7 +119,7 @@ header, .main, .footer {
 }
 .profile-card .profile-img-container .profile-img:hover {
   cursor: pointer;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .profile-card .profile-name {
   flex-basis: 50%;

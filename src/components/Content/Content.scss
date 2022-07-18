@@ -29,10 +29,10 @@ a{
         overflow: hidden;
 
         .content-post{
-            min-height: 500px;
             background-color: white;
             box-shadow: .5px .5px 5px lightgray;
             border-radius: 5px;
+            margin-bottom: 1em;
 
             // for all profile images within the post
             .person-detail-image img, .reply-profile-img img{
@@ -40,8 +40,20 @@ a{
                 border-radius: 50%;
                 border: 1px solid lightgray;
                 aspect-ratio: 1/1;
+                transition: all .2s ease-out;
+
+                &:hover{
+                    transform: scale(1.1);
+                    cursor: pointer
+                }
             }
             .reply-profile-img img{ width: 40px;}
+
+            // for all post/reply names
+            .post-author:hover, .reply-profile-name:hover{
+                cursor: pointer;
+                text-decoration: underline;
+            }
             
             // specific selections
             .person-detail-flex{
@@ -53,9 +65,9 @@ a{
                 .person-detail-image, .person-detail-info{
                     padding: 0.5em;
                 }
-
-                .post-time{
-                    font-size: 0.8rem;
+                
+                .post-author{
+                    font-weight: 600;
                 }
 
                 .post-time{
@@ -89,12 +101,12 @@ a{
                 .interaction-stats, .interaction-prompt{
                     display: flex;
                     flex-direction: row;
-                    padding: 0.5em 1em;
                 }
 
                 .interaction-stats{
                     justify-content: space-between;
                     color: lightslategray;
+                    padding: 0.5em 1em;
                 }
 
                 .interaction-prompt{
@@ -105,8 +117,21 @@ a{
                     border-bottom: 1px solid lightslategray;
                     border-top: 1px solid lightslategray;
                     color: lightslategray;
+                    padding: 0 1em;
 
+                    >*{
+                        transition: all .1s ease-out;
+                        padding: 0.5em;
+                        margin: 0.2em;
+                        border-radius: 5px;
+
+                        &:hover{
+                            background-color: lightgray;
+                            cursor: pointer;
+                        }
+                    }
                 }
+
 
                 .comment-box{
                     padding: 0.5em;
@@ -117,7 +142,14 @@ a{
 
                     .comment-form {
                         flex-basis: 100%;
+                        transition: all .2s ease-out;
 
+                        .empty-prompt{
+                            padding: 0 0 .5em 0;
+                            font-size: 0.8rem;
+                            color: rgb(204, 58, 58);
+                        }
+                        
                         textarea{
                             resize: none;
                             font: inherit; font-size: 0.85rem;
@@ -164,7 +196,7 @@ a{
 
                         .reply-profile-name{
                             font-size: 0.9rem;
-                            font-weight: bold;
+                            font-weight: 600;
                         }
 
                         .reply-profile-reply{

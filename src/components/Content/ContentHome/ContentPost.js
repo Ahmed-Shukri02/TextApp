@@ -1,19 +1,18 @@
-import { toBeInTheDocument } from "@testing-library/jest-dom/dist/matchers";
 import React, {useState, useEffect} from "react";
-import IconComponents from "../../../icon-components/icon-components"
-import profile from "../../../images/insta-profile.jpg";
-import Buttons from "../../Buttons/Buttons";
+import { useTransition, animated } from "react-spring";
 
-export default function ContentPost({postInfo}){
+import IconComponents from "../../../icon-components/icon-components"
+import ContentComment from "./ContentComment"
+
+export default function ContentPost({postInfo, AddReply}){
 
     const [images, setImages] = useState(null);
-    const [replies, setReplies] = useState([])
 
-    const replyInfo = {
-        author: "very unhappy person",
-        pfp: 9,
-        content: "Fix your app",
-        time: "14 hrs", likes: "4"
+    function handleReply(replyInfo){
+        let index = postInfo.replies.length;
+        replyInfo = {...replyInfo, key: index}
+        AddReply(postInfo.key, replyInfo)
+        //setReplies([...replies, replyInfo])
     }
     
     // grab random images from picsum
@@ -28,7 +27,6 @@ export default function ContentPost({postInfo}){
     
     useEffect(() =>{
         LoadData();
-        setReplies([replyInfo])
     }, [])
     
     function loadedImages(num){
@@ -37,14 +35,14 @@ export default function ContentPost({postInfo}){
             <div className="media-loading"></div>
     }
     
-    const repliesJSX = replies.map(elem => reply(elem)); 
+    const repliesJSX = postInfo.replies.map(elem => reply(elem)); 
 
     // COMPONENT
     function personDetails(){
         return (
             <div className="person-detail-flex">
                 <div className="person-detail-image">
-                    <img src={postInfo.pfp} />
+                    {postInfo.isUsingStock? loadedImages(postInfo.pfpNum) : <img src={postInfo.pfp} />}
                 </div>
                 <div className="person-detail-info">
                     <div className="post-author">{postInfo.author} <IconComponents.Checkmark/> </div>
@@ -67,8 +65,8 @@ export default function ContentPost({postInfo}){
     // COMPONENT REFERENCED BY interaction
     function reply(info){
         return (
-            <div className="reply">
-                <div className="reply-profile-img">{loadedImages(11)}</div>
+            <div className="reply" key={info.key}>
+                <div className="reply-profile-img">{loadedImages(info.pfp)}</div>
                 <div>
                     <div className="reply-profile-content">
                         <div className="reply-profile-name">{info.author}</div>
@@ -86,44 +84,39 @@ export default function ContentPost({postInfo}){
 
     // COMPONENT
     function interaction(){
+        const [isCommenting, setCommentingStatus] = useState(false, [])
+        
+        function handleComment(e){
+            setCommentingStatus((oldVal) => !oldVal)
+        }
+        
         return (
+            
             <div className="post-interaction">
                 <div className="interaction-stats">
                     <div><IconComponents.ThumbUpIcon/> {postInfo.likes} Likes</div>
-                    <div>{postInfo.comments} Comments  ·  {postInfo.shares} Shares</div>
+                    <div>{postInfo.comments} Comment(s)  ·  {postInfo.shares} Shares</div>
                 </div>
 
                 <div className="interaction-prompt">
-                    <div><IconComponents.ThumbUpIcon/> Like</div>
-                    <div><IconComponents.ChatBubbleIcon/> Comment </div>
-                    <div><IconComponents.ArrowIcon/> Share </div>
+                    <div className="add-like"><IconComponents.ThumbUpIcon/> Like</div>
+                    <div className="add-comment" onClick={handleComment}><IconComponents.ChatBubbleIcon/> Comment </div>
+                    <div className="share"><IconComponents.ArrowIcon/> Share </div>
                 </div>
 
-                {commentBox()}
+                {isCommenting && <ContentComment handleReply ={handleReply} loadedImages = {loadedImages}/>}
 
-                <div className="replies">
-                    <div className="most-relevant">Most relevant  <IconComponents.ExpandDownIcon/></div>
+                { postInfo.replies.length > 0 &&
+                    <div className="replies">
+                        <div className="most-relevant">Most relevant  <IconComponents.ExpandDownIcon/></div>
 
-                    {repliesJSX}
-                </div>
+                        {repliesJSX}
+                    </div>
+                }
+                
             </div>
         )
     }
-
-    // COMPONENT REFERENCED BY interaction
-    function commentBox(){
-
-        return (
-            <div className="comment-box">
-                <div className="reply-profile-img">{loadedImages(7)}</div>
-                <form className="comment-form">
-                    <textarea placeholder="Enter comment here..."/>
-                    <Buttons.SubmitButton width="10em" center={true}/>
-                </form>
-            </div>
-        )
-    }
-
 
     return (
         <div className="content-post">
