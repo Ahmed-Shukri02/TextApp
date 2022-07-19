@@ -1,11 +1,13 @@
 import React from "react";
 import { useState, useEffect} from "react"
 import {useTransition, animated} from "react-spring"
+import IconComponents from "../../../icon-components/icon-components";
 
 import Buttons from "../../Buttons/Buttons";
 
-export default function commentBox(props){
+export default function commentBox({loadedImages, handleReply, replyToStats}){
 
+    const [replyTo, setReplyTo] = useState(null)
     const [isEmpty, setEmptyStatus] = useState(false, [])
     const transition = useTransition(isEmpty, {
         from: {opacity: 0, y: "-1ch"},
@@ -30,23 +32,27 @@ export default function commentBox(props){
                 author: "Ahmed",
                 pfp: myPfp,
                 content: commentBox.value,
-                time: "just now", likes: "0"
+                time: "just now", likes: 0,
+                ...replyToStats
             }
 
             commentBox.value = "";
             
-            props.handleReply(replyInfo)
+            handleReply(replyInfo)
         }
 
     }
 
     return (
         <div className="comment-box">
-            <div className="reply-profile-img">{props.loadedImages(myPfp)}</div>
+            <div className="reply-profile-img">{loadedImages(myPfp)}</div>
             <form onSubmit={handleSubmit} className="comment-form">
                 {transition((style, item) => (
                     item && <animated.div className="empty-prompt" style={style}> Please write something</animated.div>
                 ))}
+
+                {replyToStats.isReplying && <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> Replying to {replyToStats.toInfo.author} </div>}
+
                 <textarea name="textarea" placeholder="Enter comment here..."/>
                 <Buttons.SubmitButton width="10em"/>
             </form>

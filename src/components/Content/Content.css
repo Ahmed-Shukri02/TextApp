@@ -29,6 +29,7 @@ a {
   box-shadow: 0.5px 0.5px 5px lightgray;
   border-radius: 5px;
   margin-bottom: 1em;
+  padding-bottom: 1em;
 }
 .content-home .content-home-right .content-post .person-detail-image img, .content-home .content-home-right .content-post .reply-profile-img img {
   width: 50px;
@@ -143,6 +144,14 @@ a {
 .content-home .content-home-right .content-post .post-interaction .replies {
   padding: 0 0.5em;
 }
+.content-home .content-home-right .content-post .post-interaction .replies .reply-to {
+  font-size: 0.8rem;
+  padding-bottom: 0.5em;
+  color: lightslategray;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
 .content-home .content-home-right .content-post .post-interaction .replies .reply {
   display: flex;
   flex-direction: row;
@@ -161,6 +170,7 @@ a {
   box-shadow: 0.5px 0.5px 5px lightgray;
   border-radius: 10px;
   padding: 0.7em;
+  min-width: 10em;
 }
 .content-home .content-home-right .content-post .post-interaction .replies .reply-profile-content .reply-profile-name {
   font-size: 0.9rem;
@@ -179,6 +189,17 @@ a {
 }
 .content-home .content-home-right .content-post .post-interaction .replies .reply-stats > * {
   padding: 0 0.5em;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .reply-stats .reply-likes:hover, .content-home .content-home-right .content-post .post-interaction .replies .reply-stats .reply-to:hover {
+  background-color: lightgray;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .sub-replies-container {
+  padding-left: 2em;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .sub-replies-container .reply {
+  padding-top: 0;
 }
 .content-home .content-home-left {
   display: flex;

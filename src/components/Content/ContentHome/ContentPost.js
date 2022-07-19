@@ -3,18 +3,40 @@ import { useTransition, animated } from "react-spring";
 
 import IconComponents from "../../../icon-components/icon-components"
 import ContentComment from "./ContentComment"
+import Reply from "./ContentReply";
 
-export default function ContentPost({postInfo, AddReply}){
+export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLike}){
 
     const [images, setImages] = useState(null);
+    const [likes, setLikes] = useState(postInfo.likes);
+    const [isLiked, setLikedStatus] = useState(false);
+
+    postInfo.likes = likes;
+
+    function handleLike(){
+        setLikes((oldVal) => isLiked? oldVal - 1 : oldVal + 1);
+        setLikedStatus((oldVal) => !oldVal);
+        return
+    }
 
     function handleReply(replyInfo){
         let index = postInfo.replies.length;
-        replyInfo = {...replyInfo, key: index}
+        replyInfo = {...replyInfo, key: index, parentKey: index}
         AddReply(postInfo.key, replyInfo)
         //setReplies([...replies, replyInfo])
     }
     
+    function handleReplyLike(info, isLiked){
+        AddReplyLike(info, postInfo.key, isLiked);
+    }
+
+    function handleReplyTo(replyInfo){
+        let index = postInfo.replies[replyInfo.parentKey].repliesTo.length
+        replyInfo = {...replyInfo, key: index}
+
+        AddReplyTo(postInfo.key, replyInfo)
+    }
+
     // grab random images from picsum
     async function LoadData(){
         let response = await fetch('https://picsum.photos/v2/list')
@@ -35,7 +57,7 @@ export default function ContentPost({postInfo, AddReply}){
             <div className="media-loading"></div>
     }
     
-    const repliesJSX = postInfo.replies.map(elem => reply(elem)); 
+    const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo}/>); 
 
     // COMPONENT
     function personDetails(){
@@ -62,29 +84,20 @@ export default function ContentPost({postInfo, AddReply}){
         )
     }
 
-    // COMPONENT REFERENCED BY interaction
-    function reply(info){
-        return (
-            <div className="reply" key={info.key}>
-                <div className="reply-profile-img">{loadedImages(info.pfp)}</div>
-                <div>
-                    <div className="reply-profile-content">
-                        <div className="reply-profile-name">{info.author}</div>
-                        <div className="reply-profile-reply">{info.content}</div>
-                    </div>
-
-                    <div className="reply-stats">
-                        <div className="reply-time">{info.time}</div>
-                        <div className="reply-likes"><IconComponents.ThumbUpIcon/> {info.likes}</div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
     // COMPONENT
     function interaction(){
         const [isCommenting, setCommentingStatus] = useState(false, [])
+
+        const replyStats = {
+            isReplying: false,
+            toInfo: null,
+            type: "comment",
+            referenceType: null,
+
+            repliesTo : [
+
+            ]
+        }
         
         function handleComment(e){
             setCommentingStatus((oldVal) => !oldVal)
@@ -94,17 +107,22 @@ export default function ContentPost({postInfo, AddReply}){
             
             <div className="post-interaction">
                 <div className="interaction-stats">
-                    <div><IconComponents.ThumbUpIcon/> {postInfo.likes} Likes</div>
+                    <div><IconComponents.ThumbUpIcon fill="none"/> {postInfo.likes} Likes</div>
                     <div>{postInfo.comments} Comment(s)  ·  {postInfo.shares} Shares</div>
                 </div>
 
                 <div className="interaction-prompt">
-                    <div className="add-like"><IconComponents.ThumbUpIcon/> Like</div>
+                    { isLiked ?
+                    <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> Unlike</div> :
+
+                    <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon/> Like</div>
+                    }
+
                     <div className="add-comment" onClick={handleComment}><IconComponents.ChatBubbleIcon/> Comment </div>
                     <div className="share"><IconComponents.ArrowIcon/> Share </div>
                 </div>
 
-                {isCommenting && <ContentComment handleReply ={handleReply} loadedImages = {loadedImages}/>}
+                {isCommenting && <ContentComment handleReply ={handleReply} loadedImages = {loadedImages} replyToStats = {replyStats}/>}
 
                 { postInfo.replies.length > 0 &&
                     <div className="replies">
