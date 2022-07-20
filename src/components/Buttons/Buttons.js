@@ -3,15 +3,37 @@ import "./Buttons_style.css";
 
 export default class Buttons{
 
-    static SubmitButton(props){
+    static SubmitButton({width, height = null,}){
         
-        const style = {
-            width: props.width,
-            aspectRatio: "5/1",
+        var style = {
+            width: width,
         }
+
+        if(!height) {
+            style = {...style, aspectRatio : "5/1"}
+        } else style = {...style, height: height}
         
         return(
-            <button className="submit-button" type="submit" style={style}>Submit</button>
+            <button className="submit-button" type="submit" style={style} onClick={(e) => console.log("bluring")}>Submit</button>
+        )
+    }
+
+    static DefaultButton({width, height = null, text, handleClick = () => ""}){
+        var style = {
+            width: width,
+        }
+
+        if(!height) {
+            style = {...style, aspectRatio : "5/1"}
+        } else style = {...style, height: height}
+
+        function onClick(e){
+            handleClick()
+            e.target.blur()
+        }
+
+        return (
+            <button className="default-button" onClick={onClick} style={style}>{text}</button>
         )
     }
 }

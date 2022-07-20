@@ -240,6 +240,43 @@ a{
                             padding-top: 0;
                         }
                     }
+
+                    .see-more-container{
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .see-n-more{
+                        form{
+                            display: flex;
+                            flex-direction: row;
+                            gap: 0.5em;
+                            align-items: center;
+                        }
+
+                        span{
+                            color: lightslategray;
+                            font-size: 0.8rem;
+                        }
+                    }
+
+                    .see-more-less{
+                        display: flex;
+                        flex-direction: row;
+                        gap: 1em;
+                    }
+
+                    .comments-displaying{
+                        font-size: 0.8rem;
+                        color: lightslategray;
+                        padding: 1em 0;
+
+                        span{
+                            font-weight: bold;
+                        }
+                    }
                 }
 
 

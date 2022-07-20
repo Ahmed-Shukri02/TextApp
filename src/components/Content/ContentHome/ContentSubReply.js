@@ -8,6 +8,7 @@ export default function SubReply({info, loadedImages, handleLike, handleSubcomme
     const [isLiked, setLikedStatus] = useState(false)
     const [isReplyingTo, setReplyToStatus] = useState(false)
 
+
     function LikeReply(){
         handleLike(info, isLiked)
         setLikedStatus((oldVal) => !oldVal)
@@ -47,7 +48,7 @@ export default function SubReply({info, loadedImages, handleLike, handleSubcomme
                 </div>
             </div>
 
-            {isReplyingTo && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats}/>}
+            {isReplyingTo && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
         </div>
     )
 }

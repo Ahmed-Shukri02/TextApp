@@ -8,7 +8,10 @@ import ContentReview from "./components/Content/ContentReview/ContentReview";
 
 
 export default function Main(){
+    // query for all number type inputs and disable scrolling function
     
+
+
     return (
         <Router>
             <div className="main-container">

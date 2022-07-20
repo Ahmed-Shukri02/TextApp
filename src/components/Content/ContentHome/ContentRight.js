@@ -10,6 +10,7 @@ export default function ContentRight(){
     function AddReply(key, replyInfo){
         let newPosts = [...posts] // creating deep copy of posts
         newPosts[key].replies = [...newPosts[key].replies, replyInfo]
+        newPosts[key].comments ++;
         
         setPosts(newPosts)
     }
@@ -18,6 +19,7 @@ export default function ContentRight(){
         let newPosts = [...posts]
         let repliesTo = newPosts[postKey].replies[replyInfo.parentKey].repliesTo
         newPosts[postKey].replies[replyInfo.parentKey].repliesTo = [...repliesTo, replyInfo]
+        //newPosts[postKey].comments ++;
         
         setPosts(newPosts)
     }
@@ -40,7 +42,7 @@ export default function ContentRight(){
         pfp: instaProfile,
         media : 20, // give number for picsum or null
         content: "Back at it with Tips n Tricks — this time about how to up your Feed game",
-        likes: 922, comments: 355, shares: 27,
+        likes: 922, comments: 1, shares: 27,
         replies: [
             {
                 key: 0,
@@ -68,7 +70,7 @@ export default function ContentRight(){
         pfpNum: 7,
         media : null, // give number for picsum or null
         content: "Man that unhappy dude is really a jerk",
-        likes: 12, comments: 1, shares: 3,
+        likes: 12, comments: 0, shares: 3,
         replies: [
 
         ]

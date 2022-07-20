@@ -7,8 +7,26 @@
     transition: background-color .1s ease-out;
 }
 
-.submit-button:hover{
-    background-color: lightgray;
-    border: 1px solid lightslategray;
-    cursor: pointer;
+.default-button{
+    border: none;
+    background-color: #1B74E4;
+    color: white;
+    border-radius: 5px;
+    padding: 0.5em;
+
+    transition: background-color .1s ease-out;
+}
+
+@media (hover: hover){
+    .submit-button:hover{
+        background-color: lightgray;
+        border: 1px solid lightslategray;
+        cursor: pointer;
+    }
+    
+    .default-button:hover{
+        cursor: pointer;
+        background-color: #165baf;
+    }
+
 }

@@ -5,7 +5,7 @@ import IconComponents from "../../../icon-components/icon-components";
 
 import Buttons from "../../Buttons/Buttons";
 
-export default function commentBox({loadedImages, handleReply, replyToStats}){
+export default function commentBox({loadedImages, handleReply, replyToStats, closeReply}){
 
     const [replyTo, setReplyTo] = useState(null)
     const [isEmpty, setEmptyStatus] = useState(false, [])
@@ -37,6 +37,7 @@ export default function commentBox({loadedImages, handleReply, replyToStats}){
             }
 
             commentBox.value = "";
+            closeReply();
             
             handleReply(replyInfo)
         }

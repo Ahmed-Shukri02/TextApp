@@ -52,6 +52,7 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo}){
                 <SubReply info={elem} loadedImages={loadedImages} handleSubcomment = {handleSubcomment} handleLike={LikeSubReply}/>
             </div>
         )
+
     }
 
 
@@ -74,7 +75,7 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo}){
                 </div>
             </div>
 
-            {isReplyingTo && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats}/>}
+            {isReplyingTo && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
 
             {renderCondition && <div className="sub-replies-container">{repliesToJSX}</div>}
         </div>

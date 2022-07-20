@@ -201,6 +201,35 @@ a {
 .content-home .content-home-right .content-post .post-interaction .replies .sub-replies-container .reply {
   padding-top: 0;
 }
+.content-home .content-home-right .content-post .post-interaction .replies .see-more-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .see-n-more form {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .see-n-more span {
+  color: lightslategray;
+  font-size: 0.8rem;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .see-more-less {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .comments-displaying {
+  font-size: 0.8rem;
+  color: lightslategray;
+  padding: 1em 0;
+}
+.content-home .content-home-right .content-post .post-interaction .replies .comments-displaying span {
+  font-weight: bold;
+}
 .content-home .content-home-left {
   display: flex;
   flex-direction: column;
