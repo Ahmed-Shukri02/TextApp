@@ -10,10 +10,10 @@ export default function ContentLeft(){
         return(
             images ? 
             (<>
-                <img className="grid-image" src={images[0].download_url}/>
-                <img className="grid-image" src={images[1].download_url}/>
-                <img className="grid-image" src={images[2].download_url}/>
-                <img className="grid-image" src={images[3].download_url}/>
+                <img className="grid-image" src={images[0].download_url} alt="grid-1"/>
+                <img className="grid-image" src={images[1].download_url} alt="grid-2"/>
+                <img className="grid-image" src={images[2].download_url} alt="grid-3"/>
+                <img className="grid-image" src={images[3].download_url} alt="grid-4"/>
             </>) : 
             (<>
                 <div className="grid-image-loading"></div>
@@ -27,7 +27,7 @@ export default function ContentLeft(){
 
     function loadSingleImg(num){
         return images? 
-            <img src={images[num].download_url}/> : 
+            <img src={images[num].download_url} alt="single-1"/> : 
             <div className="related-image-loading"></div>
     }
 

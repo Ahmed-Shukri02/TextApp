@@ -1,42 +1,36 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import SubReply from "./ContentSubReply";
 
-export default function Reply({info, loadedImages, handleLike, handleReplyTo}){
+export default function Reply({info, loadedImages, handleLike, handleReplyTo, toggleSubComment}){
     
-    const [isLiked, setLikedStatus] = useState(false)
-    const [isReplyingTo, setReplyToStatus] = useState(false)
-    const [subReplies, setSubReplies] = useState(info.repliesTo)
-
     function LikeReply(){
-        handleLike(info, isLiked)
-        setLikedStatus((oldVal) => !oldVal)
+        handleLike(info, info.userLike)
     }
 
     function LikeSubReply(info, isLiked){
         handleLike(info, isLiked)
-        
-        let newSub = [...subReplies]
-        newSub[info.key].likes = isLiked ? parseInt(newSub[info.key].likes) - 1 : parseInt(newSub[info.key].likes) + 1
-        
-        setSubReplies(newSub)
     }
 
     function ToggleReplyTo(){
-        setReplyToStatus((oldVal) => !oldVal)
+        toggleSubComment(info, !info.commentBox);
+    }
+
+    function ToggleSubReply(replyInfo){
+        toggleSubComment(replyInfo, !replyInfo.commentBox);
     }
 
     function handleSubcomment(replyInfo){
-        replyInfo = {...replyInfo, key: subReplies.length}
+        replyInfo = {...replyInfo, key: info.repliesTo.length}
         
         handleReplyTo(replyInfo)
-        setSubReplies(oldVal => [...oldVal, replyInfo])
     }
 
     const replyToStats = {
         isReplying: true,
+        commentBox: false,
+        userLike: false,
         toInfo: info,
         parentKey: info.parentKey,
         type: "subcomment",
@@ -44,12 +38,12 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo}){
         repliesTo : null
     }
     
-    const renderCondition = (info.type == "comment" && info.repliesTo.length > 0)
+    const renderCondition = (info.type === "comment" && info.repliesTo.length > 0)
     var repliesToJSX
     if(renderCondition){
-        repliesToJSX = subReplies.map((elem) =>
-            <div className="sub-replies">
-                <SubReply info={elem} loadedImages={loadedImages} handleSubcomment = {handleSubcomment} handleLike={LikeSubReply}/>
+        repliesToJSX = info.repliesTo.map((elem) =>
+            <div className="sub-replies" key={elem.key}>
+                <SubReply info={elem} key={elem.key} loadedImages={loadedImages} handleSubcomment = {handleSubcomment} handleLike={LikeSubReply} toggleSubComment={ToggleSubReply}/>
             </div>
         )
 
@@ -68,14 +62,14 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo}){
                     <div className="reply-stats">
                         <div className="reply-time">{info.time}</div>
                         <div className="reply-likes" onClick={LikeReply}>
-                            {isLiked ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {info.likes}
+                            {info.userLike ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {info.likes}
                         </div>
                         <div className="reply-to" onClick={ToggleReplyTo}>Reply</div>
                     </div>
                 </div>
             </div>
 
-            {isReplyingTo && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
+            {info.commentBox && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
 
             {renderCondition && <div className="sub-replies-container">{repliesToJSX}</div>}
         </div>

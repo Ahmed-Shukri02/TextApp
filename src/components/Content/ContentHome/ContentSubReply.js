@@ -1,25 +1,21 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 
-export default function SubReply({info, loadedImages, handleLike, handleSubcomment}){
-    
-    const [isLiked, setLikedStatus] = useState(false)
-    const [isReplyingTo, setReplyToStatus] = useState(false)
-
+export default function SubReply({info, loadedImages, handleLike, handleSubcomment, toggleSubComment}){
 
     function LikeReply(){
-        handleLike(info, isLiked)
-        setLikedStatus((oldVal) => !oldVal)
+        handleLike(info, info.userLike)
     }
 
     function ToggleReplyTo(){
-        setReplyToStatus((oldVal) => !oldVal)
+        toggleSubComment(info);
     }
 
     const replyToStats = {
         isReplying: true,
+        commentBox: false,
+        userLike: false,
         toInfo: info,
         parentKey: info.parentKey,
         type: "subcomment",
@@ -41,14 +37,14 @@ export default function SubReply({info, loadedImages, handleLike, handleSubcomme
                     <div className="reply-stats">
                         <div className="reply-time">{info.time}</div>
                         <div className="reply-likes" onClick={LikeReply}>
-                            {isLiked ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {info.likes}
+                            {info.userLike ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {info.likes}
                         </div>
                         <div className="reply-to" onClick={ToggleReplyTo}>Reply</div>
                     </div>
                 </div>
             </div>
 
-            {isReplyingTo && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
+            {info.commentBox && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
         </div>
     )
 }

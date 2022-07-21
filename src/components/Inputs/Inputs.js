@@ -11,7 +11,6 @@ export default class Inputs{
         }
 
         function myFocus(e){
-            console.log(e.target)
             e.target.addEventListener("mousewheel", () => e.target.blur(), {passive: true})
         }
         

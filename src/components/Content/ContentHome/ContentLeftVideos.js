@@ -10,7 +10,7 @@ export default function ContentLeftVideos({images}){
             <div className="videos-content">
                 {
                 images
-                ? <img className="video-card" src={images[5].download_url}/>
+                ? <img className="video-card" src={images[5].download_url} alt="video-1"/>
                 : <div className="grid-image-loading"> </div>
                 }
 

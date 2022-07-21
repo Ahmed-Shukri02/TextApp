@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from "react";
-import { useTransition, animated } from "react-spring";
 
 import IconComponents from "../../../icon-components/icon-components"
 import ContentComment from "./ContentComment"
 import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
-import { calculateNewValue } from "@testing-library/user-event/dist/utils";
 import Inputs from "../../Inputs/Inputs";
 
-export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLike}){
+export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox}){
 
     const [images, setImages] = useState(null);
     const [likes, setLikes] = useState(postInfo.likes);
@@ -30,8 +28,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
     }
 
     function handleReply(replyInfo){
-        let index = postInfo.replies.length;
-        replyInfo = {...replyInfo, key: index, parentKey: index}
+        replyInfo = {...replyInfo, key: 0, parentKey: 0}
         AddReply(postInfo.key, replyInfo)
     }
     
@@ -45,6 +42,15 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
         replyInfo = {...replyInfo, key: index}
 
         AddReplyTo(postInfo.key, replyInfo)
+    }
+
+    function postCloseSubCommentBox(){
+        handleCloseComments(postInfo.key)
+    }
+
+    function toggleSubComment(replyInfo, open){
+        if(!replyInfo.commentBox) {postCloseSubCommentBox()}
+        toggleSubCommentBox(replyInfo, postInfo.key, open)
     }
 
     /*
@@ -69,7 +75,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
     
     function loadedImages(num){
         return images ?
-            <img className="media" src={images[num].download_url}/> :
+            <img className="media" src={images[num].download_url} alt="single-2"/> :
             <div className="media-loading"></div>
     }
 
@@ -79,16 +85,14 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
     =============================================================
     */
     
-    const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo}/>);
-    
-    repliesJSX.reverse()
+    const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} key={elem.key} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment}/>);
 
     // COMPONENT
     function personDetails(){
         return (
             <div className="person-detail-flex">
                 <div className="person-detail-image">
-                    {postInfo.isUsingStock? loadedImages(postInfo.pfpNum) : <img src={postInfo.pfp} />}
+                    {postInfo.isUsingStock? loadedImages(postInfo.pfpNum) : <img src={postInfo.pfp} alt=""/>}
                 </div>
                 <div className="person-detail-info">
                     <div className="post-author">{postInfo.author} <IconComponents.Checkmark/> </div>
@@ -115,6 +119,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
 
         const replyStats = {
             isReplying: false,
+            commentBox: false,
             toInfo: null,
             type: "comment",
             referenceType: null,
@@ -125,8 +130,11 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
         }
         
         function handleComment(e){
+            // if previous state was false (i.e setting to true), then call a function from the parent
+            if(!isCommenting) postCloseSubCommentBox()
             setCommentingStatus((oldVal) => !oldVal)
         }
+
         
         function seeMore(num){
             // check if comments + 2 is larger than the available comments. If so, set the commentslength to max available comments
@@ -148,7 +156,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
             <div className="post-interaction">
                 <div className="interaction-stats">
                     <div><IconComponents.ThumbUpIcon fill="none"/> {postInfo.likes} Likes</div>
-                    <div>{postInfo.comments} {postInfo.comments == 1 ? "Comment" : "Comments"}  ·  {postInfo.shares} Shares</div>
+                    <div>{postInfo.comments} {postInfo.comments === 1 ? "Comment" : "Comments"}  ·  {postInfo.shares} Shares</div>
                 </div>
 
                 <div className="interaction-prompt">

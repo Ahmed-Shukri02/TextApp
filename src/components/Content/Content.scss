@@ -193,7 +193,7 @@ a{
                     .most-relevant{
                         display: flex;
                         flex-direction: row;
-                        justify-content: end;
+                        justify-content: flex-end;
                         color: lightslategray;
 
                     }
@@ -309,7 +309,7 @@ a{
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: start;
+                justify-content: flex-start;
                 gap: 0.5em;
             }
         }

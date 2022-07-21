@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect} from "react"
+import { useState} from "react"
 import {useTransition, animated} from "react-spring"
 import IconComponents from "../../../icon-components/icon-components";
 
@@ -7,7 +7,6 @@ import Buttons from "../../Buttons/Buttons";
 
 export default function commentBox({loadedImages, handleReply, replyToStats, closeReply}){
 
-    const [replyTo, setReplyTo] = useState(null)
     const [isEmpty, setEmptyStatus] = useState(false, [])
     const transition = useTransition(isEmpty, {
         from: {opacity: 0, y: "-1ch"},
@@ -21,7 +20,7 @@ export default function commentBox({loadedImages, handleReply, replyToStats, clo
         e.preventDefault()
         let commentBox = e.target.elements["textarea"]
 
-        if(commentBox.value.length == 0){
+        if(commentBox.value.length === 0){
             setEmptyStatus(true)
             return;
         }
