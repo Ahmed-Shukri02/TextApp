@@ -8,22 +8,22 @@ import ContentReview from "./components/Content/ContentReview/ContentReview";
 
 
 export default function Main(){
-    // query for all number type inputs and disable scrolling function
-    
+  // query for all number type inputs and disable scrolling function
+  
 
 
-    return (
-        <Router>
-            <div className="main-container">
-                <ProfileCard/>
-                <div className="content-container">
-                        <Switch>
-                            <Route path={"/home"}> <ContentHome/> </Route>
-                            <Route path={"/reviews"}> <ContentReview/> </Route>
-                        </Switch>
-                    </div>
-            
-            </div>
-        </Router>
-    )
+  return (
+    <Router>
+      <div className="main-container">
+        <ProfileCard/>
+        <div className="content-container">
+            <Switch>
+              <Route path={"/home"}> <ContentHome/> </Route>
+              <Route path={"/reviews"}> <ContentReview/> </Route>
+            </Switch>
+          </div>
+      
+      </div>
+    </Router>
+  )
 }

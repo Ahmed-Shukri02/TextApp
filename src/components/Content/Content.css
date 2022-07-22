@@ -144,6 +144,15 @@ a {
 .content-home .content-home-right .content-post .post-interaction .replies {
   padding: 0 0.5em;
 }
+.content-home .content-home-right .content-post .post-interaction .replies .reply-container .see-sub-replies {
+  font-size: 0.9rem;
+  color: lightslategray;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em;
+}
 .content-home .content-home-right .content-post .post-interaction .replies .reply-to {
   font-size: 0.8rem;
   padding-bottom: 0.5em;
@@ -157,7 +166,7 @@ a {
   flex-direction: row;
   padding: 1em 0;
   gap: 0.5em;
-  align-items: center;
+  align-items: flex-start;
 }
 .content-home .content-home-right .content-post .post-interaction .replies .most-relevant {
   display: flex;

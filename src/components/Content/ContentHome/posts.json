@@ -1,175 +1,175 @@
 {
-    "postInfo" : {
+  "postInfo" : {
+    "key": 0,
+    "author": "Instagram", "time": "21 hrs",
+    "isUsingStock": false,
+    "pfp": "images/insta-profile.jpg",
+    "media" : 20,
+    "content": "Back at it with Tips n Tricks — this time about how to up your Feed game",
+    "likes": 922, "comments": 1, "shares": 27,
+    "userLike": false,
+    "replies": [
+      {
         "key": 0,
-        "author": "Instagram", "time": "21 hrs",
-        "isUsingStock": false,
-        "pfp": "instaProfile",
-        "media" : 20,
-        "content": "Back at it with Tips n Tricks — this time about how to up your Feed game",
-        "likes": 922, "comments": 1, "shares": 27,
+        "commentBox": false,
+        "author": "very unhappy person",
+        "pfp": 9,
+        "content": "Fix your app",
+        "time": "14 hrs", "likes": "4",
         "userLike": false,
-        "replies": [
-            {
-                "key": 0,
-                "commentBox": false,
-                "author": "very unhappy person",
-                "pfp": 9,
-                "content": "Fix your app",
-                "time": "14 hrs", "likes": "4",
-                "userLike": false,
-                "type": "comment",
-                "parentKey": 0,
-                "isReplying": false,
-                "toInfo": null,
-                "referenceType": null,
+        "type": "comment",
+        "parentKey": 0,
+        "isReplying": false,
+        "toInfo": null,
+        "referenceType": null,
 
-                "repliesTo": [
-                    {
-                        "key": 0,
-                        "commentBox": false,
-                        "author": "User23424234",
-                        "pfp": 20,
-                        "content": "Fix your attitude",
-                        "time": "13 hrs", "likes": "25",
-                        "userLike": false,
-                        "type": "subcomment",
-                        "parentKey": 0,
-                        "isReplying": false,
-                        "toInfo": {
-                            "key": 0,
-                            "author": "very unhappy person",
-                            "content": "Fix your app",
-                            "type": "comment"
-                        },
-                        "referenceType": "comment"
-                    }
-                ]
+        "repliesTo": [
+          {
+            "key": 0,
+            "commentBox": false,
+            "author": "User23424234",
+            "pfp": 20,
+            "content": "Fix your attitude",
+            "time": "13 hrs", "likes": "25",
+            "userLike": false,
+            "type": "subcomment",
+            "parentKey": 0,
+            "isReplying": false,
+            "toInfo": {
+              "key": 0,
+              "author": "very unhappy person",
+              "content": "Fix your app",
+              "type": "comment"
             },
-
-            {
-                "key": 1,
-                "commentBox": false,
-                "author": "User4290942342",
-                "pfp": 19,
-                "content": "nice post",
-                "time": "16 hrs", "likes": "5",
-                "userLike": false,
-                "type": "comment",
-                "parentKey": 1,
-                "isReplying": false,
-                "toInfo": null,
-                "referenceType": null,
-
-                "repliesTo": [
-
-                ]
-            },
-
-            {
-                "key": 2,
-                "commentBox": false,
-                "author": "User1231231",
-                "pfp": 21,
-                "content": "This is a nice post",
-                "time": "16 hrs", "likes": "11",
-                "userLike": false,
-                "type": "comment",
-                "parentKey": 2,
-                "isReplying": false,
-                "toInfo": null,
-                "referenceType": null,
-
-                "repliesTo": [
-
-                ]
-            },
-
-            {
-                "key": 3,
-                "commentBox": false,
-                "author": "User45324241",
-                "pfp": 22,
-                "content": "great post",
-                "time": "18 hrs", "likes": "7",
-                "userLike": false,
-                "type": "comment",
-                "parentKey": 3,
-                "isReplying": false,
-                "toInfo": null,
-                "referenceType": null,
-
-                "repliesTo": [
-
-                ]
-            },
-
-            {
-                "key": 4,
-                "commentBox": false,
-                "author": "User0819039",
-                "pfp": 23,
-                "content": "I like this post",
-                "time": "19 hrs", "likes": "6",
-                "userLike": false,
-                "type": "comment",
-                "parentKey": 4,
-                "isReplying": false,
-                "toInfo": null,
-                "referenceType": null,
-
-                "repliesTo": [
-
-                ]
-            },
-
-            {
-                "key": 5,
-                "commentBox": false,
-                "author": "User0988713",
-                "pfp": 24,
-                "content": "Wow!",
-                "time": "21 hrs", "likes": "18",
-                "userLike": false,
-                "type": "comment",
-                "parentKey": 5,
-                "isReplying": false,
-                "toInfo": null,
-                "referenceType": null,
-
-                "repliesTo": [
-
-                ]
-            }
-
+            "referenceType": "comment"
+          }
         ]
-    },
+      },
 
-    "postInfo2" : {
+      {
         "key": 1,
-        "author": "Ahmed", "time": "10 mins",
-        "isUsingStock": true,
-        "pfpNum": 7,
-        "media" : null,
-        "content": "Man that unhappy dude is really a jerk",
-        "likes": 12, "comments": 0, "shares": 3,
+        "commentBox": false,
+        "author": "User4290942342",
+        "pfp": 19,
+        "content": "nice post",
+        "time": "16 hrs", "likes": "5",
         "userLike": false,
-        "replies": [
+        "type": "comment",
+        "parentKey": 1,
+        "isReplying": false,
+        "toInfo": null,
+        "referenceType": null,
+
+        "repliesTo": [
 
         ]
-    },
+      },
 
-
-    "postInfo3" : {
+      {
         "key": 2,
-        "author": "Bro", "time": "5 mins",
-        "isUsingStock": true,
-        "pfpNum": 25,
-        "media": 26,
-        "content": "first time using this app. Hello everyone!",
-        "likes": 0, "comments": 0, "shares": 0,
+        "commentBox": false,
+        "author": "User1231231",
+        "pfp": 21,
+        "content": "This is a nice post",
+        "time": "16 hrs", "likes": "11",
         "userLike": false,
-        "replies" : [
+        "type": "comment",
+        "parentKey": 2,
+        "isReplying": false,
+        "toInfo": null,
+        "referenceType": null,
+
+        "repliesTo": [
 
         ]
-    }
+      },
+
+      {
+        "key": 3,
+        "commentBox": false,
+        "author": "User45324241",
+        "pfp": 22,
+        "content": "great post",
+        "time": "18 hrs", "likes": "7",
+        "userLike": false,
+        "type": "comment",
+        "parentKey": 3,
+        "isReplying": false,
+        "toInfo": null,
+        "referenceType": null,
+
+        "repliesTo": [
+
+        ]
+      },
+
+      {
+        "key": 4,
+        "commentBox": false,
+        "author": "User0819039",
+        "pfp": 23,
+        "content": "I like this post",
+        "time": "19 hrs", "likes": "6",
+        "userLike": false,
+        "type": "comment",
+        "parentKey": 4,
+        "isReplying": false,
+        "toInfo": null,
+        "referenceType": null,
+
+        "repliesTo": [
+
+        ]
+      },
+
+      {
+        "key": 5,
+        "commentBox": false,
+        "author": "User0988713",
+        "pfp": 24,
+        "content": "Wow!",
+        "time": "21 hrs", "likes": "18",
+        "userLike": false,
+        "type": "comment",
+        "parentKey": 5,
+        "isReplying": false,
+        "toInfo": null,
+        "referenceType": null,
+
+        "repliesTo": [
+
+        ]
+      }
+
+    ]
+  },
+
+  "postInfo2" : {
+    "key": 1,
+    "author": "Ahmed", "time": "10 mins",
+    "isUsingStock": true,
+    "pfpNum": 7,
+    "media" : null,
+    "content": "Man that unhappy dude is really a jerk",
+    "likes": 12, "comments": 0, "shares": 3,
+    "userLike": false,
+    "replies": [
+
+    ]
+  },
+
+
+  "postInfo3" : {
+    "key": 2,
+    "author": "Bro", "time": "5 mins",
+    "isUsingStock": true,
+    "pfpNum": 25,
+    "media": 26,
+    "content": "first time using this app. Hello everyone!",
+    "likes": 0, "comments": 0, "shares": 0,
+    "userLike": false,
+    "replies" : [
+
+    ]
+  }
 }
