@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import SubReply from "./ContentSubReply";
 import Buttons from "../../Buttons/Buttons";
 
-export default function Reply({info, loadedImages, handleLike, handleReplyTo, toggleSubComment}){
+export default function Reply({info, loadedImages, handleLike, handleReplyTo, toggleSubComment, postToggleSubComments}){
   
   function LikeReply(){
     handleLike(info, info.userLike)
@@ -28,6 +28,14 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo, to
     handleReplyTo(replyInfo)
   }
 
+  function openSubComments(){
+    postToggleSubComments(info, true)
+  }
+
+  function replySeeLess(){
+    postToggleSubComments(info, false)
+  }
+
   const replyToStats = {
     isReplying: true,
     commentBox: false,
@@ -39,12 +47,12 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo, to
     repliesTo : null
   }
   
-  const renderCondition = (info.type === "comment" && info.repliesTo.length > 0)
+  const renderCondition = (info.type === "comment" && info.repliesTo.length > 0 && info.isViewingSubs)
   var repliesToJSX
   if(renderCondition){
     repliesToJSX = info.repliesTo.map((elem) =>
       <div className="sub-replies" key={elem.key}>
-        <SubReply info={elem} key={elem.key} loadedImages={loadedImages} handleSubcomment = {handleSubcomment} handleLike={LikeSubReply} toggleSubComment={ToggleSubReply}/>
+        <SubReply info={elem} key={elem.key} loadedImages={loadedImages} handleSubcomment = {handleSubcomment} handleLike={LikeSubReply} toggleSubComment={ToggleSubReply} parentInfo={info} replySeeLess={replySeeLess}/>
       </div>
     )
 
@@ -69,11 +77,13 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo, to
             <Buttons.DefaultButton handleClick={ToggleReplyTo} theme="white" fontSize="0.8rem" contentColor="lightslategray"> Reply</Buttons.DefaultButton>
           </div>
           {
-            (info.repliesTo.length > 0 && !info.commentBox) && 
-            <div className="see-sub-replies">
-              <IconComponents.ReturnbDownForwardIcon/> 
-              <div> see <span style={{fontWeight: "bold"}}>{info.repliesTo.length}</span> {info.repliesTo.length > 1 ? "replies" : "reply"}</div>
-            </div>
+            (info.repliesTo.length > 0 && !info.commentBox && !info.isViewingSubs) && 
+            <Buttons.UnderlineButton handleClick={() => openSubComments()} theme="white" fontSize="0.9rem" contentColor="lightslategray">
+              <div className="see-sub-replies">
+                <IconComponents.ReturnbDownForwardIcon/> 
+                <div> see <span style={{fontWeight: "bold"}}>{info.repliesTo.length}</span> {info.repliesTo.length > 1 ? "replies" : "reply"}</div>
+              </div>
+            </Buttons.UnderlineButton>
           }
 
         </div>
@@ -81,7 +91,7 @@ export default function Reply({info, loadedImages, handleLike, handleReplyTo, to
 
       {info.commentBox && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} replyToStats = {replyToStats} closeReply={ToggleReplyTo}/>}
 
-      {/* {renderCondition && <div className="sub-replies-container">{repliesToJSX}</div>} */}
+      {renderCondition && <div className="sub-replies-container">{repliesToJSX}</div>}
     
     </div>
   )

@@ -1,9 +1,12 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive"
 import DropDown from "./Dropdown";
 import IconComponents from "../icon-components/icon-components";
 
 export default function ProfileNav(){
+
+  const collapseNavbar = useMediaQuery({query: "(max-width: 650px)"})
 
   function handleClick(e){    
     // find div with current class
@@ -36,8 +39,8 @@ export default function ProfileNav(){
 
   const icon_content = {content: <IconComponents.DotsIcon/>, dropDown: icon_dropdown}
 
-  return (
-    <div className="profile-nav">
+  function profileNavSelections(){
+    return (
       <div className="profile-nav-selections">
         <div>
           <Link to='/home' onClick={ (e) => handleClick(e)}> </Link>
@@ -62,6 +65,12 @@ export default function ProfileNav(){
 
         <DropDown className="dropdown-selection" info={more_content}/>
       </div>
+    )
+  }
+
+  return (
+    <div className="profile-nav">
+      {!collapseNavbar && profileNavSelections()}
 
       <div className="profile-nav-right">
         <DropDown className="dropdown-selection" info={icon_content}/>

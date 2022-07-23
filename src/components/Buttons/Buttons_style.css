@@ -26,6 +26,12 @@
   transition: background-color .1s ease-out;
 }
 
+.underline-white, .underline-blue{
+  border: none;
+  background-color: white;
+}
+
+
 @media (hover: hover){
   .submit-button:hover{
     background-color: lightgray;
@@ -41,6 +47,11 @@
   .default-white:hover{
     cursor: pointer;
     background-color: lightgray;
+  }
+
+  .underline-white:hover, .underline-blue:hover{
+    text-decoration: underline;
+    cursor: pointer;
   }
 
 }

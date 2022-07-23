@@ -6,7 +6,7 @@ import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
 
-export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox}){
+export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox, handlerToggleSubComments}){
 
   const [images, setImages] = useState(null);
   const [likes, setLikes] = useState(postInfo.likes);
@@ -53,6 +53,10 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
     toggleSubCommentBox(replyInfo, postInfo.key, open)
   }
 
+  function postToggleSubComments(replyInfo, open){
+    handlerToggleSubComments(postInfo.key, replyInfo, open)
+  } 
+
   /*
   =============================================================
     HANDLE STOCK IMAGES
@@ -85,7 +89,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
   =============================================================
   */
   
-  const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} key={elem.key} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment}/>);
+  const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} key={elem.key} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments}/>);
 
   // COMPONENT
   function personDetails(){
@@ -123,6 +127,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
       toInfo: null,
       type: "comment",
       referenceType: null,
+      isViewingSubs: false,
 
       repliesTo : [
 

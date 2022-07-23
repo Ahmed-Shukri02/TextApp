@@ -71,6 +71,20 @@ header, .main, .footer{
   .header-container header{
     flex-direction: column;
   }
+
+  .profile-info{
+    flex-direction: column !important;
+    
+    >*{
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+    .profile-link{
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 .inline-icon{
@@ -107,7 +121,6 @@ header, .main, .footer{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 100px;
 
     .profile-info{
       width: 80%;
@@ -115,12 +128,21 @@ header, .main, .footer{
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
       padding: 0 3em;
+    }
+
+    .profile-name-img{
+      display: flex;
+      flex-direction: row;
+      gap: 1em;
+      align-items: center;
+      flex-basis: 65%;
     }
   }
 
   .profile-img-container{
-    flex-basis: 15%;
+    flex-basis: 25%;
 
     .profile-img{
       width: 80px;
@@ -136,7 +158,7 @@ header, .main, .footer{
   }
 
   .profile-name{
-    flex-basis: 50%;
+    flex-basis: 70%;
 
     .inline-icon{
       width: 15px;

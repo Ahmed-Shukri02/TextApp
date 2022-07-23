@@ -53,6 +53,13 @@ export default function ContentRight(){
 
     setPosts(newPosts);
   }
+
+  function handlerToggleSubComments(postKey, replyInfo, open){
+    let newPosts = [...posts]
+    newPosts[postKey].replies[replyInfo.key].isViewingSubs = open;
+
+    setPosts(newPosts)
+  }
   
 
   function toggleSubCommentBox(replyInfo, postKey, open){
@@ -75,7 +82,7 @@ export default function ContentRight(){
     setPosts([Posts.postInfo, Posts.postInfo2, Posts.postInfo3])
   }, [])
   
-  const postsJSX = posts.map(elem => <ContentPost postInfo={elem} key={elem.key} AddReply = {AddReply} AddReplyLike={handleReplyLike} AddReplyTo = {AddReplyTo} handleCloseComments = {closeAllCommentBox} toggleSubCommentBox ={toggleSubCommentBox}/>)
+  const postsJSX = posts.map(elem => <ContentPost postInfo={elem} key={elem.key} AddReply = {AddReply} AddReplyLike={handleReplyLike} AddReplyTo = {AddReplyTo} handleCloseComments = {closeAllCommentBox} toggleSubCommentBox ={toggleSubCommentBox} handlerToggleSubComments={handlerToggleSubComments}/>)
 
   return (
     <div className="content-home-right">

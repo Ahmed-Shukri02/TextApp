@@ -22,6 +22,7 @@
         "isReplying": false,
         "toInfo": null,
         "referenceType": null,
+        "isViewingSubs": false, 
 
         "repliesTo": [
           {
@@ -59,6 +60,7 @@
         "isReplying": false,
         "toInfo": null,
         "referenceType": null,
+        "isViewingSubs": false,
 
         "repliesTo": [
 
@@ -78,6 +80,7 @@
         "isReplying": false,
         "toInfo": null,
         "referenceType": null,
+        "isViewingSubs": false,
 
         "repliesTo": [
 
@@ -97,6 +100,7 @@
         "isReplying": false,
         "toInfo": null,
         "referenceType": null,
+        "isViewingSubs": false,
 
         "repliesTo": [
 
@@ -116,6 +120,7 @@
         "isReplying": false,
         "toInfo": null,
         "referenceType": null,
+        "isViewingSubs": false,
 
         "repliesTo": [
 
@@ -135,6 +140,7 @@
         "isReplying": false,
         "toInfo": null,
         "referenceType": null,
+        "isViewingSubs": false,
 
         "repliesTo": [
 
@@ -164,7 +170,7 @@
     "author": "Bro", "time": "5 mins",
     "isUsingStock": true,
     "pfpNum": 25,
-    "media": 26,
+    "media": 22,
     "content": "first time using this app. Hello everyone!",
     "likes": 0, "comments": 0, "shares": 0,
     "userLike": false,

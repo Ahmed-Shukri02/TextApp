@@ -67,6 +67,18 @@ header, .main, .footer {
   .header-container header {
     flex-direction: column;
   }
+  .profile-info {
+    flex-direction: column !important;
+  }
+  .profile-info > * {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .profile-info .profile-link {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .inline-icon {
   width: 1em;
@@ -98,7 +110,6 @@ header, .main, .footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 100px;
 }
 .profile-card .profile-info-flex .profile-info {
   width: 80%;
@@ -106,10 +117,18 @@ header, .main, .footer {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 0 3em;
 }
+.profile-card .profile-info-flex .profile-name-img {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: center;
+  flex-basis: 65%;
+}
 .profile-card .profile-img-container {
-  flex-basis: 15%;
+  flex-basis: 25%;
 }
 .profile-card .profile-img-container .profile-img {
   width: 80px;
@@ -122,7 +141,7 @@ header, .main, .footer {
   transform: scale(1.1);
 }
 .profile-card .profile-name {
-  flex-basis: 50%;
+  flex-basis: 70%;
 }
 .profile-card .profile-name .inline-icon {
   width: 15px;

@@ -73,4 +73,47 @@ export default class Buttons{
       </button>
     )
   }
+
+
+  static UnderlineButton({children, width = "auto", height = null, theme= "white", fontSize="1rem", contentColor="black", handleClick = () => ""}){
+    const baseStyle = {
+      width: width,
+      fontSize: fontSize,
+      color: contentColor
+    }
+    
+    var myStyle
+    if(!height) {
+      myStyle = {...baseStyle, aspectRatio : "5/1"}
+    } else myStyle = {...baseStyle, height: height}
+    
+    const [style, setStyle] = useState(myStyle)
+    
+    var mobileStyle = {
+      textDecoration: "underline"
+    }
+    
+    /* mobileStyle.backgroundColor = function(){
+      switch(theme){
+        case "blue" : return "#165baf";
+        case "white": return "lightgray"
+      }
+    }() */
+
+    function onClick(e){
+      handleClick()
+      e.target.blur()
+    }
+
+    return (
+      <button 
+      className= {"underline-" + theme}
+      onClick={onClick} 
+      style={style} 
+      onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}
+      onTouchEnd ={() => setStyle({...myStyle})}>
+        {children && children}
+      </button>
+    )
+  }
 }

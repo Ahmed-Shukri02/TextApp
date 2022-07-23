@@ -13,12 +13,15 @@ export default function ProfileCard(){
 
       <div className="profile-info-flex">
         <div className="profile-info">
-          <div className="profile-img-container">
-            <img className = "profile-img" src="./images/insta-profile.jpg" alt=""/>
-          </div>
-          <div className="profile-name">
-            <h2 style={{margin: "0"}}>Instagram <span><IconComponents.Checkmark/></span> </h2>
-            <div style={{color: "lightslategray"}}>@instagram  · App Page</div>
+          
+          <div className="profile-name-img">
+            <div className="profile-img-container">
+              <img className = "profile-img" src="./images/insta-profile.jpg" alt=""/>
+            </div>
+            <div className="profile-name">
+              <h2 style={{margin: "0"}}>Instagram <span><IconComponents.Checkmark/></span> </h2>
+              <div style={{color: "lightslategray"}}>@instagram  · App Page</div>
+            </div>
           </div>
           
           <ProfileLink />
