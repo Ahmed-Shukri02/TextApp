@@ -46,6 +46,11 @@ header, .main, .footer{
   }
 }
 
+.loading-icon{
+  width: 10em;
+  margin: auto auto;
+}
+
 .main-container{
   box-shadow: 0 .5px 5px lightgray;
 }
@@ -83,6 +88,17 @@ header, .main, .footer{
     .profile-link{
       display: flex;
       flex-direction: column;
+    }
+
+    .profile-name-img{
+      justify-content: center;
+
+      .profile-img-container{
+        flex-basis: 25%;
+      }
+      .profile-name{
+        flex-basis: 40%;
+      }
     }
   }
 }
@@ -129,7 +145,7 @@ header, .main, .footer{
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 0 3em;
+      padding: 0.5em 3em;
     }
 
     .profile-name-img{
@@ -142,13 +158,14 @@ header, .main, .footer{
   }
 
   .profile-img-container{
-    flex-basis: 25%;
+    flex-basis: 20%;
 
     .profile-img{
       width: 80px;
       border-radius: 50%;
       border: 1px solid lightgray;
       transition: all .2s ease-out;
+      aspect-ratio: 1/1;
 
       &:hover{
         cursor: pointer;
@@ -159,6 +176,9 @@ header, .main, .footer{
 
   .profile-name{
     flex-basis: 70%;
+    span{
+      margin: 0 0.5em;
+    }
 
     .inline-icon{
       width: 15px;

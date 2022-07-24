@@ -8,7 +8,7 @@ export default function Header(){
       <h1 className="name">Ahmed</h1>
       <nav>
         <ul>
-          <li>Home</li>
+          <li><a href="/adfdafa">Home</a></li>
           <li>About</li>
           <li>Login</li>
         </ul>

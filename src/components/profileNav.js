@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive"
 import DropDown from "./Dropdown";
 import IconComponents from "../icon-components/icon-components";
 
-export default function ProfileNav(){
+export default function ProfileNav({userInfo}){
 
   const collapseNavbar = useMediaQuery({query: "(max-width: 650px)"})
 
@@ -43,22 +43,22 @@ export default function ProfileNav(){
     return (
       <div className="profile-nav-selections">
         <div>
-          <Link to='/home' onClick={ (e) => handleClick(e)}> </Link>
+          <Link to={`home`} onClick={ (e) => handleClick(e)}> </Link>
           <div className="selection-content">Home</div> 
         </div>
 
         <div>
-          <Link to='/reviews' onClick={(e) => handleClick(e)}></Link>
+          <Link to={`reviews`} onClick={(e) => handleClick(e)}></Link>
           <div className="selection-content">Reviews</div>
         </div>
 
         <div>
-          <Link to='/videos' onClick={(e) => handleClick(e)}> </Link>
+          <Link to={`videos`} onClick={(e) => handleClick(e)}> </Link>
           <div className="selection-content">Videos</div>
         </div>
 
         <div>
-          <Link to='/photos' onClick={(e) => handleClick(e)}> </Link>
+          <Link to={`photos`} onClick={(e) => handleClick(e)}> </Link>
 
           <div className="selection-content">Photos</div> 
         </div>
