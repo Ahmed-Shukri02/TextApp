@@ -13,8 +13,6 @@ export default function User(){
 
   let {id} = useParams();
 
-  console.log(doesExist)
-
   // fetch current user based on url
   useEffect(() => {
     async function getData(){
@@ -61,15 +59,15 @@ export default function User(){
     }
     
     
-    else if(doesExist){ // if use
+    else if(doesExist){
       return (
           <div className="main-container">
             <ProfileCard userInfo={userInfo}/> 
           
             <div className="content-container">
               <Routes>
-                <Route path='home' element={<ContentHome/>} />
-                <Route path='review' element={<ContentReview/>} />
+                <Route path='home' element={<ContentHome userInfo={userInfo}/>} />
+                <Route path='review' element={<ContentReview userInfo={userInfo}/>} />
               </Routes>
             </div>
 

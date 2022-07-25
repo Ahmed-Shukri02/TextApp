@@ -6,13 +6,13 @@ import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
 
-export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox, handlerToggleSubComments}){
+export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox, handlerToggleSubComments */}){
 
   const [images, setImages] = useState(null);
   const [likes, setLikes] = useState(postInfo.likes);
   const [isLiked, setLikedStatus] = useState(false);
 
-  postInfo.likes = likes;
+  /* postInfo.likes = likes; */
 
   /*
   =============================================================
@@ -21,7 +21,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
   */
 
   // comments
-  function handleLike(){
+  /* function handleLike(){
     setLikes((oldVal) => isLiked? oldVal - 1 : oldVal + 1);
     setLikedStatus((oldVal) => !oldVal);
     return
@@ -55,7 +55,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
 
   function postToggleSubComments(replyInfo, open){
     handlerToggleSubComments(postInfo.key, replyInfo, open)
-  } 
+  }  */
 
   /*
   =============================================================
@@ -89,18 +89,18 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
   =============================================================
   */
   
-  const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} key={elem.key} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments}/>);
+  /* const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} key={elem.key} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments}/>); */
 
   // COMPONENT
   function personDetails(){
     return (
       <div className="person-detail-flex">
         <div className="person-detail-image">
-          {postInfo.isUsingStock? loadedImages(postInfo.pfpNum) : <img src={postInfo.pfp} alt=""/>}
+          {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img src={userInfo.user_pfp} alt=""/>}
         </div>
         <div className="person-detail-info">
-          <div className="post-author">{postInfo.author} <IconComponents.Checkmark/> </div>
-          <div className="post-time">{postInfo.time}</div>
+          <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>
+          <div className="post-time">{postInfo.post_time}</div>
         </div>
       </div>
     )
@@ -110,18 +110,19 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
   function post(){
     return (
       <div className="post">
-        {postInfo.content && <div className="post-content">{postInfo.content}</div>}
-        {postInfo.media && loadedImages(postInfo.media)}
+        {postInfo.post_text && <div className="post-content">{postInfo.post_text}</div>}
+        {postInfo.post_media && loadedImages(Math.floor(Math.random() * 30))}
       </div>
     )
   }
 
   // COMPONENT
+
   function interaction(){
     const [isCommenting, setCommentingStatus] = useState(false, [])
     const [commentsLength, setCommentsLength] = useState(1)
 
-    const replyStats = {
+    /* const replyStats = {
       isReplying: false,
       commentBox: false,
       toInfo: null,
@@ -156,7 +157,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
       seeMore(parseInt(input.value))
       
       input.value = ""
-    }
+    } */
 
     return (
       
@@ -177,7 +178,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
           <div className="share"><IconComponents.ArrowIcon/> Share </div>
         </div>
 
-        {isCommenting && <ContentComment handleReply ={handleReply} loadedImages = {loadedImages} replyToStats = {replyStats} closeReply={() => "" /* Do nothing */}/>}
+        {isCommenting && <ContentComment handleReply ={handleReply} loadedImages = {loadedImages} replyToStats = {replyStats} closeReply={() => ""}/>}
 
         { postInfo.replies.length > 0 &&
           <div className="replies">
@@ -218,7 +219,7 @@ export default function ContentPost({postInfo, AddReply, AddReplyTo, AddReplyLik
     <div className="content-post">
       {personDetails()}
       {post()}
-      {interaction()}
+      {/* {interaction()} */}
     </div>
   )
 }

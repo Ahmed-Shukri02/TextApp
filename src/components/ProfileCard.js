@@ -33,7 +33,7 @@ export default function ProfileCard({userInfo}){
       if(userInfo.f_name || userInfo.l_name){
         return(
           <div className="profile-name">
-            <h2 style={{margin: "0"}}>{userInfo.f_name} {userInfo.l_name}<span><IconComponents.Checkmark/></span> </h2>
+            <h2 style={{margin: "0"}}>{userInfo.f_name} {userInfo.l_name}<span>{userInfo.is_verified && <IconComponents.Checkmark/>}</span> </h2>
             <div style={{color: "lightslategray"}}>@{userInfo.username}  · user</div>
           </div>
         )
@@ -42,7 +42,7 @@ export default function ProfileCard({userInfo}){
       else{
         return(
           <div className="profile-name">
-            <h2 style={{margin: "0"}}>{userInfo.username}<span><IconComponents.Checkmark/></span> </h2>
+            <h2 style={{margin: "0"}}>{userInfo.username}<span>{userInfo.is_verified && <IconComponents.Checkmark/>}</span> </h2>
             <div style={{color: "lightslategray"}}>@{userInfo.username}  · App Page</div>
           </div>
         )

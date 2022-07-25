@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import ContentLeftVideos from "./ContentLeftVideos";
 import IconComponents from "../../../icon-components/icon-components"
 
-export default function ContentLeft(){
+export default function ContentLeft({userInfo}){
   
   const [images, setImages] = useState(null);
 
@@ -51,8 +51,7 @@ export default function ContentLeft(){
       <div className="about">
         <h3>About</h3>
         <div><IconComponents.InfoIcon/>Discover what's next on Instagram</div>
-        <div><IconComponents.ThumbUpIcon/>60,932,562 people like this</div>
-        <div><IconComponents.ThumbUpIcon/>64,622,910 people follow this</div>
+        <div><IconComponents.ThumbUpIcon/>{userInfo.followers} people follow {userInfo.username}</div>
         <div><IconComponents.GlobeIcon/>http://instagram.com/</div>
         <div><IconComponents.FolderIcon/>App Page · Home</div>
 

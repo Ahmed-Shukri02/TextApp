@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import ContentPost from "./ContentPost";
 import Posts from "./posts.json"
 
-export default function ContentRight(){
+export default function ContentRight({userInfo}){
   
   const [posts, setPosts] = useState([])
 
-  function AddReply(postKey, replyInfo){
+  /* function AddReply(postKey, replyInfo){
     let newPosts = [...posts] // creating deep copy of posts
 
     newPosts[postKey].replies.forEach((reply) => { // increment each reply by 1 to allow new reply of index 0
@@ -75,14 +75,28 @@ export default function ContentRight(){
     
     setPosts(newPosts)
     
-  }
+  } */
 
 
   useEffect(() =>{
-    setPosts([Posts.postInfo, Posts.postInfo2, Posts.postInfo3])
+    // do get request for users posts
+    async function getPosts(){
+      try{
+        let posts = await fetch(`http://localhost:5000/api/posts?author_id=${userInfo.user_id}`)
+
+        let postsJson = await posts.json()
+        console.log(postsJson)
+        setPosts(postsJson)
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+    
+    getPosts()
   }, [])
   
-  const postsJSX = posts.map(elem => <ContentPost postInfo={elem} key={elem.key} AddReply = {AddReply} AddReplyLike={handleReplyLike} AddReplyTo = {AddReplyTo} handleCloseComments = {closeAllCommentBox} toggleSubCommentBox ={toggleSubCommentBox} handlerToggleSubComments={handlerToggleSubComments}/>)
+  const postsJSX = posts.map(elem => <ContentPost postInfo={elem} userInfo={userInfo} key={elem.post_id} /* AddReply = {AddReply} AddReplyLike={handleReplyLike} AddReplyTo = {AddReplyTo} handleCloseComments = {closeAllCommentBox} toggleSubCommentBox ={toggleSubCommentBox} handlerToggleSubComments={handlerToggleSubComments} *//>)
 
   return (
     <div className="content-home-right">
