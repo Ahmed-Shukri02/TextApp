@@ -5,7 +5,7 @@ import IconComponents from "../../../icon-components/icon-components";
 
 import Buttons from "../../Buttons/Buttons";
 
-export default function commentBox({loadedImages, handleReply, replyToStats, closeReply}){
+export default function commentBox({loadedImages, /* handleReply, replyToStats, closeReply */}){
 
   const [isEmpty, setEmptyStatus] = useState(false, [])
   const transition = useTransition(isEmpty, {
@@ -27,18 +27,11 @@ export default function commentBox({loadedImages, handleReply, replyToStats, clo
     else{
       setEmptyStatus(false)
       
-      let replyInfo = {
-        author: "Ahmed",
-        pfp: myPfp,
-        content: commentBox.value,
-        time: "just now", likes: 0,
-        ...replyToStats
-      }
 
       commentBox.value = "";
-      closeReply();
+      /* closeReply(); */
       
-      handleReply(replyInfo)
+      /* handleReply(replyInfo) */
     }
 
   }
@@ -51,7 +44,7 @@ export default function commentBox({loadedImages, handleReply, replyToStats, clo
           item && <animated.div className="empty-prompt" style={style}> Please write something</animated.div>
         ))}
 
-        {replyToStats.isReplying && <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> Replying to {replyToStats.toInfo.author} </div>}
+        {/* {replyToStats.isReplying && <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> Replying to {replyToStats.toInfo.author} </div>} */}
 
         <textarea name="textarea" placeholder="Enter comment here..."/>
         <Buttons.SubmitButton width="10em"/>

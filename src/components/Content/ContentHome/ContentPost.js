@@ -5,12 +5,14 @@ import ContentComment from "./ContentComment"
 import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
+import { useSyncExternalStore } from "react";
 
 export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox, handlerToggleSubComments */}){
 
   const [images, setImages] = useState(null);
-  const [likes, setLikes] = useState(postInfo.likes);
+  const [likes, setLikes] = useState(postInfo.post_likes);
   const [isLiked, setLikedStatus] = useState(false);
+  const [replies, setReplies] = useState(null)
 
   /* postInfo.likes = likes; */
 
@@ -21,12 +23,71 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   */
 
   // comments
-  /* function handleLike(){
-    setLikes((oldVal) => isLiked? oldVal - 1 : oldVal + 1);
-    setLikedStatus((oldVal) => !oldVal);
-    return
+  async function handleLike(){
+    
+    try{
+      let liker = JSON.stringify({liker: userInfo.user_id})
+      console.log(isLiked)
+      
+      // check liked status
+      if(isLiked){
+        //unlike the post
+        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}?method=unlike`, {
+          method: "PUT", 
+          headers:{"Content-Type" : "application/json"},
+          body: liker
+        })
+
+        let likesValue = await likes.json()
+        console.log(likesValue)
+        
+        let likes_users = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
+          method: "DELETE",
+          headers:{"Content-Type" : "application/json"},
+          body: liker
+        })
+
+        likes_users = await likes_users.json()
+        console.log(likes_users)
+
+        setLikes((oldVal) => oldVal - 1)
+
+      }
+
+      else{
+        // like the post
+        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}?method=like`, {
+          method: "PUT", 
+          headers:{"Content-Type" : "application/json"},
+          body: liker
+        })
+
+        let likesValue = await likes.json()
+        console.log(likesValue)
+
+        let likes_users = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
+          method: "POST",
+          headers: {"Content-Type" : "application/json"},
+          body: liker
+        })
+
+        likes_users = await likes_users.json()
+        console.log(likes_users)
+
+        setLikes((oldVal) => oldVal + 1)
+
+      }
+
+      setLikedStatus((oldVal) => !oldVal);
+      return
+    }
+    catch(err){
+      console.log(err, err.line)
+    }
+    
   }
 
+  /*
   function handleReply(replyInfo){
     replyInfo = {...replyInfo, key: 0, parentKey: 0}
     AddReply(postInfo.key, replyInfo)
@@ -74,6 +135,31 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   }
   
   useEffect(() =>{
+    
+    async function fetchData(){
+      // make get request for this posts likes
+      try{
+        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`)
+  
+        let likesArray = await likes.json()
+  
+        console.log(likesArray)
+        setLikedStatus(likesArray.includes(userInfo.user_id))
+
+        let replies = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies`)
+        replies = await replies.json()
+
+        console.log(replies)
+        setReplies(replies)
+        
+      }
+      catch(err){
+        console.log(err)
+      }
+  
+    }
+
+    fetchData()
     LoadData();
   }, [])
   
@@ -89,7 +175,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   =============================================================
   */
   
-  /* const repliesJSX = postInfo.replies.map(elem => <Reply info={elem} key={elem.key} loadedImages = {loadedImages} handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments}/>); */
+  const repliesJSX = replies && replies.map(elem => <Reply info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} /* handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments} *//>); 
 
   // COMPONENT
   function personDetails(){
@@ -111,7 +197,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
     return (
       <div className="post">
         {postInfo.post_text && <div className="post-content">{postInfo.post_text}</div>}
-        {postInfo.post_media && loadedImages(Math.floor(Math.random() * 30))}
+        {postInfo.post_media && loadedImages(userInfo.stock_pfp)}
       </div>
     )
   }
@@ -121,28 +207,13 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   function interaction(){
     const [isCommenting, setCommentingStatus] = useState(false, [])
     const [commentsLength, setCommentsLength] = useState(1)
-
-    /* const replyStats = {
-      isReplying: false,
-      commentBox: false,
-      toInfo: null,
-      type: "comment",
-      referenceType: null,
-      isViewingSubs: false,
-
-      repliesTo : [
-
-      ]
-    }
     
     function handleComment(e){
-      // if previous state was false (i.e setting to true), then call a function from the parent
-      if(!isCommenting) postCloseSubCommentBox()
       setCommentingStatus((oldVal) => !oldVal)
     }
 
     
-    function seeMore(num){
+    /* function seeMore(num){
       // check if comments + 2 is larger than the available comments. If so, set the commentslength to max available comments
       let newVal = commentsLength + num > postInfo.replies.length ? postInfo.replies.length : commentsLength + num;
       setCommentsLength(newVal)
@@ -160,11 +231,11 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
     } */
 
     return (
-      
+      replies && // ONLY LOAD WHEN REPLIES HAVE LOADED
       <div className="post-interaction">
         <div className="interaction-stats">
-          <div><IconComponents.ThumbUpIcon fill="none"/> {postInfo.likes} Likes</div>
-          <div>{postInfo.comments} {postInfo.comments === 1 ? "Comment" : "Comments"}  ·  {postInfo.shares} Shares</div>
+          <div><IconComponents.ThumbUpIcon fill="none"/> {likes} Likes</div>
+          <div>{postInfo.post_replies} {postInfo.post_replies === 1 ? "Comment" : "Comments"}  ·  0 Shares</div>
         </div>
 
         <div className="interaction-prompt">
@@ -178,18 +249,19 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
           <div className="share"><IconComponents.ArrowIcon/> Share </div>
         </div>
 
-        {isCommenting && <ContentComment handleReply ={handleReply} loadedImages = {loadedImages} replyToStats = {replyStats} closeReply={() => ""}/>}
+        {isCommenting && <ContentComment loadedImages = {loadedImages} /* handleReply ={handleReply} replyToStats = {replyStats} closeReply={() => ""} */ />}
 
-        { postInfo.replies.length > 0 &&
+          {replies.length > 0 &&
           <div className="replies">
             <div className="most-relevant">Most relevant  <IconComponents.ExpandDownIcon/></div>
-            {repliesJSX.slice(0, commentsLength)}
+            {/* {repliesJSX.slice(0, commentsLength)} */}
+            {repliesJSX}
 
             <div className="comments-displaying"> 
-              Displaying <span>{commentsLength} out of {postInfo.replies.length}</span> comments
+              Displaying <span>{replies.length} out of {replies.length}</span> comments
             </div>
 
-            <div className="see-more-container">
+            {/* <div className="see-more-container">
               <div className="see-more-less">
                 {commentsLength < postInfo.replies.length && <Buttons.DefaultButton width="7em" handleClick={() => seeMore(2)} fontSize="0.8rem" contentColor="white"> See more </Buttons.DefaultButton>}
                 {commentsLength > 1 && <Buttons.DefaultButton width="7em"  handleClick={() => setCommentsLength(1)} fontSize="0.8rem" contentColor="white"> Collapse </Buttons.DefaultButton>}
@@ -205,7 +277,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
 
           </div>
           
@@ -219,7 +291,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
     <div className="content-post">
       {personDetails()}
       {post()}
-      {/* {interaction()} */}
+      {interaction()}
     </div>
   )
 }
