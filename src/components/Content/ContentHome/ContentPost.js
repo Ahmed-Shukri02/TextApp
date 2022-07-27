@@ -13,8 +13,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   const [likes, setLikes] = useState(postInfo.post_likes);
   const [isLiked, setLikedStatus] = useState(false);
   const [replies, setReplies] = useState(null)
-
-  /* postInfo.likes = likes; */
+  const [commentBoxReference, setCommentBoxReference] = useState(null)
 
   /*
   =============================================================
@@ -87,12 +86,36 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
     
   }
 
-  /*
-  function handleReply(replyInfo){
-    replyInfo = {...replyInfo, key: 0, parentKey: 0}
-    AddReply(postInfo.key, replyInfo)
+  
+  async function handleReply(reply_text){
+    try{
+      let replyJson = JSON.stringify({author: userInfo.user_id, text: reply_text})
+
+      let newRow = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies?type=reply`, {
+        method : "POST",
+        headers : {"Content-Type" : "application/json"},
+        body : replyJson
+      })
+
+      let newRowJson = await newRow.json()
+      console.log(newRowJson)
+      setReplies([...replies, newRowJson])
+    }
+    catch(err){
+      console.log(err)
+    }
   }
   
+  function handleCommentingToReply(reply_id){
+    if(commentBoxReference === reply_id){
+      setCommentBoxReference(null)
+    }
+    else{
+      setCommentBoxReference(reply_id)
+    }
+  }
+
+  /*
   // sub comments
   function handleReplyLike(info, isLiked){
     AddReplyLike(info, postInfo.key, isLiked);
@@ -149,7 +172,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
         let replies = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies`)
         replies = await replies.json()
 
-        console.log(replies)
+        //console.log(replies)
         setReplies(replies)
         
       }
@@ -175,7 +198,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   =============================================================
   */
   
-  const repliesJSX = replies && replies.map(elem => <Reply info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} /* handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments} *//>); 
+  const repliesJSX = replies && replies.map(elem => <Reply info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo}/* handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments} *//>); 
 
   // COMPONENT
   function personDetails(){
@@ -213,9 +236,9 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
     }
 
     
-    /* function seeMore(num){
+    function seeMore(num){
       // check if comments + 2 is larger than the available comments. If so, set the commentslength to max available comments
-      let newVal = commentsLength + num > postInfo.replies.length ? postInfo.replies.length : commentsLength + num;
+      let newVal = commentsLength + num > replies.length ? replies.length : commentsLength + num;
       setCommentsLength(newVal)
     }
 
@@ -228,7 +251,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
       seeMore(parseInt(input.value))
       
       input.value = ""
-    } */
+    }
 
     return (
       replies && // ONLY LOAD WHEN REPLIES HAVE LOADED
@@ -249,25 +272,24 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
           <div className="share"><IconComponents.ArrowIcon/> Share </div>
         </div>
 
-        {isCommenting && <ContentComment loadedImages = {loadedImages} /* handleReply ={handleReply} replyToStats = {replyStats} closeReply={() => ""} */ />}
+        {isCommenting && <ContentComment loadedImages = {loadedImages} handleReply ={handleReply}  /*replyToStats = {replyStats} closeReply={() => ""} */ />}
 
           {replies.length > 0 &&
           <div className="replies">
             <div className="most-relevant">Most relevant  <IconComponents.ExpandDownIcon/></div>
-            {/* {repliesJSX.slice(0, commentsLength)} */}
-            {repliesJSX}
+            {repliesJSX.slice(0, commentsLength)}
 
             <div className="comments-displaying"> 
-              Displaying <span>{replies.length} out of {replies.length}</span> comments
+              Displaying <span>{commentsLength} out of {replies.length}</span> comments
             </div>
 
-            {/* <div className="see-more-container">
+            <div className="see-more-container">
               <div className="see-more-less">
-                {commentsLength < postInfo.replies.length && <Buttons.DefaultButton width="7em" handleClick={() => seeMore(2)} fontSize="0.8rem" contentColor="white"> See more </Buttons.DefaultButton>}
+                {commentsLength < replies.length && <Buttons.DefaultButton width="7em" handleClick={() => seeMore(2)} fontSize="0.8rem" contentColor="white"> See more </Buttons.DefaultButton>}
                 {commentsLength > 1 && <Buttons.DefaultButton width="7em"  handleClick={() => setCommentsLength(1)} fontSize="0.8rem" contentColor="white"> Collapse </Buttons.DefaultButton>}
               </div>
               <div className="see-n-more">
-                {commentsLength < postInfo.replies.length && (
+                {commentsLength < replies.length && (
                   <div style={{display: "flex", flexDirection: "row", gap: "0.5em", alignItems: "center"}}>
                     <span>See # more: </span>
                     <form onSubmit={seeNmore}>
@@ -277,7 +299,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
                   </div>
                 )}
               </div>
-            </div> */}
+            </div>
 
           </div>
           

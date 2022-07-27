@@ -37,7 +37,7 @@ export default function User(){
         setTimeout(() => {
           setUserInfo(profileInfo)
           setExistStatus(true)
-        }, 5000)
+        }, 3000)
 
       }
       catch(err){
