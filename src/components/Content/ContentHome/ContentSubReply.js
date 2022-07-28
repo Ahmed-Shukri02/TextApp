@@ -8,10 +8,7 @@ export default function SubReply({info, userInfo , parentInfo, loadedImages, han
   const [reference, setReference] = useState(null)
   const [likeList, setLikeList] = useState(null)
   const [isLiked, setLikedStatus] = useState(null)
-
-  function LikeReply(){
-    handleLike(info, info.userLike)
-  }
+  const [likes, setLikes] = useState(info.subreply_likes)
 
   function handleSubcomment(){
     return
@@ -56,6 +53,13 @@ export default function SubReply({info, userInfo , parentInfo, loadedImages, han
 
   }, [])
 
+  function handleSubcommentLike(){
+    handleLike(info, "subreply", isLiked)
+    isLiked ? setLikes(oldVal => (oldVal - 1)) : setLikes(oldVal => (oldVal + 1))
+    
+    setLikedStatus(oldVal => !oldVal)
+  }
+
   const renderCondition = (reference != null && likeList != null && isLiked != null)
 
   return (
@@ -64,7 +68,10 @@ export default function SubReply({info, userInfo , parentInfo, loadedImages, han
       <div className="reply">
         <div className="reply-profile-img">{loadedImages(info.stock_pfp)}</div>
         <div>
-          <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> <span style={{fontWeight: "bold"}}>{reference.username}</span>: {info.reference_type === "comment" ? reference.reply_text : reference.subreply_text}</div>
+          {
+            info.subreply_reference_id &&
+            <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> <span style={{fontWeight: "bold"}}>{reference.username}</span>: {info.reference_type === "comment" ? reference.reply_text : reference.subreply_text}</div>
+          }
           
           <div className="reply-profile-content">
             <div className="reply-profile-name">{info.username}</div>
@@ -72,8 +79,8 @@ export default function SubReply({info, userInfo , parentInfo, loadedImages, han
           </div>
           <div className="reply-stats">
             <div className="reply-time">{info.subreply_time}</div>
-            <div className="reply-likes" onClick={LikeReply}>
-              {isLiked ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {likeList.length}
+            <div className="reply-likes" onClick={handleSubcommentLike}>
+              {isLiked ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {likes}
             </div>
             <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={() => toggleCommentBox(info.subreply_id)}> Reply</Buttons.DefaultButton>
           </div>

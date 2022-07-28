@@ -166,12 +166,12 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   
         let likesArray = await likes.json()
   
-        console.log(likesArray)
         setLikedStatus(likesArray.includes(userInfo.user_id))
 
         let replies = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies`)
         replies = await replies.json()
 
+        console.log(replies)
         //console.log(replies)
         setReplies(replies)
         

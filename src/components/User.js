@@ -12,6 +12,15 @@ export default function User(){
   const [doesExist, setExistStatus] = useState(null)
 
   let {id} = useParams();
+  
+  // PLACEHOLDER TOKEN - NO LOGIN AUTH SET SO USE THIS TOKEN - UPDATE TOKEN AFTER EVERY LOGIN
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+
+  // logged in as brain
+  let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjkyYjA3NWMtZTIxNi00MmQ2LThkM2EtOGQ1MjU1MDAyY2JiIiwiaWF0IjoxNjU5MDE0NjA0fQ.EG5v0L1m07cisJcAwVF9BuFeC7STyJqoyKRLRK55Vt4"
+
+  ///////////////////////////////////////////////////////////////////////////////////////
 
   // fetch current user based on url
   useEffect(() => {
@@ -66,8 +75,8 @@ export default function User(){
           
             <div className="content-container">
               <Routes>
-                <Route path='home' element={<ContentHome userInfo={userInfo}/>} />
-                <Route path='review' element={<ContentReview userInfo={userInfo}/>} />
+                <Route path='home' element={<ContentHome userInfo={userInfo} token={token}/>} />
+                <Route path='review' element={<ContentReview userInfo={userInfo} token={token}/>} />
               </Routes>
             </div>
 

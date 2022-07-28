@@ -12,47 +12,49 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
   const [likes, setLikes] = useState(info.reply_likes)
   const [subrepliesOpen, setSubrepliesOpen] = useState(false)
 
-  console.log(info)
-
-  async function LikeReply(){
+  async function LikeReply(info, type, likeStatus){
     let client = JSON.stringify({liker: userInfo.user_id})
-    if(!isLiked){
+    if(!likeStatus){
       // make put request to increment likes by one
-      await fetch(`http://localhost:5000/api/posts/replies/${info.reply_id}?type=reply&method=like`, {
+      await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
         method : "PUT",
         headers : {"Content-Type" : "application/json"},
         body: client
       })
       // make post request to add to likes list
-      let likers = await fetch(`http://localhost:5000/api/posts/replies/${info.reply_id}?type=reply`, {
+      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "POST",
         headers : {"Content-Type" : "application/json"},
         body: client
       })
 
       console.log(likers)
-      // set isliked state to true
-      setLikedStatus(true)
-      setLikes((oldVal) => oldVal + 1)
+      // set isliked state to true here if the type is a reply
+      if(type === "reply"){
+        setLikedStatus(true)
+        setLikes((oldVal) => oldVal + 1)
+      }
       return
     }
     else{
       // make put request to decrement likes by one
-      await fetch(`http://localhost:5000/api/posts/replies/${info.reply_id}?type=reply&method=unlike`, {
+      await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
         method : "PUT",
         headers : {"Content-Type" : "application/json"},
         body: client
       })
       // make delete request to remove from likes list
-      let likers = await fetch(`http://localhost:5000/api/posts/replies/${info.reply_id}?type=reply`, {
+      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "DELETE",
         headers : {"Content-Type" : "application/json"},
         body: client
       })
       console.log(likers)
-      // set isliked to false
-      setLikedStatus(false)
-      setLikes((oldVal) => oldVal - 1)
+      // set isliked to false here if the type is a reply
+      if(type === "reply"){
+        setLikedStatus(false)
+        setLikes((oldVal) => oldVal - 1)
+      }
       return
     }
 
@@ -104,13 +106,15 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     referenceType: info.type,
     repliesTo : null
   }*/
+
+  
   
   const renderCondition = (info.subreplies.length > 0 && subrepliesOpen)
   var repliesToJSX
   if(renderCondition){
     repliesToJSX = info.subreplies.map((elem) =>
       <div className="sub-replies" key={elem.subreply_id}>
-        <SubReply info={elem} userInfo = {userInfo} parentInfo={info} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox}/* handleSubcomment = {handleSubcomment}  handleLike={LikeSubReply} toggleSubComment={ToggleSubReply} parentInfo={info} replySeeLess={replySeeLess} *//>
+        <SubReply info={elem} userInfo = {userInfo} parentInfo={info} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply}/* handleSubcomment = {handleSubcomment}  handleLike={LikeSubReply} toggleSubComment={ToggleSubReply} parentInfo={info} replySeeLess={replySeeLess} *//>
       </div>
     )
 
@@ -168,7 +172,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
           </div>
           <div className="reply-stats">
             <div className="reply-time">{info.reply_time}</div>
-            <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={LikeReply}>
+            <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={() => LikeReply(info, "reply", isLiked)}>
               {isLiked ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {likes}
             </Buttons.DefaultButton>
 
