@@ -4,7 +4,7 @@ import "./Buttons_style.css";
 
 export default class Buttons{
 
-  static SubmitButton({width = "auto", height = null,}){
+  static SubmitButton({children = "Submit", width = "auto", height = null,}){
     const baseStyle = {
       width: width,
     }
@@ -27,12 +27,12 @@ export default class Buttons{
       style={style} 
       onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}
       onTouchEnd ={() => setStyle({...myStyle})}>
-        Submit
+        {children}
       </button>
     )
   }
 
-  static DefaultButton({children, width = "auto", height = null, theme= "blue", fontSize="1rem", contentColor="black", handleClick = () => ""}){
+  static DefaultButton({children, width = "auto", height = null, theme= "blue", fontSize="1rem", contentColor="black", handleClick = () => "", submit = false}){
     const baseStyle = {
       width: width,
       fontSize: fontSize,
@@ -59,6 +59,7 @@ export default class Buttons{
     }()
 
     function onClick(e){
+      if(! submit) e.preventDefault()
       handleClick()
       e.target.blur()
     }
@@ -102,6 +103,8 @@ export default class Buttons{
     }() */
 
     function onClick(e){
+      e.preventDefault()
+
       handleClick()
       e.target.blur()
     }

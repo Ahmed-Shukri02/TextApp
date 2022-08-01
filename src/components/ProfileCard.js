@@ -1,31 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import ProfileLink from "./profileLink";
 import IconComponents from "../icon-components/icon-components";
 import ProfileNav from "./profileNav";
+import { StockImages } from "../Contexts/StockImages";
 
 export default function ProfileCard({userInfo}){
   
-  const [images, setImages] = useState(null)
+  const {images} = useContext(StockImages)
 
   function loadSingleImg(num){
     return images? 
       <img className="profile-img" src={images[num].download_url} alt="single-1"/> : 
       <div className="profile-img related-image-loading"></div>
-  }
-
-  useEffect(() => {
-    LoadData();
-  }, [])
-
-
-  // grab random images from picsum
-  async function LoadData(){
-    let response = await fetch('https://picsum.photos/v2/list')
-    let responseJSON = await response.json();
-
-    setImages(responseJSON);
-    return;
   }
   
   function profileName(){

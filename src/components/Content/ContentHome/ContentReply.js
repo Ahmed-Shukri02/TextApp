@@ -4,31 +4,35 @@ import IconComponents from "../../../icon-components/icon-components";
 import SubReply from "./ContentSubReply";
 import Buttons from "../../Buttons/Buttons";
 
-export default function Reply({info, userInfo, postInfo, loadedImages, commentBoxReference, toggleCommentBox /*handleReplyTo, toggleSubComment, postToggleSubComments */}){
+export default function Reply({info, userInfo, postInfo, loadedImages, commentBoxReference, toggleCommentBox, token}){
   
   const [replyAuthorInfo, setReplyAuthorInfo] = useState(null)
+  const [subreplies, setSubreplies] = useState(null)
   const [replyLikeList, setReplyLikeList] = useState(null)
   const [isLiked, setLikedStatus] = useState(null)
   const [likes, setLikes] = useState(info.reply_likes)
   const [subrepliesOpen, setSubrepliesOpen] = useState(false)
 
+
   async function LikeReply(info, type, likeStatus){
-    let client = JSON.stringify({liker: userInfo.user_id})
     if(!likeStatus){
       // make put request to increment likes by one
-      await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
+      await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
         method : "PUT",
-        headers : {"Content-Type" : "application/json"},
-        body: client
+        headers : {
+          "Content-Type" : "application/json",
+          "Authorization" : `Bearer ${token}`
+        },
       })
       // make post request to add to likes list
-      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
+      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "POST",
-        headers : {"Content-Type" : "application/json"},
-        body: client
+        headers : {
+          "Content-Type" : "application/json",
+          "Authorization" : `Bearer ${token}`
+        },
       })
 
-      console.log(likers)
       // set isliked state to true here if the type is a reply
       if(type === "reply"){
         setLikedStatus(true)
@@ -38,18 +42,21 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     }
     else{
       // make put request to decrement likes by one
-      await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
+      await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
         method : "PUT",
-        headers : {"Content-Type" : "application/json"},
-        body: client
+        headers : {
+          "Content-Type" : "application/json",
+          "Authorization" : `Bearer ${token}`
+        },
       })
       // make delete request to remove from likes list
-      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type == "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
+      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "DELETE",
-        headers : {"Content-Type" : "application/json"},
-        body: client
+        headers : {
+          "Content-Type" : "application/json",
+          "Authorization" : `Bearer ${token}`
+        },
       })
-      console.log(likers)
       // set isliked to false here if the type is a reply
       if(type === "reply"){
         setLikedStatus(false)
@@ -61,60 +68,37 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
 
   }
 
-  function handleSubcomment(){
-    return;
-  }
+  async function handleSubcomment(replyInfo, text, ref_type, ref = null){
+    // reply info is the imported info (either the reply replied to or subreply replied to)
+    let subreplyJson = JSON.stringify({
+      text,
+      subreply_ref : ref
+    })
 
-  function handleSubrepliesOpen(){
+    let subreply_info = await fetch(`http://localhost:5000/api/posts/replies/${info.reply_id}/replies?type=${ref_type}`, {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: subreplyJson
+      })
 
-  }
-
-  /*
-  function LikeSubReply(info, isLiked){
-    handleLike(info, isLiked)
-  }
-
-  function ToggleReplyTo(){
-    toggleSubComment(info, !info.commentBox);
-  }
-
-  function ToggleSubReply(replyInfo){
-    toggleSubComment(replyInfo, !replyInfo.commentBox);
-  }
-
-  function handleSubcomment(replyInfo){
-    replyInfo = {...replyInfo, key: info.repliesTo.length}
+    let subreplyObj = await subreply_info.json()
+    let subrepliesCopy = [...subreplies]
+    subrepliesCopy.unshift(subreplyObj)
+    setSubreplies(subrepliesCopy);
+    setSubrepliesOpen(true);
     
-    handleReplyTo(replyInfo)
+    toggleCommentBox(ref_type === "reply" ? replyInfo.reply_id : replyInfo.subreply_id)
   }
-
-  function openSubComments(){
-    postToggleSubComments(info, true)
-  }
-
-  function replySeeLess(){
-    postToggleSubComments(info, false)
-  }
-
-  const replyToStats = {
-    isReplying: true,
-    commentBox: false,
-    userLike: false,
-    toInfo: info,
-    parentKey: info.parentKey,
-    type: "subcomment",
-    referenceType: info.type,
-    repliesTo : null
-  }*/
-
   
-  
-  const renderCondition = (info.subreplies.length > 0 && subrepliesOpen)
+  const renderCondition = ( subreplies && subreplies.length > 0 && subrepliesOpen)
   var repliesToJSX
   if(renderCondition){
-    repliesToJSX = info.subreplies.map((elem) =>
+    repliesToJSX = subreplies.map((elem) =>
       <div className="sub-replies" key={elem.subreply_id}>
-        <SubReply info={elem} userInfo = {userInfo} parentInfo={info} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply}/* handleSubcomment = {handleSubcomment}  handleLike={LikeSubReply} toggleSubComment={ToggleSubReply} parentInfo={info} replySeeLess={replySeeLess} *//>
+        <SubReply info={elem} userInfo = {userInfo} parentInfo={info} subreplies = {subreplies} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply} token={token} handleSubcomment= {handleSubcomment}/>
       </div>
     )
 
@@ -138,12 +122,17 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     
     async function getReplyLikes(){
       try{
-        let replyLikesList = await fetch(`http://localhost:5000/api/posts/${info.reply_id}/likes?type=reply`)
+        let replyLikesList = await fetch(`http://localhost:5000/api/posts/${info.reply_id}/likes?type=reply`, {
+          method: "GET",
+          headers: {
+            "Authorization" : `Bearer ${token}`
+          }
+        })
         
         let replyLikesListJson = await replyLikesList.json()
   
         setReplyLikeList(replyLikesListJson)
-        setLikedStatus(replyLikesListJson.includes(userInfo.user_id))
+        setLikedStatus(replyLikesListJson.client_like_status)
   
       }
       catch(err){
@@ -154,7 +143,8 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     getReplyInfo()
     getReplyLikes()
 
-
+    setSubreplies(info.subreplies)
+    console.log("just updated ")
 
   }, [])
 
@@ -179,11 +169,11 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
             <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={() => toggleCommentBox(info.reply_id)}> Reply</Buttons.DefaultButton>
           </div>
           {
-            (info.subreplies.length > 0 && info.reply_id != commentBoxReference  && !subrepliesOpen) && 
+            (subreplies.length > 0 && info.reply_id !== commentBoxReference  && !subrepliesOpen) && 
             <Buttons.UnderlineButton theme="white" fontSize="0.9rem" contentColor="lightslategray" handleClick={() =>setSubrepliesOpen(true)}>
               <div className="see-sub-replies">
                 <IconComponents.ReturnbDownForwardIcon/> 
-                <div> see <span style={{fontWeight: "bold"}}>{info.subreplies.length}</span> {info.subreplies.length > 1 ? "replies" : "reply"}</div>
+                <div> see <span style={{fontWeight: "bold"}}>{subreplies.length}</span> {subreplies.length > 1 ? "replies" : "reply"}</div>
               </div>
             </Buttons.UnderlineButton>
           }
@@ -191,7 +181,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
         </div>
       </div>
 
-      {info.reply_id === commentBoxReference && <ContentComment loadedImages = {loadedImages}  handleReply = {handleSubcomment} isReplying = {true} replyTo={info} type="comment"/*replyToStats = {replyToStats} closeReply={ToggleReplyTo} *//>}
+      {info.reply_id === commentBoxReference && <ContentComment loadedImages = {loadedImages}  handleReply = {text => handleSubcomment(info, text, "reply")} isReplying = {true} replyTo={info} type="comment"/*replyToStats = {replyToStats} closeReply={ToggleReplyTo} *//>}
 
       {renderCondition && <div className="sub-replies-container">{repliesToJSX}</div>}
 

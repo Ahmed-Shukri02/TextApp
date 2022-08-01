@@ -48,6 +48,78 @@ a{
     flex-basis: 55%;
     overflow: hidden;
 
+    .post-prompt{
+      background-color: white;
+      box-shadow: .5px .5px 5px lightgray;
+      border-radius: 5px;
+      margin-bottom: 1em;
+      padding-bottom: 1em;
+      min-height: 10em;
+
+      .media, .media-loading{
+        width: 4em;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+      }
+
+      .person-detail-flex{
+        height: 100%;
+        width: 90%;
+      }
+
+      .post-form{
+        min-height: 5em;
+        width: 100%;
+
+        .post-textbox{
+          height: 100%; width: 100%;
+          resize: none;
+          font: inherit;
+          font-size: 0.75rem;
+          border-radius: 5px;
+          padding: 1em;
+        }
+      }
+
+      .attach-media{
+        padding: 0 2em;
+        display: flex;
+        flex-direction: row;
+
+      }
+      .attach-icons{
+        display: flex;
+        flex-basis: 100%;
+        gap: 1em;
+        flex-direction: row;
+        justify-content: space-evenly;
+      }
+
+      .attach-icon{
+        font-size: 1.5em;
+      }
+    }
+
+    .person-detail-flex{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 1em;
+
+      .person-detail-image, .person-detail-info{
+        padding: 0.5em;
+      }
+      
+      .post-author{
+        font-weight: 600;
+      }
+
+      .post-time{
+        font-size: 0.75rem;
+        color: lightslategray;
+      }
+    }
+
     .content-post{
       background-color: white;
       box-shadow: .5px .5px 5px lightgray;
@@ -74,27 +146,6 @@ a{
       .post-author:hover, .reply-profile-name:hover{
         cursor: pointer;
         text-decoration: underline;
-      }
-      
-      // specific selections
-      .person-detail-flex{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 1em;
-
-        .person-detail-image, .person-detail-info{
-          padding: 0.5em;
-        }
-        
-        .post-author{
-          font-weight: 600;
-        }
-
-        .post-time{
-          font-size: 0.75rem;
-          color: lightslategray;
-        }
       }
 
       .post{
@@ -233,6 +284,7 @@ a{
             flex-direction: row;
             justify-content: flex-end;
             color: lightslategray;
+            gap: 0.5em
 
           }
 

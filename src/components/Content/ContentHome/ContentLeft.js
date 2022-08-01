@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ContentLeftVideos from "./ContentLeftVideos";
 import IconComponents from "../../../icon-components/icon-components"
+import { StockImages } from "../../../Contexts/StockImages";
 
 export default function ContentLeft({userInfo}){
   
-  const [images, setImages] = useState(null);
+  //const [images, setImages] = useState(null);
+  const {images} = useContext(StockImages)
 
   const loadedImages = function(){
     return(
@@ -30,21 +32,6 @@ export default function ContentLeft({userInfo}){
       <img src={images[num].download_url} alt="single-1"/> : 
       <div className="related-image-loading"></div>
   }
-
-
-  // grab random images from picsum
-  async function LoadData(){
-    let response = await fetch('https://picsum.photos/v2/list')
-    let responseJSON = await response.json();
-
-    setImages(responseJSON);
-    return;
-  }
-
-  
-  useEffect(() =>{
-    LoadData();
-  }, [])
   
   return (
     <div className="content-home-left">

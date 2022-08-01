@@ -3,23 +3,19 @@ import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import Buttons from "../../Buttons/Buttons";
 
-export default function SubReply({info, userInfo , parentInfo, loadedImages, handleLike, commentBoxReference, toggleCommentBox /* handleSubcomment, toggleSubComment, parentInfo, replySeeLess */}){
+export default function SubReply({info, userInfo , parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, token, handleSubcomment}){
 
   const [reference, setReference] = useState(null)
   const [likeList, setLikeList] = useState(null)
   const [isLiked, setLikedStatus] = useState(null)
   const [likes, setLikes] = useState(info.subreply_likes)
-
-  function handleSubcomment(){
-    return
-  }
   
   
   useEffect(() => {
     async function getReference(){
       if(info.reference_type === "subcomment"){
         // get subreply info by searching parentInfo's subreply list
-        for(let subreply of parentInfo.subreplies){
+        for(let subreply of subreplies){
           if (subreply.subreply_id === info.subreply_reference_id){
             setReference(subreply)
             return
@@ -35,12 +31,17 @@ export default function SubReply({info, userInfo , parentInfo, loadedImages, han
 
     async function getSubreplyLikes(){
       try{
-        let subreplyLikesList = await fetch(`http://localhost:5000/api/posts/${info.subreply_id}/likes?type=subreply`)
+        let subreplyLikesList = await fetch(`http://localhost:5000/api/posts/${info.subreply_id}/likes?type=subreply`, {
+          method: "GET",
+          headers: {
+            "Authorization" : `Bearer ${token}`
+          }
+        })
         
         let subreplyLikesListJson = await subreplyLikesList.json()
 
         setLikeList(subreplyLikesListJson)
-        setLikedStatus(subreplyLikesListJson.includes(userInfo.user_id))
+        setLikedStatus(subreplyLikesListJson.client_like_status)
   
       }
       catch(err){
@@ -87,7 +88,7 @@ export default function SubReply({info, userInfo , parentInfo, loadedImages, han
         </div>
       </div>
 
-      {info.subreply_id === commentBoxReference && <ContentComment loadedImages = {loadedImages} handleReply = {handleSubcomment} isReplying={true} replyTo={info} type="subcomment"/>}
+      {info.subreply_id === commentBoxReference && <ContentComment loadedImages = {loadedImages} handleReply = {(text) => handleSubcomment(info, text, "subreply", info.subreply_id)} isReplying={true} replyTo={info} type="subcomment"/>}
 
     </div>
   )

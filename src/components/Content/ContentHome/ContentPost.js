@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 
 import IconComponents from "../../../icon-components/icon-components"
 import ContentComment from "./ContentComment"
 import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
-import { useSyncExternalStore } from "react";
+import { StockImages } from "../../../Contexts/StockImages";
 
-export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo, AddReplyLike, handleCloseComments, toggleSubCommentBox, handlerToggleSubComments */}){
+export default function ContentPost({postInfo, userInfo, token}){
 
-  const [images, setImages] = useState(null);
+  const {images} = useContext(StockImages)
   const [likes, setLikes] = useState(postInfo.post_likes);
   const [isLiked, setLikedStatus] = useState(false);
   const [replies, setReplies] = useState(null)
@@ -25,7 +25,6 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   async function handleLike(){
     
     try{
-      let liker = JSON.stringify({liker: userInfo.user_id})
       console.log(isLiked)
       
       // check liked status
@@ -33,8 +32,10 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
         //unlike the post
         let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}?method=unlike`, {
           method: "PUT", 
-          headers:{"Content-Type" : "application/json"},
-          body: liker
+          headers:{
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+          },
         })
 
         let likesValue = await likes.json()
@@ -42,8 +43,10 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
         
         let likes_users = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
           method: "DELETE",
-          headers:{"Content-Type" : "application/json"},
-          body: liker
+          headers:{
+            "Content-Type" : "application/json",
+            "Authorization": `Bearer ${token}`
+          },
         })
 
         likes_users = await likes_users.json()
@@ -57,8 +60,10 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
         // like the post
         let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}?method=like`, {
           method: "PUT", 
-          headers:{"Content-Type" : "application/json"},
-          body: liker
+          headers:{
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+          },
         })
 
         let likesValue = await likes.json()
@@ -66,8 +71,10 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
 
         let likes_users = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
           method: "POST",
-          headers: {"Content-Type" : "application/json"},
-          body: liker
+          headers: {
+            "Content-Type" : "application/json",
+            "Authorization": `Bearer ${token}`
+          },
         })
 
         likes_users = await likes_users.json()
@@ -89,17 +96,23 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   
   async function handleReply(reply_text){
     try{
-      let replyJson = JSON.stringify({author: userInfo.user_id, text: reply_text})
+      let replyJson = JSON.stringify({text: reply_text})
 
       let newRow = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies?type=reply`, {
         method : "POST",
-        headers : {"Content-Type" : "application/json"},
+        headers : {
+          "Content-Type" : "application/json",
+          "Authorization" : `Bearer ${token}`
+        },
         body : replyJson
       })
 
       let newRowJson = await newRow.json()
       console.log(newRowJson)
-      setReplies([...replies, newRowJson])
+
+      let repliesCopy = [...replies]
+      repliesCopy.unshift(newRowJson)
+      setReplies(repliesCopy)
     }
     catch(err){
       console.log(err)
@@ -114,61 +127,29 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
       setCommentBoxReference(reply_id)
     }
   }
-
-  /*
-  // sub comments
-  function handleReplyLike(info, isLiked){
-    AddReplyLike(info, postInfo.key, isLiked);
-  }
-
-  function handleReplyTo(replyInfo){
-    let index = postInfo.replies[replyInfo.parentKey].repliesTo.length
-    replyInfo = {...replyInfo, key: index}
-
-    AddReplyTo(postInfo.key, replyInfo)
-  }
-
-  function postCloseSubCommentBox(){
-    handleCloseComments(postInfo.key)
-  }
-
-  function toggleSubComment(replyInfo, open){
-    if(!replyInfo.commentBox) {postCloseSubCommentBox()}
-    toggleSubCommentBox(replyInfo, postInfo.key, open)
-  }
-
-  function postToggleSubComments(replyInfo, open){
-    handlerToggleSubComments(postInfo.key, replyInfo, open)
-  }  */
-
-  /*
-  =============================================================
-    HANDLE STOCK IMAGES
-  =============================================================
-  */
-  
-  // grab random images from picsum
-  async function LoadData(){
-    let response = await fetch('https://picsum.photos/v2/list')
-    let responseJSON = await response.json();
-
-    setImages(responseJSON);
-
-    return;
-  }
   
   useEffect(() =>{
     
     async function fetchData(){
       // make get request for this posts likes
       try{
-        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`)
+        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
+          method : "GET",
+          headers : {
+            "Authorization" : `Bearer ${token}`
+          }
+        })
   
-        let likesArray = await likes.json()
+        let likesObj = await likes.json()
   
-        setLikedStatus(likesArray.includes(userInfo.user_id))
+        setLikedStatus(likesObj.client_like_status)
 
-        let replies = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies`)
+        let replies = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies`, {
+          method: "GET",
+          headers : {
+            "Authorization" : `Bearer ${token}`
+          }
+        })
         replies = await replies.json()
 
         console.log(replies)
@@ -183,7 +164,6 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
     }
 
     fetchData()
-    LoadData();
   }, [])
   
   function loadedImages(num){
@@ -198,7 +178,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
   =============================================================
   */
   
-  const repliesJSX = replies && replies.map(elem => <Reply info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo}/* handleLike = {handleReplyLike} handleReplyTo = {handleReplyTo} toggleSubComment = {toggleSubComment} postToggleSubComments={postToggleSubComments} *//>); 
+  const repliesJSX = replies && replies.map(elem => <Reply info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo} token={token}/>); 
 
   // COMPONENT
   function personDetails(){
@@ -276,7 +256,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
 
           {replies.length > 0 &&
           <div className="replies">
-            <div className="most-relevant">Most relevant  <IconComponents.ExpandDownIcon/></div>
+            <div className="most-relevant">Most recent  <IconComponents.ExpandDownIcon/></div>
             {repliesJSX.slice(0, commentsLength)}
 
             <div className="comments-displaying"> 
@@ -294,7 +274,7 @@ export default function ContentPost({postInfo, userInfo, /* AddReply, AddReplyTo
                     <span>See # more: </span>
                     <form onSubmit={seeNmore}>
                       <Inputs.Number />
-                      <Buttons.DefaultButton width="3em" height="2em" fontSize="0.8rem" contentColor="white"> # </Buttons.DefaultButton>
+                      <Buttons.DefaultButton width="3em" height="2em" fontSize="0.8rem" contentColor="white" submit={true}> # </Buttons.DefaultButton>
                     </form>
                   </div>
                 )}

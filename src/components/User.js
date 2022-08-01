@@ -5,11 +5,13 @@ import ProfileCard from "./ProfileCard";
 import ContentHome from "./Content/ContentHome/ContentHome";
 import ContentReview from "./Content/ContentReview/ContentReview";
 import IconComponents from "../icon-components/icon-components";
+import { StockImages } from "../Contexts/StockImages";
 
 export default function User(){
   
   const [userInfo, setUserInfo] = useState(null)
   const [doesExist, setExistStatus] = useState(null)
+  const [images, setImages] = useState(null)
 
   let {id} = useParams();
   
@@ -18,7 +20,10 @@ export default function User(){
   ///////////////////////////////////////////////////////////////////////////////////////
 
   // logged in as brain
-  let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjkyYjA3NWMtZTIxNi00MmQ2LThkM2EtOGQ1MjU1MDAyY2JiIiwiaWF0IjoxNjU5MDE0NjA0fQ.EG5v0L1m07cisJcAwVF9BuFeC7STyJqoyKRLRK55Vt4"
+  let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjkyYjA3NWMtZTIxNi00MmQ2LThkM2EtOGQ1MjU1MDAyY2JiIiwiaWF0IjoxNjU5MzQwOTM5fQ.9FWsS6ay2WGPskUFReqwMQUmd4VQfIRIfRv2R1M5GYs"
+
+  // logged in as brain2
+  //token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzQ5YmVkZmYtZDhlOC00MjMzLTllYzgtNGNmYjY1ODkxZjMzIiwiaWF0IjoxNjU5MzQwODk4fQ.Y0dGBFnJU54d1Oh7bnOei7bvk4-VybEeA7SfK_hhMQg"
 
   ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,16 +48,25 @@ export default function User(){
         let profileInfo = await response.json()
         console.log(profileInfo)
 
+        // get stock images
+        let picResponse = await fetch('https://picsum.photos/v2/list')
+        let picResponseJSON = await picResponse.json();
+    
+        
         setTimeout(() => {
           setUserInfo(profileInfo)
           setExistStatus(true)
+          setImages(picResponseJSON);
         }, 3000)
+
+
 
       }
       catch(err){
         console.log(`Err in fetching data: ${err.message}`)
       }
     }
+
 
     getData();
 
@@ -95,9 +109,16 @@ export default function User(){
     }
   }
   
+  function loadedImages(num){
+    return images ?
+      <img className="media" src={images[num].download_url} alt="single-2"/> :
+      <div className="media-loading"></div>
+  }
   
   
   return (
-    <> {getPage()} </>
+    <StockImages.Provider value={{images, loadedImages}}>
+      {getPage()}
+    </StockImages.Provider>
   )
 }
