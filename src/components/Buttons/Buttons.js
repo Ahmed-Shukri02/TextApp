@@ -54,6 +54,7 @@ export default class Buttons{
       switch(theme){
         case "blue" : return "#165baf";
         case "white": return "lightgray"
+        case "gray": return "lightgray"
         default: return "#165baf"
       }
     }()

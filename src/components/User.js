@@ -6,12 +6,15 @@ import ContentHome from "./Content/ContentHome/ContentHome";
 import ContentReview from "./Content/ContentReview/ContentReview";
 import IconComponents from "../icon-components/icon-components";
 import { StockImages } from "../Contexts/StockImages";
+import Header from "../Header";
+import Footer from "../Footer";
 
 export default function User(){
   
   const [userInfo, setUserInfo] = useState(null)
   const [doesExist, setExistStatus] = useState(null)
   const [images, setImages] = useState(null)
+
 
   let {id} = useParams();
   
@@ -23,7 +26,10 @@ export default function User(){
   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYjkyYjA3NWMtZTIxNi00MmQ2LThkM2EtOGQ1MjU1MDAyY2JiIiwiaWF0IjoxNjU5MzQwOTM5fQ.9FWsS6ay2WGPskUFReqwMQUmd4VQfIRIfRv2R1M5GYs"
 
   // logged in as brain2
-  //token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzQ5YmVkZmYtZDhlOC00MjMzLTllYzgtNGNmYjY1ODkxZjMzIiwiaWF0IjoxNjU5MzQwODk4fQ.Y0dGBFnJU54d1Oh7bnOei7bvk4-VybEeA7SfK_hhMQg"
+  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzQ5YmVkZmYtZDhlOC00MjMzLTllYzgtNGNmYjY1ODkxZjMzIiwiaWF0IjoxNjU5MzQwODk4fQ.Y0dGBFnJU54d1Oh7bnOei7bvk4-VybEeA7SfK_hhMQg"
+
+  // logged in as brain3
+  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTEwMmNkYmYtM2RmMS00ODk5LTk3ZGYtNDcyYzY2MzEzOWIxIiwiaWF0IjoxNjU5NDM2Mjc1fQ.nAuOU2mEOUVfAfAcm5kf0bRSb95x0GcxX3lmr0hllhk"
 
   ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -117,8 +123,12 @@ export default function User(){
   
   
   return (
-    <StockImages.Provider value={{images, loadedImages}}>
-      {getPage()}
-    </StockImages.Provider>
+    <div className="Users">
+      <StockImages.Provider value={{images, loadedImages}}>
+        <Header/>
+          {getPage()}
+        <Footer/>
+      </StockImages.Provider>
+    </div>
   )
 }

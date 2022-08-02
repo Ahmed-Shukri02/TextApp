@@ -26,6 +26,15 @@
   transition: background-color .1s ease-out;
 }
 
+.default-gray{
+  border: none;
+  background-color: rgb(231, 231, 231);
+  border-radius: 5px;
+  padding: 0.5em;
+
+  transition: background-color .1s ease-out;
+}
+
 .underline-white, .underline-blue{
   border: none;
   background-color: white;
@@ -45,6 +54,11 @@
   }
 
   .default-white:hover{
+    cursor: pointer;
+    background-color: lightgray;
+  }
+
+  .default-gray:hover{
     cursor: pointer;
     background-color: lightgray;
   }
