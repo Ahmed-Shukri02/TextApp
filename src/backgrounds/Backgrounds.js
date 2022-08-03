@@ -13,4 +13,10 @@ export default class Backgrounds{ // returns all backgrounds as base 64 encoded 
     )
   }
 
+  static LoginBackgroundMobile(){
+    return this.urlEncode(
+      '<svg id="visual" viewBox="0 0 540 960" width="540" height="960" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><rect x="0" y="0" width="540" height="960" fill="#fff"></rect><defs><linearGradient id="grad1_0" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="30%" stop-color="#ffffff" stop-opacity="1"></stop><stop offset="70%" stop-color="#ffffff" stop-opacity="1"></stop></linearGradient></defs><defs><linearGradient id="grad2_0" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="30%" stop-color="#ffffff" stop-opacity="1"></stop><stop offset="70%" stop-color="#ffffff" stop-opacity="1"></stop></linearGradient></defs><g transform="translate(540, 960)"><path d="M-378 0C-369.1 -67.7 -360.1 -135.5 -327.4 -189C-294.6 -242.5 -238 -281.8 -179.5 -310.9C-121 -340 -60.5 -359 0 -378L0 0Z" fill="#1B74E4"></path></g><g transform="translate(0, 0)"><path d="M378 0C359.5 60.8 341 121.5 311.8 180C282.6 238.5 242.7 294.7 189 327.4C135.3 360 67.6 369 0 378L0 0Z" fill="#1B74E4"></path></g></svg>'
+    )
+  }
+
 }

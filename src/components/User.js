@@ -28,8 +28,7 @@ export default function User(){
   // logged in as brain2
   token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzQ5YmVkZmYtZDhlOC00MjMzLTllYzgtNGNmYjY1ODkxZjMzIiwiaWF0IjoxNjU5MzQwODk4fQ.Y0dGBFnJU54d1Oh7bnOei7bvk4-VybEeA7SfK_hhMQg"
 
-  // logged in as brain3
-  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOTEwMmNkYmYtM2RmMS00ODk5LTk3ZGYtNDcyYzY2MzEzOWIxIiwiaWF0IjoxNjU5NDM2Mjc1fQ.nAuOU2mEOUVfAfAcm5kf0bRSb95x0GcxX3lmr0hllhk"
+  token = localStorage.getItem("userToken")
 
   ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -81,7 +80,7 @@ export default function User(){
   function getPage(){
     if(!userInfo){
       return (
-        <div style={{height: "100%", backgroundColor: "lightgray", opacity: "50%", display: "flex", alignItems:"center"}}>
+        <div style={{minHeight: "100vh", backgroundColor: "lightgray", opacity: "50%", display: "flex", alignItems:"center"}}>
           <div className="loading-icon"><IconComponents.LoadingIcon/></div>
         </div>
       )

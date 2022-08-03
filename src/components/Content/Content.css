@@ -4,6 +4,7 @@ a {
 
 .content-container {
   margin: 0 auto;
+  min-height: 100vh;
   background-color: rgb(247, 247, 247);
 }
 

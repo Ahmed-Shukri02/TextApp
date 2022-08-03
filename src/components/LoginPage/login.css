@@ -1,4 +1,6 @@
 
+
+
 .login-page-container{
   display: flex;
   align-items: center;
@@ -59,6 +61,17 @@
   margin: 0 auto;
 }
 
+.form-entry label{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.t-and-c{
+  width: 80%;
+  margin: 0 auto;
+}
+
 #email, #password, #username, #password-repeat{
   border: 1px solid lightgray;
 }
@@ -69,6 +82,11 @@
 
 .sign-in-details input{
   padding: 1em;
+}
+
+.invalidated{
+  color: #ed2939;
+  font-size: 0.8rem;
 }
 
 .login-help{
@@ -113,11 +131,12 @@
     margin: 0;
   }
   .login-container{
-    box-shadow: none;
+    border-radius: 0;
     padding: 0;
   }
   .sign-in-details{
     width: 100%;
   }
+
 }
 

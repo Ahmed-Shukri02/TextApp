@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./index-style.css"
 
 export default function Header(){
@@ -10,7 +11,7 @@ export default function Header(){
         <ul>
           <li><a href="/adfdafa">Home</a></li>
           <li>About</li>
-          <li>Login</li>
+          <li><Link to="/login">Login</Link></li>
         </ul>
       </nav>
     </header>

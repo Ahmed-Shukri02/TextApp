@@ -60,8 +60,13 @@ export default class Buttons{
     }()
 
     function onClick(e){
-      if(! submit) e.preventDefault()
-      handleClick()
+      if(! submit){
+        e.preventDefault()
+        handleClick()
+      }
+      else{
+        handleClick(e)
+      }
       e.target.blur()
     }
 

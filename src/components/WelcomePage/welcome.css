@@ -1,0 +1,19 @@
+.welcome-page-container{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-box{
+  background-color: rgba(255, 255, 255, 0.95);
+  min-height: 60%;
+  width: 1000px;
+  box-shadow: 0.5px 0.5px 5px lightslategray;
+}
+
+@media (max-width: 1200px){
+  .welcome-box{
+    width: 90%;
+  }
+}
