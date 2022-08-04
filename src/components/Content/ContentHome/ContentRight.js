@@ -58,24 +58,24 @@ export default function ContentRight({userInfo, token}){
       <form className="post-form">
         <div className="person-detail-flex" style={{paddingBottom : "0.5em"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img src={userInfo.user_pfp} alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={`http://localhost:5000/${userInfo.user_pfp}`} alt=""/>}
           </div>
           <textarea maxLength="500" className="post-textbox" placeholder="Post something here!" ref={textBox}></textarea>
         </div>
         
         <div className="attach-media">
-          <Buttons.DefaultButton theme="white">
+          <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">
               <IconComponents.AttachIcon iconClass="attach-icon"/>
             </Buttons.DefaultButton>
         
           <div className="attach-icons">
-            <Buttons.DefaultButton theme="white">
+            <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">
               <IconComponents.ImagesIcon iconClass="attach-icon"/>
             </Buttons.DefaultButton>
-            <Buttons.DefaultButton theme="white">
+            <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">
               <IconComponents.VideoIcon iconClass="attach-icon"/>
             </Buttons.DefaultButton>
-            <Buttons.DefaultButton theme="white">
+            <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">
               <IconComponents.DocumnetIcon iconClass="attach-icon"/>
             </Buttons.DefaultButton>
           </div>

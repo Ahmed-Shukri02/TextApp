@@ -4,14 +4,29 @@ import "./login.css"
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import { MediaContext } from "../../Contexts/MediaContext";
+import { useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../../Contexts/UserLoginStatus";
 
 export default function Login(){
 
   const [isLogin, setIsLogin] = useState(null)
   const {isTablet} = useContext(MediaContext)
+  let navigate = useNavigate()
+  let {getLoggedInStatus} = useContext(isLoggedIn)
 
   useEffect(() => {
-    setIsLogin(true)
+    
+    (async() =>{
+      
+      setIsLogin(true)
+
+      let logInStatus = await getLoggedInStatus()
+      if(logInStatus){ // if user is logged in
+        navigate("/", {replace: true})
+      } 
+
+    })()
+
 
     return () => {
       document.body.style.background = ""

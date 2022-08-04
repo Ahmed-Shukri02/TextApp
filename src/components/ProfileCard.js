@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { useState, useEffect } from "react";
 import ProfileLink from "./profileLink";
 import IconComponents from "../icon-components/icon-components";
@@ -8,6 +8,12 @@ import { StockImages } from "../Contexts/StockImages";
 export default function ProfileCard({userInfo}){
   
   const {images} = useContext(StockImages)
+  const bg = useRef()
+
+  useEffect(() => {
+    bg.current.style.background = userInfo.bg_image ? `url(http://localhost:5000/${userInfo.bg_image})` : `url(http://localhost:5000/uploads/users/1659621653816logo192.png)`
+
+  }, [])
 
   function loadSingleImg(num){
     return images? 
@@ -41,18 +47,20 @@ export default function ProfileCard({userInfo}){
   return (
     <div className="profile-card">
       <div className="bg">
-        <div className="bg-image"></div>
+        <div className="bg-image" ref={bg}></div>
       </div>
 
       <div className="profile-info-flex">
         <div className="profile-info">
           
           <div className="profile-name-img">
-            <div className="profile-img-container">
-              { userInfo && (
-                userInfo.user_pfp ? <img className = "profile-img" src={userInfo.user_pfp} alt=""/> : loadSingleImg(userInfo.stock_pfp)
-                )
-              }
+            <div style={{flexBasis: "20%"}}>
+              <div className="profile-img-container">
+                { userInfo && (
+                  userInfo.user_pfp ? <img className = "profile-img" src={`http://localhost:5000/${userInfo.user_pfp}`} alt=""/> : loadSingleImg(userInfo.stock_pfp)
+                  )
+                }
+              </div>
             </div>
             {profileName()}
           </div>

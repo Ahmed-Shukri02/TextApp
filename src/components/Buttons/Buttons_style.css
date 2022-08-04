@@ -37,7 +37,7 @@
 
 .underline-white, .underline-blue{
   border: none;
-  background-color: white;
+  background: none;
 }
 
 

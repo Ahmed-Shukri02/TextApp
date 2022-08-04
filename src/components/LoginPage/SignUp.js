@@ -108,6 +108,17 @@ export default function SignUp({setIsLogin}){
         let newUserInfo = await response.json()
         console.log(newUserInfo)
 
+        // log in to the new user
+        let loginRes = await fetch(`http://localhost:5000/api/users/login`, {
+          method: "POST",
+          headers: {"Content-Type" : "application/json"},
+          body: JSON.stringify({email: email.value, password: password.value})
+        })
+
+        let {loggedInUsername, token} = await loginRes.json()
+        localStorage.setItem("userToken", token)
+
+
         navigate("/welcome")
       }
       }

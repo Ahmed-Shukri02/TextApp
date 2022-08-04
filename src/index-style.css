@@ -90,9 +90,6 @@ header, .main, .footer {
   .profile-info .profile-name-img {
     justify-content: center;
   }
-  .profile-info .profile-name-img .profile-img-container {
-    flex-basis: 25%;
-  }
   .profile-info .profile-name-img .profile-name {
     flex-basis: 40%;
   }
@@ -119,7 +116,6 @@ header, .main, .footer {
   max-width: 850px;
   margin: 0 auto;
   height: 100%;
-  background: url("/images/insta-background.png");
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -145,18 +141,22 @@ header, .main, .footer {
   flex-basis: 65%;
 }
 .profile-card .profile-img-container {
-  flex-basis: 20%;
-}
-.profile-card .profile-img-container .profile-img {
   width: 80px;
   border-radius: 50%;
   border: 1px solid lightgray;
   transition: all 0.2s ease-out;
   aspect-ratio: 1/1;
+  background-color: lightslategray;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
-.profile-card .profile-img-container .profile-img:hover {
+.profile-card .profile-img-container:hover {
   cursor: pointer;
   transform: scale(1.1);
+}
+.profile-card .profile-img-container .profile-img {
+  height: 100%;
 }
 .profile-card .profile-name {
   flex-basis: 70%;

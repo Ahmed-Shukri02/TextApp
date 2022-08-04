@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import SubReply from "./ContentSubReply";
 import Buttons from "../../Buttons/Buttons";
+import { isLoggedIn } from "../../../Contexts/UserLoginStatus";
+import { useNavigate } from "react-router-dom";
 
 export default function Reply({info, userInfo, postInfo, loadedImages, commentBoxReference, toggleCommentBox, token}){
   
@@ -13,8 +15,28 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
   const [likes, setLikes] = useState(info.reply_likes)
   const [subrepliesOpen, setSubrepliesOpen] = useState(false)
 
+  let {getLoggedInStatus} = useContext(isLoggedIn)
+  let navigate = useNavigate()
+
+  async function handleReplyClick(){
+    // check if user is logged in, if not, prompt user to log in
+    if(!(await getLoggedInStatus())){
+      navigate("/login")
+      return
+    }
+
+    toggleCommentBox(info.reply_id)
+
+  }
+
 
   async function LikeReply(info, type, likeStatus){
+    // check if user is logged in, if not, prompt user to log in
+    if(!(await getLoggedInStatus())){
+      navigate("/login")
+      return
+    }
+    
     if(!likeStatus){
       // make put request to increment likes by one
       await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
@@ -69,6 +91,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
   }
 
   async function handleSubcomment(replyInfo, text, ref_type, ref = null){
+    
     // reply info is the imported info (either the reply replied to or subreply replied to)
     let subreplyJson = JSON.stringify({
       text,
@@ -82,7 +105,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
           "Authorization": `Bearer ${token}`
         },
         body: subreplyJson
-      })
+    })
 
     let subreplyObj = await subreply_info.json()
     let subrepliesCopy = [...subreplies]
@@ -132,7 +155,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
         let replyLikesListJson = await replyLikesList.json()
   
         setReplyLikeList(replyLikesListJson)
-        setLikedStatus(replyLikesListJson.client_like_status)
+        setLikedStatus(replyLikesListJson.client_like_status? replyLikesListJson.client_like_status : false)
   
       }
       catch(err){
@@ -161,12 +184,12 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
             <div className="reply-profile-reply">{info.reply_text}</div>
           </div>
           <div className="reply-stats">
-            <div className="reply-time">{info.reply_time}</div>
+            <div className="reply-time">{info.reply_time.slice(0, 10)}</div>
             <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={() => LikeReply(info, "reply", isLiked)}>
               {isLiked ? <IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> : <IconComponents.ThumbUpIcon/>} {likes}
             </Buttons.DefaultButton>
 
-            <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={() => toggleCommentBox(info.reply_id)}> Reply</Buttons.DefaultButton>
+            <Buttons.DefaultButton theme="white" fontSize="0.8rem" contentColor="lightslategray" handleClick={() => handleReplyClick()}> Reply</Buttons.DefaultButton>
           </div>
           {
             (subreplies.length > 0 && info.reply_id !== commentBoxReference  && !subrepliesOpen) && 

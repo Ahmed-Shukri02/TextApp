@@ -6,14 +6,73 @@
 }
 
 .welcome-box{
+  box-sizing: border-box;
   background-color: rgba(255, 255, 255, 0.95);
   min-height: 60%;
   width: 1000px;
   box-shadow: 0.5px 0.5px 5px lightslategray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  gap: 1em;
+}
+
+.welcome-prompts{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+
+  font-size: 0.9rem;
+}
+
+.welcome-text, .welcome-header{
+  text-align: center;
+}
+.name-prompt{
+  display: flex;
+  flex-direction: row;
+
+  gap: 1em;
+}
+
+.form-entry{
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  gap: 0.5em;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.form-entry label{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: lightslategray;
+}
+
+#f_name, #l_name{
+  border: 1px solid lightgray;
+}
+#f_name:focus, #l_name:focus{
+  outline-width: 0.5px;
+  outline-color: lightslategray;
+}
+
+.welcome-prompts input{
+  padding: 1em;
 }
 
 @media (max-width: 1200px){
   .welcome-box{
     width: 90%;
+  }
+}
+
+@media (max-width: 650px){
+  .name-prompt{
+    flex-direction: column;
   }
 }

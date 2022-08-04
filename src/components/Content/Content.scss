@@ -43,6 +43,18 @@ a{
   }
 }
 
+@media (max-width: 450px){
+
+  .sub-replies-container{
+    padding-left: 0.5em !important;
+  }
+
+  .reply-profile-content{
+    max-width: 25ch;
+  }
+
+}
+
 .content-home{
 
   .content-home-right{
@@ -58,9 +70,7 @@ a{
       min-height: 10em;
 
       .media, .media-loading{
-        width: 4em;
-        aspect-ratio: 1/1;
-        border-radius: 50%;
+        height: 100%;
       }
 
       .person-detail-flex{
@@ -86,18 +96,51 @@ a{
         padding: 0 2em;
         display: flex;
         flex-direction: row;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
 
       }
       .attach-icons{
         display: flex;
-        flex-basis: 100%;
-        gap: 1em;
+        flex: 1 1 auto;
         flex-direction: row;
         justify-content: space-evenly;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+
+        >*{
+          width: 100% !important;
+          flex: 1 1 auto
+        }
       }
 
       .attach-icon{
         font-size: 1.5em;
+      }
+    }
+
+    // for all profile images within the post
+    .person-detail-image, .reply-profile-img{
+      width: 50px;
+      border-radius: 50%;
+      border: 1px solid lightgray;
+      aspect-ratio: 1/1;
+      transition: all .2s ease-out;
+      background-color: lightslategray;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+
+      &:hover{
+        transform: scale(1.1);
+        cursor: pointer
+      }
+
+      >*{
+        height: 100%;
       }
     }
 
@@ -106,10 +149,7 @@ a{
       flex-direction: row;
       align-items: center;
       padding: 1em;
-
-      .person-detail-image, .person-detail-info{
-        padding: 0.5em;
-      }
+      gap: 1em;
       
       .post-author{
         font-weight: 600;
@@ -127,21 +167,6 @@ a{
       border-radius: 5px;
       margin-bottom: 1em;
       padding-bottom: 1em;
-
-      // for all profile images within the post
-      .person-detail-image img, .reply-profile-img img{
-        width: 50px;
-        border-radius: 50%;
-        border: 1px solid lightgray;
-        aspect-ratio: 1/1;
-        transition: all .2s ease-out;
-
-        &:hover{
-          transform: scale(1.1);
-          cursor: pointer
-        }
-      }
-      .reply-profile-img img{ width: 40px;}
 
       // for all post/reply names
       .post-author:hover, .reply-profile-name:hover{
@@ -294,6 +319,8 @@ a{
             box-shadow: .5px .5px 5px lightgray;
             border-radius: 10px;
             padding: 0.7em;
+            max-width: 30ch;
+            //max-width: 70%;
             //min-width: 10em;
 
             .reply-profile-name{
@@ -326,7 +353,7 @@ a{
           }
           
           .sub-replies-container{
-            padding-left: 2em;
+            padding-left: 1em;
             .reply{
               padding-top: 0;
             }

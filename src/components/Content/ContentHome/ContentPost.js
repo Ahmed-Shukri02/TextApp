@@ -6,6 +6,8 @@ import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
 import { StockImages } from "../../../Contexts/StockImages";
+import { isLoggedIn } from "../../../Contexts/UserLoginStatus";
+import { useNavigate } from "react-router-dom";
 
 export default function ContentPost({postInfo, userInfo, token}){
 
@@ -15,6 +17,9 @@ export default function ContentPost({postInfo, userInfo, token}){
   const [replies, setReplies] = useState(null)
   const [commentBoxReference, setCommentBoxReference] = useState(null)
 
+  let {getLoggedInStatus} = useContext(isLoggedIn)
+  let navigate = useNavigate()
+
   /*
   =============================================================
     COMMENT FEATURES
@@ -23,7 +28,12 @@ export default function ContentPost({postInfo, userInfo, token}){
 
   // comments
   async function handleLike(){
-    
+    // check if user is logged in, if not, prompt user to log in
+    if(!(await getLoggedInStatus())){
+      navigate("/login")
+      return
+    }
+
     try{
       console.log(isLiked)
       
@@ -151,8 +161,6 @@ export default function ContentPost({postInfo, userInfo, token}){
           }
         })
         replies = await replies.json()
-
-        console.log(replies)
         //console.log(replies)
         setReplies(replies)
         
@@ -185,7 +193,7 @@ export default function ContentPost({postInfo, userInfo, token}){
     return (
       <div className="person-detail-flex">
         <div className="person-detail-image">
-          {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img src={userInfo.user_pfp} alt=""/>}
+          {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={`http://localhost:5000/${userInfo.user_pfp}`} alt=""/>}
         </div>
         <div className="person-detail-info">
           <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>
@@ -211,7 +219,13 @@ export default function ContentPost({postInfo, userInfo, token}){
     const [isCommenting, setCommentingStatus] = useState(false, [])
     const [commentsLength, setCommentsLength] = useState(1)
     
-    function handleComment(e){
+    async function handleComment(e){
+      // check if user is logged in, if not, prompt user to log in
+      if(!(await getLoggedInStatus())){
+        navigate("/login")
+        return
+      }
+      
       setCommentingStatus((oldVal) => !oldVal)
     }
 
