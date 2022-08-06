@@ -45,7 +45,7 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
 
     async function getSubreplyLikes(){
       try{
-        let subreplyLikesList = await fetch(`http://localhost:5000/api/posts/${info.subreply_id}/likes?type=subreply`, {
+        let subreplyLikesList = await fetch(` /api/posts/${info.subreply_id}/likes?type=subreply`, {
           method: "GET",
           headers: {
             "Authorization" : `Bearer ${token}`

@@ -72,7 +72,7 @@ export default function SignIn({setIsLogin}){
       // make a query to try to log in 
       (async () => {
         try{
-          let res = await fetch(`http://localhost:5000/api/users/login`, {
+          let res = await fetch(` /api/users/login`, {
             method: "POST",
             headers: {"Content-Type" : "application/json"},
             body: JSON.stringify({

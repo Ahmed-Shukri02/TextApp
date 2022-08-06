@@ -46,7 +46,7 @@ export default function ContentPost({postInfo, userInfo, token}){
       // check liked status
       if(isLiked){
         //unlike the post
-        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}?method=unlike`, {
+        let likes = await fetch(` /api/posts/${postInfo.post_id}?method=unlike`, {
           method: "PUT", 
           headers:{
             "Content-Type" : "application/json",
@@ -57,7 +57,7 @@ export default function ContentPost({postInfo, userInfo, token}){
         let likesValue = await likes.json()
         console.log(likesValue)
         
-        let likes_users = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
+        let likes_users = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
           method: "DELETE",
           headers:{
             "Content-Type" : "application/json",
@@ -74,7 +74,7 @@ export default function ContentPost({postInfo, userInfo, token}){
 
       else{
         // like the post
-        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}?method=like`, {
+        let likes = await fetch(` /api/posts/${postInfo.post_id}?method=like`, {
           method: "PUT", 
           headers:{
             "Content-Type" : "application/json",
@@ -85,7 +85,7 @@ export default function ContentPost({postInfo, userInfo, token}){
         let likesValue = await likes.json()
         console.log(likesValue)
 
-        let likes_users = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
+        let likes_users = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
           method: "POST",
           headers: {
             "Content-Type" : "application/json",
@@ -114,7 +114,7 @@ export default function ContentPost({postInfo, userInfo, token}){
     try{
       let replyJson = JSON.stringify({text: reply_text})
 
-      let newRow = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies?type=reply`, {
+      let newRow = await fetch(` /api/posts/${postInfo.post_id}/replies?type=reply`, {
         method : "POST",
         headers : {
           "Content-Type" : "application/json",
@@ -152,7 +152,7 @@ export default function ContentPost({postInfo, userInfo, token}){
     async function fetchData(){
       // make get request for this posts likes
       try{
-        let likes = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/likes`, {
+        let likes = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
           method : "GET",
           headers : {
             "Authorization" : `Bearer ${token}`
@@ -163,7 +163,7 @@ export default function ContentPost({postInfo, userInfo, token}){
   
         setLikedStatus(likesObj.client_like_status)
 
-        let replies = await fetch(`http://localhost:5000/api/posts/${postInfo.post_id}/replies`, {
+        let replies = await fetch(` /api/posts/${postInfo.post_id}/replies`, {
           method: "GET",
           headers : {
             "Authorization" : `Bearer ${token}`
@@ -202,7 +202,7 @@ export default function ContentPost({postInfo, userInfo, token}){
     return (
       <div className="person-detail-flex">
         <div className="person-detail-image">
-          {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={`http://localhost:5000/${userInfo.user_pfp}`} alt=""/>}
+          {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
         </div>
         <div className="person-detail-info">
           <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>

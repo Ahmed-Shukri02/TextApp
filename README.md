@@ -1,2 +1,2 @@
-# React-Projects
-A collection of projects made using React JS
+# FakeBook-API
+A REST API designed to communicate between my database and the client 

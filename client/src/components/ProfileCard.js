@@ -11,7 +11,7 @@ export default function ProfileCard({userInfo}){
   const bg = useRef()
 
   useEffect(() => {
-    bg.current.style.background = userInfo.bg_image ? `url(http://localhost:5000/${userInfo.bg_image})` : `url(http://localhost:5000/uploads/users/1659621653816logo192.png)`
+    bg.current.style.background = userInfo.bg_image ? `url( /${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
 
   }, [])
 
@@ -57,7 +57,7 @@ export default function ProfileCard({userInfo}){
             <div style={{flexBasis: "20%"}}>
               <div className="profile-img-container">
                 { userInfo && (
-                  userInfo.user_pfp ? <img className = "profile-img" src={`http://localhost:5000/${userInfo.user_pfp}`} alt=""/> : loadSingleImg(userInfo.stock_pfp)
+                  userInfo.user_pfp ? <img className = "profile-img" src={` /${userInfo.user_pfp}`} alt=""/> : loadSingleImg(userInfo.stock_pfp)
                   )
                 }
               </div>

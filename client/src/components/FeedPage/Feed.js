@@ -18,7 +18,7 @@ export default function Feed(){
 
   useEffect(() => {
     async function grabPosts(){
-      let posts = await fetch(`http://localhost:5000/api/posts/all`, {method: "GET"})
+      let posts = await fetch(` /api/posts/all`, {method: "GET"})
 
       let posts_json = await posts.json()
 
@@ -57,7 +57,7 @@ export default function Feed(){
   }, [posts])
 
   async function queryUser(user_id){
-    let response = await fetch(`http://localhost:5000/api/users/${user_id}?type=id`, {method: "GET"})
+    let response = await fetch(` /api/users/${user_id}?type=id`, {method: "GET"})
     
     return await response.json() // returns user_info
   }

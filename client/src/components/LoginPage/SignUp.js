@@ -99,7 +99,7 @@ export default function SignUp({setIsLogin}){
         let submitCondition = (username.value && email.value && password.value && emailValidated && passwordMatches && terms.checked)
   
       if(submitCondition){
-        let response = await fetch(`http://localhost:5000/api/users`, {
+        let response = await fetch(` /api/users`, {
           method: "POST",
           headers: {"Content-Type" : "application/json"},
           body: JSON.stringify({username: username.value, email: email.value, password: password.value})
@@ -109,7 +109,7 @@ export default function SignUp({setIsLogin}){
         console.log(newUserInfo)
 
         // log in to the new user
-        let loginRes = await fetch(`http://localhost:5000/api/users/login`, {
+        let loginRes = await fetch(` /api/users/login`, {
           method: "POST",
           headers: {"Content-Type" : "application/json"},
           body: JSON.stringify({email: email.value, password: password.value})

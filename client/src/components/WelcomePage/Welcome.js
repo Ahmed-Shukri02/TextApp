@@ -35,7 +35,7 @@ export default function Welcome(){
 
     async function checkNewUser(){
       try{
-        let userStatus = await fetch(`http://localhost:5000/api/users/login`, {
+        let userStatus = await fetch(` /api/users/login`, {
           method: "GET",
           headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
         })
@@ -75,7 +75,7 @@ export default function Welcome(){
     else{
       (async () => {
         try{
-          let response = await fetch(`http://localhost:5000/api/users/update`, {
+          let response = await fetch(` /api/users/update`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default function Welcome(){
           const imagesForm = new FormData();
           imagesForm.append("image", user_pfp.files[0])
           
-          await fetch(`http://localhost:5000/api/users/uploads?type=user_pfp`, {
+          await fetch(` /api/users/uploads?type=user_pfp`, {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${localStorage.getItem("userToken")}`

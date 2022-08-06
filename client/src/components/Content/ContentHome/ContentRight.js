@@ -16,7 +16,7 @@ export default function ContentRight({userInfo, token}){
     // do get request for users posts
     async function getPosts(){
       try{
-        let posts = await fetch(`http://localhost:5000/api/posts?author_id=${userInfo.user_id}`, {
+        let posts = await fetch(` /api/posts?author_id=${userInfo.user_id}`, {
           method: "GET",
           headers: {"Authorization" : `Bearer ${token}`}
         })

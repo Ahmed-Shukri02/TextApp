@@ -34,7 +34,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
     let {text} = e.target.elements
     
     try{
-      let newPosts = await fetch(`http://localhost:5000/api/users/user_posts`, {
+      let newPosts = await fetch(` /api/users/user_posts`, {
         method: "POST",
         headers: {
           "Content-Type" : "application/json",
@@ -62,7 +62,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
       <form className="post-form" onSubmit={(e) => handlePost(e)}>
         <div className="person-detail-flex" style={{paddingBottom : "0.5em"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={`http://localhost:5000/${userInfo.user_pfp}`} alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
           </div>
           <textarea maxLength="500" name="text" className="post-textbox" placeholder="Post something here!" ref={textBox}></textarea>
         </div>

@@ -39,7 +39,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     
     if(!likeStatus){
       // make put request to increment likes by one
-      await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
+      await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
         method : "PUT",
         headers : {
           "Content-Type" : "application/json",
@@ -47,7 +47,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
         },
       })
       // make post request to add to likes list
-      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
+      let likers = await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "POST",
         headers : {
           "Content-Type" : "application/json",
@@ -64,7 +64,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     }
     else{
       // make put request to decrement likes by one
-      await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
+      await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
         method : "PUT",
         headers : {
           "Content-Type" : "application/json",
@@ -72,7 +72,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
         },
       })
       // make delete request to remove from likes list
-      let likers = await fetch(`http://localhost:5000/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
+      let likers = await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "DELETE",
         headers : {
           "Content-Type" : "application/json",
@@ -98,7 +98,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
       subreply_ref : ref
     })
 
-    let subreply_info = await fetch(`http://localhost:5000/api/posts/replies/${info.reply_id}/replies?type=${ref_type}`, {
+    let subreply_info = await fetch(` /api/posts/replies/${info.reply_id}/replies?type=${ref_type}`, {
         method: "POST",
         headers: {
           "Content-Type" : "application/json",
@@ -131,7 +131,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
 
     async function getReplyInfo(){
       try{
-        let userData = await fetch(`http://localhost:5000/api/users/${info.reply_author_id}?type=id`)
+        let userData = await fetch(` /api/users/${info.reply_author_id}?type=id`)
         
         let userDataJson = await userData.json()
 
@@ -145,7 +145,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     
     async function getReplyLikes(){
       try{
-        let replyLikesList = await fetch(`http://localhost:5000/api/posts/${info.reply_id}/likes?type=reply`, {
+        let replyLikesList = await fetch(` /api/posts/${info.reply_id}/likes?type=reply`, {
           method: "GET",
           headers: {
             "Authorization" : `Bearer ${token}`

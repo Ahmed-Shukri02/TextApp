@@ -8,7 +8,7 @@ async function getLoggedInStatus(){
   }
   
   try{
-    let userStatus = await fetch(`http://localhost:5000/api/users/login`, {
+    let userStatus = await fetch(` /api/users/login`, {
       method: "GET",
       headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
     })
@@ -32,7 +32,7 @@ async function getUserID(){
   }
 
   try{
-    let user_id = await fetch(`http://localhost:5000/api/users/my_id`, {
+    let user_id = await fetch(` /api/users/my_id`, {
       method: "GET",
       headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
     })
