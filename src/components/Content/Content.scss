@@ -55,75 +55,76 @@ a{
 
 }
 
+.post-prompt{
+  background-color: white;
+  box-shadow: .5px .5px 5px lightgray;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  min-height: 10em;
+
+  .media, .media-loading{
+    height: 100%;
+  }
+
+  .person-detail-flex{
+    height: 100%;
+    width: 90%;
+  }
+
+  .post-form{
+    min-height: 5em;
+    width: 100%;
+
+    .post-textbox{
+      height: 100%; width: 100%;
+      resize: none;
+      font: inherit;
+      font-size: 0.75rem;
+      border-radius: 5px;
+      padding: 1em;
+    }
+  }
+
+  .attach-media{
+    padding: 0 2em;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+
+  }
+  .attach-icons{
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: row;
+    justify-content: space-evenly;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+
+    >*{
+      width: 100% !important;
+      flex: 1 1 auto
+    }
+  }
+
+  .attach-icon{
+    font-size: 1.5em;
+  }
+}
+
+
+
 .content-home{
 
   .content-home-right{
     flex-basis: 55%;
     overflow: hidden;
 
-    .post-prompt{
-      background-color: white;
-      box-shadow: .5px .5px 5px lightgray;
-      border-radius: 5px;
-      margin-bottom: 1em;
-      padding-bottom: 1em;
-      min-height: 10em;
-
-      .media, .media-loading{
-        height: 100%;
-      }
-
-      .person-detail-flex{
-        height: 100%;
-        width: 90%;
-      }
-
-      .post-form{
-        min-height: 5em;
-        width: 100%;
-
-        .post-textbox{
-          height: 100%; width: 100%;
-          resize: none;
-          font: inherit;
-          font-size: 0.75rem;
-          border-radius: 5px;
-          padding: 1em;
-        }
-      }
-
-      .attach-media{
-        padding: 0 2em;
-        display: flex;
-        flex-direction: row;
-        min-width: 0;
-        min-height: 0;
-        overflow: hidden;
-
-      }
-      .attach-icons{
-        display: flex;
-        flex: 1 1 auto;
-        flex-direction: row;
-        justify-content: space-evenly;
-        min-width: 0;
-        min-height: 0;
-        overflow: hidden;
-
-        >*{
-          width: 100% !important;
-          flex: 1 1 auto
-        }
-      }
-
-      .attach-icon{
-        font-size: 1.5em;
-      }
-    }
-
     // for all profile images within the post
     .person-detail-image, .reply-profile-img{
-      width: 50px;
       border-radius: 50%;
       border: 1px solid lightgray;
       aspect-ratio: 1/1;
@@ -142,6 +143,13 @@ a{
       >*{
         height: 100%;
       }
+    }
+
+    .person-detail-image{
+      width: 50px;
+    }
+    .reply-profile-img{
+      width: 40px;
     }
 
     .person-detail-flex{
@@ -184,6 +192,7 @@ a{
           justify-self: center;
           align-self: center;
           object-fit: contain;
+          margin-bottom: 1em;
         }
 
         .media-loading{
@@ -202,26 +211,20 @@ a{
         gap: 0.5em;
         padding: 0 0.5em;
 
-        .interaction-stats, .interaction-prompt{
+        .interaction-prompt{
           display: flex;
           flex-direction: row;
-        }
-
-        .interaction-stats{
-          justify-content: space-between;
-          color: lightslategray;
-          padding: 0.5em 1em;
-        }
-
-        .interaction-prompt{
-          width: 95%;
           margin: 0 auto;
-          justify-content: space-evenly;
-          gap: 1em;
-          border-bottom: 1px solid lightslategray;
-          border-top: 1px solid lightslategray;
+          width: 95%;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.9rem;
+        }
+
+        .interaction-prompt-left{
+          display: flex;
           color: lightslategray;
-          padding: 0 1em;
+          gap: 1em;
 
           >*{
             transition: all .1s ease-out;
@@ -308,9 +311,9 @@ a{
           .most-relevant{
             display: flex;
             flex-direction: row;
-            justify-content: flex-end;
+            justify-content: space-between;
             color: lightslategray;
-            gap: 0.5em
+            gap: 0.5em;
 
           }
 

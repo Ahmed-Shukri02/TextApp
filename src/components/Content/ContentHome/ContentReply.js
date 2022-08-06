@@ -3,7 +3,7 @@ import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import SubReply from "./ContentSubReply";
 import Buttons from "../../Buttons/Buttons";
-import { isLoggedIn } from "../../../Contexts/UserLoginStatus";
+import { LoggedInContext } from "../../../Contexts/UserLoginStatus";
 import { useNavigate } from "react-router-dom";
 
 export default function Reply({info, userInfo, postInfo, loadedImages, commentBoxReference, toggleCommentBox, token}){
@@ -15,7 +15,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
   const [likes, setLikes] = useState(info.reply_likes)
   const [subrepliesOpen, setSubrepliesOpen] = useState(false)
 
-  let {getLoggedInStatus} = useContext(isLoggedIn)
+  let {getLoggedInStatus} = useContext(LoggedInContext)
   let navigate = useNavigate()
 
   async function handleReplyClick(){

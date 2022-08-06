@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import Buttons from "../../Buttons/Buttons";
-import { isLoggedIn } from "../../../Contexts/UserLoginStatus";
+import { LoggedInContext } from "../../../Contexts/UserLoginStatus";
 import { useNavigate } from "react-router-dom";
 
 export default function SubReply({info, userInfo , parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, token, handleSubcomment}){
@@ -12,7 +12,7 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
   const [isLiked, setLikedStatus] = useState(null)
   const [likes, setLikes] = useState(info.subreply_likes)
   
-  let {getLoggedInStatus} = useContext(isLoggedIn)
+  let {getLoggedInStatus} = useContext(LoggedInContext)
   let navigate = useNavigate()
 
   async function handleReplyClick(){

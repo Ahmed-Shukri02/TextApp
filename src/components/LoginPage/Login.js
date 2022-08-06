@@ -5,14 +5,14 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import { MediaContext } from "../../Contexts/MediaContext";
 import { useNavigate } from "react-router-dom";
-import { isLoggedIn } from "../../Contexts/UserLoginStatus";
+import { LoggedInContext } from "../../Contexts/UserLoginStatus";
 
 export default function Login(){
 
   const [isLogin, setIsLogin] = useState(null)
   const {isTablet} = useContext(MediaContext)
   let navigate = useNavigate()
-  let {getLoggedInStatus} = useContext(isLoggedIn)
+  let {getLoggedInStatus} = useContext(LoggedInContext)
 
   useEffect(() => {
     

@@ -6,8 +6,9 @@ import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
 import { StockImages } from "../../../Contexts/StockImages";
-import { isLoggedIn } from "../../../Contexts/UserLoginStatus";
+import { LoggedInContext } from "../../../Contexts/UserLoginStatus";
 import { useNavigate } from "react-router-dom";
+import "../Content.css"
 
 export default function ContentPost({postInfo, userInfo, token}){
 
@@ -15,10 +16,15 @@ export default function ContentPost({postInfo, userInfo, token}){
   const [likes, setLikes] = useState(postInfo.post_likes);
   const [isLiked, setLikedStatus] = useState(false);
   const [replies, setReplies] = useState(null)
+  const [showReply, setShowReply] = useState(false)
   const [commentBoxReference, setCommentBoxReference] = useState(null)
+  const [isCommenting, setCommentingStatus] = useState(false)
 
-  let {getLoggedInStatus} = useContext(isLoggedIn)
+  let {getLoggedInStatus} = useContext(LoggedInContext)
   let navigate = useNavigate()
+
+  console.log(userInfo)
+
 
   /*
   =============================================================
@@ -123,10 +129,13 @@ export default function ContentPost({postInfo, userInfo, token}){
       let repliesCopy = [...replies]
       repliesCopy.unshift(newRowJson)
       setReplies(repliesCopy)
+      setCommentingStatus(false)
+      setShowReply(true)
     }
     catch(err){
       console.log(err)
     }
+
   }
   
   function handleCommentingToReply(reply_id){
@@ -216,7 +225,6 @@ export default function ContentPost({postInfo, userInfo, token}){
   // COMPONENT
 
   function interaction(){
-    const [isCommenting, setCommentingStatus] = useState(false, [])
     const [commentsLength, setCommentsLength] = useState(1)
     
     async function handleComment(e){
@@ -229,6 +237,7 @@ export default function ContentPost({postInfo, userInfo, token}){
       setCommentingStatus((oldVal) => !oldVal)
     }
 
+    console.log(isCommenting)
     
     function seeMore(num){
       // check if comments + 2 is larger than the available comments. If so, set the commentslength to max available comments
@@ -250,27 +259,34 @@ export default function ContentPost({postInfo, userInfo, token}){
     return (
       replies && // ONLY LOAD WHEN REPLIES HAVE LOADED
       <div className="post-interaction">
-        <div className="interaction-stats">
-          <div><IconComponents.ThumbUpIcon fill="none"/> {likes} Likes</div>
-          <div>{postInfo.post_replies} {postInfo.post_replies === 1 ? "Comment" : "Comments"}  ·  0 Shares</div>
-        </div>
-
         <div className="interaction-prompt">
-          { isLiked ?
-          <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> Unlike</div> :
-
-          <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon/> Like</div>
-          }
-
-          <div className="add-comment" onClick={handleComment}><IconComponents.ChatBubbleIcon/> Comment </div>
-          <div className="share"><IconComponents.ArrowIcon/> Share </div>
+          <div className="interaction-prompt-left">
+            { isLiked ?
+            <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> {likes} </div> :
+            <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon/> {likes} </div>
+            }
+            <div className="add-comment" onClick={handleComment}><IconComponents.ChatBubbleIcon/> {replies.length} </div>
+            <div className="share"><IconComponents.ArrowIcon/> 0 </div>
+          </div>
+          <div className="interaction-prompt-right">
+            {replies.length > 0 &&
+            <Buttons.UnderlineButton handleClick={() => setShowReply((oldVal) => !oldVal)} fontSize="inherit" contentColor="#1B74E4" theme="blue">
+              {showReply ?
+              <div>Hide Replies</div> :
+              <div>Show {replies.length} {replies.length === 1 ? "reply" : "replies"}</div>
+              } 
+            </Buttons.UnderlineButton>}
+          </div>
         </div>
 
         {isCommenting && <ContentComment loadedImages = {loadedImages} handleReply ={handleReply}  /*replyToStats = {replyStats} closeReply={() => ""} */ />}
 
-          {replies.length > 0 &&
+          {(replies.length > 0 && showReply) &&
           <div className="replies">
-            <div className="most-relevant">Most recent  <IconComponents.ExpandDownIcon/></div>
+            <div className="most-relevant">
+              <div>Replies</div>
+              <div style={{display: "flex", alignItems: "center"}}>Most recent  <IconComponents.ExpandDownIcon/></div>
+            </div>
             {repliesJSX.slice(0, commentsLength)}
 
             <div className="comments-displaying"> 

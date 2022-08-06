@@ -1,0 +1,29 @@
+.feed-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.feed-container .content-home{
+  flex-basis: 40%;
+}
+.feed-container .content-home-right{
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.feed-options{
+  flex-basis: 30%;
+}
+
+.feed-users{
+  flex-basis: 30%;
+}
+
+@media (max-width: 1000px){
+  .feed-container .content-home{
+    flex-basis: 100%;
+  }
+
+}

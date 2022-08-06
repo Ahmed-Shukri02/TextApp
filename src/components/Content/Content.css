@@ -47,11 +47,7 @@ a {
     max-width: 25ch;
   }
 }
-.content-home .content-home-right {
-  flex-basis: 55%;
-  overflow: hidden;
-}
-.content-home .content-home-right .post-prompt {
+.post-prompt {
   background-color: white;
   box-shadow: 0.5px 0.5px 5px lightgray;
   border-radius: 5px;
@@ -59,18 +55,18 @@ a {
   padding-bottom: 1em;
   min-height: 10em;
 }
-.content-home .content-home-right .post-prompt .media, .content-home .content-home-right .post-prompt .media-loading {
+.post-prompt .media, .post-prompt .media-loading {
   height: 100%;
 }
-.content-home .content-home-right .post-prompt .person-detail-flex {
+.post-prompt .person-detail-flex {
   height: 100%;
   width: 90%;
 }
-.content-home .content-home-right .post-prompt .post-form {
+.post-prompt .post-form {
   min-height: 5em;
   width: 100%;
 }
-.content-home .content-home-right .post-prompt .post-form .post-textbox {
+.post-prompt .post-form .post-textbox {
   height: 100%;
   width: 100%;
   resize: none;
@@ -79,7 +75,7 @@ a {
   border-radius: 5px;
   padding: 1em;
 }
-.content-home .content-home-right .post-prompt .attach-media {
+.post-prompt .attach-media {
   padding: 0 2em;
   display: flex;
   flex-direction: row;
@@ -87,7 +83,7 @@ a {
   min-height: 0;
   overflow: hidden;
 }
-.content-home .content-home-right .post-prompt .attach-icons {
+.post-prompt .attach-icons {
   display: flex;
   flex: 1 1 auto;
   flex-direction: row;
@@ -96,15 +92,19 @@ a {
   min-height: 0;
   overflow: hidden;
 }
-.content-home .content-home-right .post-prompt .attach-icons > * {
+.post-prompt .attach-icons > * {
   width: 100% !important;
   flex: 1 1 auto;
 }
-.content-home .content-home-right .post-prompt .attach-icon {
+.post-prompt .attach-icon {
   font-size: 1.5em;
 }
+
+.content-home .content-home-right {
+  flex-basis: 55%;
+  overflow: hidden;
+}
 .content-home .content-home-right .person-detail-image, .content-home .content-home-right .reply-profile-img {
-  width: 50px;
   border-radius: 50%;
   border: 1px solid lightgray;
   aspect-ratio: 1/1;
@@ -120,6 +120,12 @@ a {
 }
 .content-home .content-home-right .person-detail-image > *, .content-home .content-home-right .reply-profile-img > * {
   height: 100%;
+}
+.content-home .content-home-right .person-detail-image {
+  width: 50px;
+}
+.content-home .content-home-right .reply-profile-img {
+  width: 40px;
 }
 .content-home .content-home-right .person-detail-flex {
   display: flex;
@@ -156,6 +162,7 @@ a {
   align-self: center;
   -o-object-fit: contain;
      object-fit: contain;
+  margin-bottom: 1em;
 }
 .content-home .content-home-right .content-post .post .media-loading {
   background-color: lightgray;
@@ -169,32 +176,27 @@ a {
   gap: 0.5em;
   padding: 0 0.5em;
 }
-.content-home .content-home-right .content-post .post-interaction .interaction-stats, .content-home .content-home-right .content-post .post-interaction .interaction-prompt {
+.content-home .content-home-right .content-post .post-interaction .interaction-prompt {
   display: flex;
   flex-direction: row;
-}
-.content-home .content-home-right .content-post .post-interaction .interaction-stats {
-  justify-content: space-between;
-  color: lightslategray;
-  padding: 0.5em 1em;
-}
-.content-home .content-home-right .content-post .post-interaction .interaction-prompt {
-  width: 95%;
   margin: 0 auto;
-  justify-content: space-evenly;
-  gap: 1em;
-  border-bottom: 1px solid lightslategray;
-  border-top: 1px solid lightslategray;
-  color: lightslategray;
-  padding: 0 1em;
+  width: 95%;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
 }
-.content-home .content-home-right .content-post .post-interaction .interaction-prompt > * {
+.content-home .content-home-right .content-post .post-interaction .interaction-prompt-left {
+  display: flex;
+  color: lightslategray;
+  gap: 1em;
+}
+.content-home .content-home-right .content-post .post-interaction .interaction-prompt-left > * {
   transition: all 0.1s ease-out;
   padding: 0.5em;
   margin: 0.2em;
   border-radius: 5px;
 }
-.content-home .content-home-right .content-post .post-interaction .interaction-prompt > *:hover {
+.content-home .content-home-right .content-post .post-interaction .interaction-prompt-left > *:hover {
   background-color: lightgray;
   cursor: pointer;
 }
@@ -259,7 +261,7 @@ a {
 .content-home .content-home-right .content-post .post-interaction .replies .most-relevant {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   color: lightslategray;
   gap: 0.5em;
 }
