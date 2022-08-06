@@ -11,9 +11,9 @@ require("dotenv").config()
 }
  */
 
-const devConfig = `prostgresql://${process.env.DB_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}?sslmode=require`
+const devConfig = `prostgresql://${process.env.DB_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 
-const prodConfig = process.env.DATABASE_URL
+const prodConfig = `${process.env.DATABASE_URL}?sslmode=require`
 
 const pool = new Pool( {connectionString: process.env.NODE_ENV === "production"? prodConfig : devConfig} )
 

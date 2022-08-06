@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node script.js",
     "dev": "nodemon --delay 500ms script",
-    "heroku-postbuild": "cd client && npm install && npm run && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
