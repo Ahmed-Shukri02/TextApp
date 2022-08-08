@@ -10,8 +10,7 @@ h2, h3, p{
 
 
 .App{
-  height: 100vh;
-  overflow: auto;
+  height: 100%;
 }
 
 .Users{
@@ -21,21 +20,27 @@ h2, h3, p{
 
 header, .main, .footer{
   width: 90%;
-  max-width: 950px;
 }
 
 .header-container{
   position: sticky;
   background-color: white;
-  top: 0; z-index: 100;
+  top: 0; z-index: 10000;
   padding-bottom: .5em;
   box-shadow: 0 .5px 5px lightgray;
+  color: #1B74E4;
 
   header{
     display: flex;
     flex-direction: row;
     justify-content: space-between; align-items: center;
     margin: 0 auto;
+
+    .name{
+      padding: 1rem;
+      font-size: 2rem;
+      font-weight: 600;
+    }
   
     ul{
       all: unset;
@@ -63,6 +68,7 @@ header, .main, .footer{
   min-height: 5em;
   align-items: center;
   display: flex;
+  background-color: white;
 
   .footer{
     display: flex;

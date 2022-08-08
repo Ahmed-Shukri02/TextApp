@@ -119,7 +119,7 @@ export default function SignUp({setIsLogin}){
         localStorage.setItem("userToken", token)
 
 
-        navigate("/welcome")
+        window.location.href = "/welcome"
       }
       }
       catch(err){

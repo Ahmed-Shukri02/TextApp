@@ -150,7 +150,6 @@ a {
 }
 .content-home .content-home-right .content-post .post-author:hover, .content-home .content-home-right .content-post .reply-profile-name:hover {
   cursor: pointer;
-  text-decoration: underline;
 }
 .content-home .content-home-right .content-post .post {
   display: flex;

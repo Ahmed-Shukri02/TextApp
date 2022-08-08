@@ -1,3 +1,17 @@
+.no-center{
+  text-align: start;
+}
+
+.icon-button{
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.no-padding{
+  padding: 0 !important;
+}
+
 .submit-button{
   border: none;
   background-color: rgb(247, 247, 247);

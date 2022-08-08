@@ -62,6 +62,10 @@ export default function Welcome(){
     e.preventDefault()
 
     let {f_name, l_name, user_pfp} = e.target.elements
+    if(!user_pfp.files.length){
+      console.log("no file")
+      return;
+    }
     if(!f_name.value && !l_name.value){
       setIsValid(false)
       f_name.addEventListener("input", () => {
@@ -100,7 +104,7 @@ export default function Welcome(){
             body: imagesForm
           })
           
-          navigate(`/users/${username}`)
+          window.location.href = `/users/${username}`
         }
         catch(err){
           console.log(err)

@@ -20,35 +20,33 @@ export default function Header(){
     if(loggedInState){
       // logout
       localStorage.removeItem("userToken")
-      navigate("/login")
+      window.location.href = "/login"
     }
     else{
       // login
-      navigate("/login")
+      window.location.href = "/login"
     }
   }
 
   async function navigateHome(){
     if(loggedInState){
       let username = (await getUserID()).username
-      navigate(`/users/${username}/home`)
-      navigate(0)
-      //navigate(0)
+      window.location.href = `/users/${username}/home`
       return;
     }
     else{
-      navigate("/login")
+      window.location.href = "/login"
     }
   }
 
   return (
     <div className="header-container">
       <header className="Header">
-      <h1 className="name">Ahmed</h1>
+      <div className="name">textApp</div>
       <nav>
         <ul>
           <li><Buttons.DefaultButton theme="white" handleClick={() => navigateHome()}> Home </Buttons.DefaultButton></li>
-          <li>About</li>
+          <li><Buttons.DefaultButton theme="white" handleClick={() => {window.location.href = "/feed"}}>My Feed</Buttons.DefaultButton></li>
           <li>
             <Buttons.DefaultButton theme="white" handleClick={handleLogInOut}> {loggedInState ? "Logout" : "Login"} </Buttons.DefaultButton>
           </li>

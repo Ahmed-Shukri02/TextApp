@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node script.js",
-    "dev": "nodemon --delay 500ms script",
+    "dev": "nodemon --delay 500ms --ignore ./client/ script",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],

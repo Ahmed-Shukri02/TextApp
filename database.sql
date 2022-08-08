@@ -59,21 +59,21 @@ CREATE TABLE IF NOT EXISTS post_images(
 );
 
 CREATE TABLE IF NOT EXISTS all_post_likes(
-  liker uuid NOT NULL PRIMARY KEY REFERENCES user_profile(user_id)
+  liker uuid NOT NULL REFERENCES user_profile(user_id)
   ON DELETE CASCADE,
   liked_post_id uuid REFERENCES user_posts(post_id) 
   ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS all_reply_likes(
-  liker uuid NOT NULL PRIMARY KEY REFERENCES user_profile(user_id)
+  liker uuid NOT NULL REFERENCES user_profile(user_id)
   ON DELETE CASCADE,
   liked_reply_id uuid REFERENCES post_replies(reply_id)
   ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS all_subreply_likes(
-  liker uuid NOT NULL PRIMARY KEY REFERENCES user_profile(user_id)
+  liker uuid NOT NULL REFERENCES user_profile(user_id)
   ON DELETE CASCADE,
   liked_subreply_id uuid REFERENCES post_subreplies(subreply_id)
   ON DELETE CASCADE

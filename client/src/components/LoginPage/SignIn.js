@@ -85,8 +85,8 @@ export default function SignIn({setIsLogin}){
             let resJson = await res.json()
             console.log(resJson.token)
             localStorage.setItem("userToken", resJson.token)
-
-            navigate(`../users/${resJson.username}`)
+            
+            window.location.href = `../users/${resJson.username}`
           }
           else{
             console.log("Access Denied")

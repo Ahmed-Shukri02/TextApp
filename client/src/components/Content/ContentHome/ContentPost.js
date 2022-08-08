@@ -9,6 +9,7 @@ import { StockImages } from "../../../Contexts/StockImages";
 import { LoggedInContext } from "../../../Contexts/UserLoginStatus";
 import { useNavigate } from "react-router-dom";
 import "../Content.css"
+import e from "cors";
 
 export default function ContentPost({postInfo, userInfo, token}){
 
@@ -36,7 +37,7 @@ export default function ContentPost({postInfo, userInfo, token}){
   async function handleLike(){
     // check if user is logged in, if not, prompt user to log in
     if(!(await getLoggedInStatus())){
-      navigate("/login")
+      window.location.href = "/login"
       return
     }
 
@@ -137,6 +138,12 @@ export default function ContentPost({postInfo, userInfo, token}){
     }
 
   }
+
+  function navigateToUser(e){
+    let name = e.target.innerText
+    window.location.href = `/users/${name}/home`
+    return
+  }
   
   function handleCommentingToReply(reply_id){
     if(commentBoxReference === reply_id){
@@ -205,7 +212,9 @@ export default function ContentPost({postInfo, userInfo, token}){
           {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
         </div>
         <div className="person-detail-info">
-          <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>
+          <Buttons.UnderlineButton handleClick={navigateToUser} addStyle="no-padding">
+            <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>
+          </Buttons.UnderlineButton>
           <div className="post-time">{postInfo.post_time}</div>
         </div>
       </div>
@@ -230,7 +239,7 @@ export default function ContentPost({postInfo, userInfo, token}){
     async function handleComment(e){
       // check if user is logged in, if not, prompt user to log in
       if(!(await getLoggedInStatus())){
-        navigate("/login")
+        window.location.href = "/login"
         return
       }
       

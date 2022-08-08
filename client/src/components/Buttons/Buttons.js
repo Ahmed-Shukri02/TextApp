@@ -32,7 +32,7 @@ export default class Buttons{
     )
   }
 
-  static DefaultButton({children, width = "auto", height = null, theme= "blue", fontSize="1rem", contentColor="black", handleClick = () => "", submit = false}){
+  static DefaultButton({children, width = "auto", height = null, theme= "blue", fontSize="1rem", contentColor="black", handleClick = () => "", submit = false, addStyle = ""}){
     const baseStyle = {
       width: width,
       fontSize: fontSize,
@@ -72,7 +72,7 @@ export default class Buttons{
 
     return (
       <button 
-      className= {"default-" + theme}
+      className= {"default-" + theme + ` ${addStyle}`}
       onClick={onClick} 
       style={style} 
       onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}
@@ -83,7 +83,7 @@ export default class Buttons{
   }
 
 
-  static UnderlineButton({children, width = "auto", height = null, theme= "white", fontSize="1rem", contentColor="black", handleClick = () => ""}){
+  static UnderlineButton({children, width = "auto", height = null, theme= "white", fontSize="1rem", contentColor="black", handleClick = () => "", addStyle = ""}){
     const baseStyle = {
       width: width,
       fontSize: fontSize,
@@ -111,13 +111,13 @@ export default class Buttons{
     function onClick(e){
       e.preventDefault()
 
-      handleClick()
+      handleClick(e)
       e.target.blur()
     }
 
     return (
       <button 
-      className= {"underline-" + theme}
+      className= {"underline-" + theme + ` ${addStyle}`}
       onClick={onClick} 
       style={style} 
       onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}

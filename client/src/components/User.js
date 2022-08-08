@@ -8,11 +8,14 @@ import IconComponents from "../icon-components/icon-components";
 import { StockImages } from "../Contexts/StockImages";
 import Header from "../Header";
 import Footer from "../Footer";
+import LoadingScreen from "./LoadingPage/LoadingPage";
+import { AnimatePresence } from "framer-motion/dist/framer-motion";
 
 export default function User(){
   
   const [userInfo, setUserInfo] = useState(null)
   const [doesExist, setExistStatus] = useState(null)
+  const [loading, setLoading] = useState(true)
 
 
   let {id} = useParams();
@@ -46,9 +49,11 @@ export default function User(){
         let profileInfo = await response.json()
         console.log(profileInfo)
         
+        setUserInfo(profileInfo)
+        setExistStatus(true)
+        
         setTimeout(() => {
-          setUserInfo(profileInfo)
-          setExistStatus(true)
+          setLoading(false)
         }, 3000)
 
 
@@ -105,7 +110,19 @@ export default function User(){
   return (
     <div className="Users">
       <Header/>
-        {getPage()}
+        <AnimatePresence>{loading && <LoadingScreen/>}</AnimatePresence>
+        
+        {userInfo && <div className="main-container">
+            <ProfileCard userInfo={userInfo}/> 
+          
+            <div className="content-container">
+              <Routes>
+                <Route path='home' element={<ContentHome userInfo={userInfo} token={token}/>} />
+                <Route path='review' element={<ContentReview userInfo={userInfo} token={token}/>} />
+              </Routes>
+            </div>
+
+          </div>}
       <Footer/>
     </div>
   )

@@ -18,7 +18,7 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
   async function handleReplyClick(){
     // check if user is logged in, if not, prompt user to log in
     if(!(await getLoggedInStatus())){
-      navigate("/login")
+      window.location.href = "/login"
       return
     }
 
@@ -71,7 +71,7 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
   async function handleSubcommentLike(){
     // check if user is logged in, if not, prompt user to log in
     if(!(await getLoggedInStatus())){
-      navigate("/login")
+      window.location.href = "/login"
       return
     }
     

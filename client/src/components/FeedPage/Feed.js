@@ -3,9 +3,14 @@ import { MediaContext } from "../../Contexts/MediaContext";
 import { LoggedInContext } from "../../Contexts/UserLoginStatus";
 import Footer from "../../Footer";
 import Header from "../../Header";
+import IconComponents from "../../icon-components/icon-components";
+import Buttons from "../Buttons/Buttons";
 import ContentPost from "../Content/ContentHome/ContentPost";
 import PostPrompt from "../Content/ContentHome/PostPrompt";
+import Backgrounds from "../../backgrounds/Backgrounds";
 import "./feed.css"
+import LoadingScreen from "../LoadingPage/LoadingPage";
+import { AnimatePresence } from "framer-motion/dist/framer-motion";
 
 export default function Feed(){
 
@@ -14,6 +19,19 @@ export default function Feed(){
   const [user, setUser] = useState(null)
   const {getUserID} = useContext(LoggedInContext)
   const {isTablet} = useContext(MediaContext)
+  const [loading, setLoading] = useState(true)
+
+  let selectButtonProps = {
+    theme: "white",
+    width: "20em",
+    height: "3em",
+    addStyle: "no-center icon-button"
+  }
+
+  const headerStyle = {
+    fontSize: "1.2rem",
+    fontWeight: "600"
+  }
 
 
   useEffect(() => {
@@ -34,9 +52,18 @@ export default function Feed(){
     
     grabUser()
     grabPosts()
+    document.body.style.background = Backgrounds.CircleBackground()
+    document.body.style.backgroundSize = "contain"
+
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+
+    return () => document.body.style.background = ""
 
   }, [])
 
+  // runs every time posts is affected
   useEffect(() => {
     async function getFinalJSX(){
       let posts_jsx = []
@@ -66,16 +93,35 @@ export default function Feed(){
   return(
     <>
       <Header/>
+        <AnimatePresence>
+          {loading && <LoadingScreen/>}
+        </AnimatePresence>
+
         {postsJSX && 
         <div className="feed-container">
-          {!isTablet && <div className="feed-options"></div>}
+          {!isTablet && <div className="feed-left" style={{backgroundColor: "white"}}>
+            <div className="feed-options">
+              <div className="feed-options-basic">
+                <Buttons.DefaultButton {...selectButtonProps}><IconComponents.HomeIcon/> Home</Buttons.DefaultButton>
+                <Buttons.DefaultButton {...selectButtonProps}><IconComponents.UserIcon/> My Profile</Buttons.DefaultButton>
+              </div>
+              <div className="friends-flex">
+                <div style={headerStyle}>Online Friends</div>
+                <div> This feature has not been added yet. </div>
+              </div>
+              <div className="suggested-users">
+                <div style={headerStyle}>Suggested Users</div>
+                <div> This feature has not been added yet. </div>
+              </div>
+            </div>
+          </div>}
           <div className="content-home">
             <div className="content-home-right">
+              <h2 className = "feed-welcome-text">Welcome, User!</h2>
               {user &&<PostPrompt posts={posts} setPosts={setPosts} userInfo={user}/>}
               {postsJSX}
             </div>
           </div>
-          {!isTablet && <div className="feed-users"></div>}
         </div>}
       <Footer/>
     </>
