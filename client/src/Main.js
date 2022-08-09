@@ -10,6 +10,8 @@ import Home from "./components/HomePage/Home";
 import Welcome from "./components/WelcomePage/Welcome";
 import Feed from "./components/FeedPage/Feed";
 import { StockImages } from "./Contexts/StockImages";
+import { login } from "./Tools/clientInfo";
+import { useSelector, useDispatch } from "react-redux";
 
 
 export default function Main(){
@@ -18,6 +20,56 @@ export default function Main(){
   const isTablet = useMediaQuery({query: "(max-width: 1000px)"})
 
   const [images, setImages] = useState(null)
+  const [contextsReady, setContextsReady] = useState(false)
+
+  const clientInfo = useSelector((state) => {console.log(state); return state.clientInfo.value? state.clientInfo.value.payload : null})
+  const dispatch = useDispatch()
+
+  async function getLoggedInStatus(){
+    // check if user has a token of "usertoken"
+    if(!localStorage.getItem("userToken")){
+      return false;
+    }
+    
+    try{
+      let userStatus = await fetch(` /api/users/login`, {
+        method: "GET",
+        headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
+      })
+  
+      if([403, 500].includes(userStatus.status)){
+        return false
+      }
+      else{
+        return true
+      }
+  
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+  
+  async function getUserID(){
+    if(!localStorage.getItem("userToken")){
+      return null;
+    }
+  
+    try{
+      let user_id = await fetch(` /api/users/my_id`, {
+        method: "GET",
+        headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
+      })
+      let user_id_json = await user_id.json()
+      console.log(user_id_json)
+  
+      return user_id_json ? user_id_json : null
+    }
+    catch(err){
+      console.log(err)
+      return null
+    }
+  }
 
   useEffect(() => {
     async function getData(){
@@ -27,7 +79,20 @@ export default function Main(){
 
       setImages(picResponseJSON)
     }
+    async function setUpClient(){
+      let isLoggedIn = await getLoggedInStatus()
+      if(isLoggedIn){
+        let clientInfoRes = await getUserID()
+        dispatch(login(clientInfoRes))
+        console.log(clientInfo)
+        setContextsReady(true)
+      }
+      else{
+        setContextsReady(true)
+      }
+    }
 
+    setUpClient()
     getData()
   }, [])
 
@@ -38,7 +103,7 @@ export default function Main(){
   }
   
   return (
-    images &&
+    (images && contextsReady) &&
     <StockImages.Provider value={{images, loadedImages}}>
       <MediaContext.Provider value={{isMobile, isTablet}}>
         <Routes>

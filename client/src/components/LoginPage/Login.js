@@ -5,28 +5,21 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import { MediaContext } from "../../Contexts/MediaContext";
 import { useNavigate } from "react-router-dom";
-import { LoggedInContext } from "../../Contexts/UserLoginStatus";
+import { useSelector } from "react-redux";
 
 export default function Login(){
 
   const [isLogin, setIsLogin] = useState(null)
   const {isTablet} = useContext(MediaContext)
   let navigate = useNavigate()
-  let {getLoggedInStatus} = useContext(LoggedInContext)
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
   useEffect(() => {
-    
-    (async() =>{
       
-      setIsLogin(true)
-
-      let logInStatus = await getLoggedInStatus()
-      if(logInStatus){ // if user is logged in
-        navigate("/", {replace: true})
-      } 
-
-    })()
-
+    setIsLogin(true)
+    if(client){ // if user is logged in
+      navigate("/", {replace: true})
+    } 
 
     return () => {
       document.body.style.background = ""

@@ -8,6 +8,10 @@ a {
   background-color: rgb(247, 247, 247);
 }
 
+.delete-icon {
+  font-size: 1.1rem;
+}
+
 .content {
   width: 90%;
   max-width: 850px;
@@ -132,7 +136,7 @@ a {
   flex-direction: row;
   align-items: center;
   padding: 1em;
-  gap: 1em;
+  justify-content: space-between;
 }
 .content-home .content-home-right .person-detail-flex .post-author {
   font-weight: 600;
@@ -254,8 +258,8 @@ a {
   display: flex;
   flex-direction: row;
   padding: 1em 0;
-  gap: 0.5em;
   align-items: flex-start;
+  justify-content: space-between;
 }
 .content-home .content-home-right .content-post .post-interaction .replies .most-relevant {
   display: flex;

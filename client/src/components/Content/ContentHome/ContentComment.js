@@ -46,7 +46,7 @@ export default function commentBox({loadedImages, handleReply, isReplying, reply
 
         {isReplying && <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> Replying to {replyTo.username} </div>}
 
-        <textarea name="textarea" placeholder="Enter comment here..."/>
+        <textarea name="textarea" placeholder="Enter comment here..." maxLength={400}/>
         <Buttons.SubmitButton width="10em"/>
       </form>
     </div>

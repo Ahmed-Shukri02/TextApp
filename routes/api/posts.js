@@ -502,7 +502,7 @@ router.post("/replies/:id", checkAuthentication(), async(req, res) => { // body 
 })
 
 // remove users from the reply/subreply likes table
-router.delete("/replies/:id", checkAuthentication(), async(req, res) => { // body will contain user who is unliking
+router.delete("/replies/:id/likes", checkAuthentication(), async(req, res) => { // body will contain user who is unliking
   try{
     if(req.query.type === "reply"){
       // remove user in body from table
@@ -626,8 +626,37 @@ router.post("/replies/:id/replies", checkAuthentication(), async(req, res) => {
   }
 })
 
+// delete post
+router.delete("/:id", checkAuthentication(), async(req, res) => {
+  try{   
+    // check if post to delete was made by the authenticated person
+    let auth_post = await pool.query(`SELECT post_author_id FROM user_posts WHERE post_id = '${req.params.id}' `)
+    if(!auth_post.rowCount){
+      res.status(404).end("there is no post that exists with this id")
+    }
+
+    if(auth_post.rows[0].post_author_id !== req.user.authorised_user_id){
+      // check if user is an admin with deletion rights
+      let deletionRightsQuery = await pool.query(`SELECT can_delete_posts FROM admins\
+      WHERE admin_id = '${req.user.authorised_user_id}'`)
+      if(!deletionRightsQuery.rowCount || !deletionRightsQuery.rows[0].can_delete_posts){
+        res.status(403).end("you do not have the rights to delete this post")
+        return;
+      }
+    } 
+
+    // checks are all done, we can now delete post
+    await pool.query(`DELETE FROM user_posts WHERE post_id = '${req.params.id}'`)
+    res.status(200).end("Successfully deleted post")
+  }
+  catch(err){
+    console.log(`ERROR IN DELETE /:username/posts: ${err.message}`)
+    res.status(500).end("Something went wrong")
+  }
+})
+
 // delete reply/subreply
-router.delete("/replies/:id", async(req, res) => { // QUERY OF type MUST BE EITHER reply OR subreply
+router.delete("/replies/:id", checkAuthentication(), async(req, res) => { // QUERY OF type MUST BE EITHER reply OR subreply
   // check if the url query is correct
   if(!["reply", "subreply"].includes(req.query.type)){
     res.status(400).end("incorrect query")
@@ -639,23 +668,24 @@ router.delete("/replies/:id", async(req, res) => { // QUERY OF type MUST BE EITH
   let post_type = req.query.type === "reply" ? "post_replies" : "post_subreplies";
 
   try{   
-    // check if post to delete was made by the authenticated person
+    // check if reply/subreply to delete was made by the authenticated person
     let auth_post = await pool.query(`SELECT ${author} FROM\
-    ${post_type} WHERE post_id = '${req.params.id}' `)
+    ${post_type} WHERE ${id_type} = '${req.params.id}' `)
     
     if(!auth_post.rowCount){
       res.status(404).end("there is no post that exists with this id")
+      return;
     }
 
     var deletionRights;
     if(req.query.type === "reply"){
       if(auth_post.rows[0].reply_author_id !== req.user.authorised_user_id){
-        deletionRights = (await checkAdminStatus(req.user.authorised_user_id)).can_delete_posts
+        deletionRights = (await checkAdminStatus(req.user.authorised_user_id))?.can_delete_posts
       } else deletionRights = true
     }
     else if (req.query.type === "subreply"){
       if(auth_post.rows[0].subreply_author_id !== req.user.authorised_user_id){
-        deletionRights = (await checkAdminStatus(req.user.authorised_user_id)).can_delete_posts
+        deletionRights = (await checkAdminStatus(req.user.authorised_user_id))?.can_delete_posts
       } else deletionRights = true
     }
     else{
@@ -665,11 +695,11 @@ router.delete("/replies/:id", async(req, res) => { // QUERY OF type MUST BE EITH
     if(deletionRights){
       // checks are all done, we can now delete post
       await pool.query(`DELETE FROM ${post_type} WHERE ${id_type} = '${req.params.id}'`)
-      res.end("Successfully deleted post")
+      res.status(200).end("Successfully deleted post")
     } else res.status(403).end("you do not have permission to delete this post")
   }
   catch(err){
-    console.log(`ERROR IN DELETE /:username/posts: ${err.message}`)
+    console.log(`ERROR IN DELETE /replies/:id ${err.message}`)
     res.status(500).end("Something went wrong")
   }
 

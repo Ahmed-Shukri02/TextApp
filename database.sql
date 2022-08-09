@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS post_subreplies(
   subreply_author_id uuid NOT NULL REFERENCES user_profile(user_id)
   ON DELETE CASCADE,
   reference_type VARCHAR(20) NOT NULL,
-  subreply_reference_id uuid,
+  subreply_reference_id uuid REFERENCES post_subreplies(subreply_id) ON DELETE CASCADE,
   subreply_text VARCHAR(500) NOT NULL,
   subreply_likes INT NOT NULL DEFAULT 0,
   subreply_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

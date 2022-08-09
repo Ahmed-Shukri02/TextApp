@@ -1,19 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LoggedInContext } from "./Contexts/UserLoginStatus";
 import "./index-style.css"
 import Buttons from "./components/Buttons/Buttons"
+import { useSelector } from "react-redux";
 
 export default function Header(){
-  let {getLoggedInStatus, getUserID} = useContext(LoggedInContext)
   const [loggedInState, setLoggedInState] = useState(null)
-  const navigate = useNavigate()
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
   
   useEffect(() => {
-    async function checkLoggedIn(){
-      setLoggedInState(await getLoggedInStatus())
-    }
-    checkLoggedIn()
+    setLoggedInState(client ? true : false)
   }, [])
 
   function handleLogInOut(e){
@@ -28,9 +24,9 @@ export default function Header(){
     }
   }
 
-  async function navigateHome(){
+  function navigateHome(){
     if(loggedInState){
-      let username = (await getUserID()).username
+      let username = client.username
       window.location.href = `/users/${username}/home`
       return;
     }
@@ -45,7 +41,7 @@ export default function Header(){
       <div className="name">textApp</div>
       <nav>
         <ul>
-          <li><Buttons.DefaultButton theme="white" handleClick={() => navigateHome()}> Home </Buttons.DefaultButton></li>
+          <li><Buttons.DefaultButton theme="white" handleClick={navigateHome}> Home </Buttons.DefaultButton></li>
           <li><Buttons.DefaultButton theme="white" handleClick={() => {window.location.href = "/feed"}}>My Feed</Buttons.DefaultButton></li>
           <li>
             <Buttons.DefaultButton theme="white" handleClick={handleLogInOut}> {loggedInState ? "Logout" : "Login"} </Buttons.DefaultButton>

@@ -186,34 +186,6 @@ router.post("/user_posts", checkAuthentication(), async(req, res) => {
   }
 })
 
-// delete post
-router.delete("/username/posts/:id", checkAuthentication(), async(req, res) => {
-  try{   
-    // check if post to delete was made by the authenticated person
-    let auth_post = await pool.query(`SELECT post_author_id FROM user_posts WHERE post_id = '${req.params.id}' `)
-    if(!auth_post.rowCount){
-      res.status(404).end("there is no post that exists with this id")
-    }
-
-    if(auth_post.rows[0].post_author_id !== req.user.authorised_user_id){
-      // check if user is an admin with deletion rights
-      let deletionRightsQuery = await pool.query(`SELECT can_delete_posts FROM admins\
-      WHERE admin_id = '${req.user.authorised_user_id}'`)
-      if(!deletionRightsQuery.rowCount || !deletionRightsQuery.rows[0].can_delete_posts){
-        res.status(403).end("you do not have the rights to delete this post")
-        return;
-      }
-    } 
-
-    // checks are all done, we can now delete post
-    await pool.query(`DELETE FROM user_posts WHERE post_id = '${req.params.id}'`)
-    res.end("Successfully deleted post")
-  }
-  catch(err){
-    console.log(`ERROR IN DELETE /:username/posts: ${err.message}`)
-    res.status(500).end("Something went wrong")
-  }
-})
 
 // create user
 

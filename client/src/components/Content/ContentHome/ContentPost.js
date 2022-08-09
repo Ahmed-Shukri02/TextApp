@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useRef} from "react";
 
 import IconComponents from "../../../icon-components/icon-components"
 import ContentComment from "./ContentComment"
@@ -6,25 +6,26 @@ import Reply from "./ContentReply";
 import Buttons from "../../Buttons/Buttons";
 import Inputs from "../../Inputs/Inputs";
 import { StockImages } from "../../../Contexts/StockImages";
-import { LoggedInContext } from "../../../Contexts/UserLoginStatus";
 import { useNavigate } from "react-router-dom";
 import "../Content.css"
 import e from "cors";
+import { useSelector } from "react-redux";
 
-export default function ContentPost({postInfo, userInfo, token}){
+export default function ContentPost({postInfo, userInfo, token, index, removeIndex}){
 
   const {images} = useContext(StockImages)
   const [likes, setLikes] = useState(postInfo.post_likes);
   const [isLiked, setLikedStatus] = useState(false);
+  const [clientOwns, setClientOwns] = useState(false)
   const [replies, setReplies] = useState(null)
   const [showReply, setShowReply] = useState(false)
   const [commentBoxReference, setCommentBoxReference] = useState(null)
   const [isCommenting, setCommentingStatus] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
 
-  let {getLoggedInStatus} = useContext(LoggedInContext)
-  let navigate = useNavigate()
-
-  console.log(userInfo)
+  const thisPost = useRef()
+  
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
 
   /*
@@ -36,7 +37,7 @@ export default function ContentPost({postInfo, userInfo, token}){
   // comments
   async function handleLike(){
     // check if user is logged in, if not, prompt user to log in
-    if(!(await getLoggedInStatus())){
+    if(!client){
       window.location.href = "/login"
       return
     }
@@ -153,6 +154,24 @@ export default function ContentPost({postInfo, userInfo, token}){
       setCommentBoxReference(reply_id)
     }
   }
+
+  async function deletePost(){
+    let res = await fetch(`/api/posts/${postInfo.post_id}`, {
+      method: "DELETE",
+      headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`},
+    })
+
+    if(res.status === 200){
+      removeIndex(index)
+    }
+  }
+
+  function popRepliesAtIndex(index){
+    let repliesCopy = [...replies]
+    repliesCopy.splice(index, 1)
+
+    setReplies(repliesCopy)
+  }
   
   useEffect(() =>{
     
@@ -188,6 +207,18 @@ export default function ContentPost({postInfo, userInfo, token}){
     }
 
     fetchData()
+    setClientOwns(client &&  client.user_id === postInfo.post_author_id)
+
+    thisPost.current.addEventListener("mouseenter", () => setIsHovering(true))
+    thisPost.current.addEventListener("mouseleave", () => setIsHovering(false))
+
+    return () => {
+      if(thisPost.current){
+        thisPost.current.removeEventListener("mouseenter", () => setIsHovering(true))
+        thisPost.current.removeEventListener("mouseleave", () => setIsHovering(false))
+      }
+    }
+
   }, [])
   
   function loadedImages(num){
@@ -202,20 +233,25 @@ export default function ContentPost({postInfo, userInfo, token}){
   =============================================================
   */
   
-  const repliesJSX = replies && replies.map(elem => <Reply info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo} token={token}/>); 
+  const repliesJSX = replies && replies.map((elem, index)=> <Reply index={index} removeReply={popRepliesAtIndex} info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo} token={token}/>); 
 
   // COMPONENT
   function personDetails(){
     return (
-      <div className="person-detail-flex">
-        <div className="person-detail-image">
-          {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
+      <div className="person-detail-flex" ref={thisPost}>
+        <div style={{display: "flex", gap: "1em", alignItems: "center"}}>
+          <div className="person-detail-image">
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
+          </div>
+          <div className="person-detail-info">
+            <Buttons.UnderlineButton handleClick={navigateToUser} addStyle="no-padding">
+              <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>
+            </Buttons.UnderlineButton>
+            <div className="post-time">{postInfo.post_time}</div>
+          </div>
         </div>
-        <div className="person-detail-info">
-          <Buttons.UnderlineButton handleClick={navigateToUser} addStyle="no-padding">
-            <div className="post-author">{userInfo.username} {userInfo.is_verified && <IconComponents.Checkmark/>} </div>
-          </Buttons.UnderlineButton>
-          <div className="post-time">{postInfo.post_time}</div>
+        <div className="deleteOptions">
+          {(clientOwns && isHovering) &&<Buttons.DefaultButton theme="white" handleClick={() => deletePost()}><IconComponents.TrashIcon iconClass="delete-icon"/></Buttons.DefaultButton> }
         </div>
       </div>
     )
@@ -238,15 +274,13 @@ export default function ContentPost({postInfo, userInfo, token}){
     
     async function handleComment(e){
       // check if user is logged in, if not, prompt user to log in
-      if(!(await getLoggedInStatus())){
+      if(!client){
         window.location.href = "/login"
         return
       }
       
       setCommentingStatus((oldVal) => !oldVal)
     }
-
-    console.log(isCommenting)
     
     function seeMore(num){
       // check if comments + 2 is larger than the available comments. If so, set the commentslength to max available comments

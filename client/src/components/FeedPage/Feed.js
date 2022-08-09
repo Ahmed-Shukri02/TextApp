@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MediaContext } from "../../Contexts/MediaContext";
-import { LoggedInContext } from "../../Contexts/UserLoginStatus";
 import Footer from "../../Footer";
 import Header from "../../Header";
 import IconComponents from "../../icon-components/icon-components";
@@ -11,15 +10,16 @@ import Backgrounds from "../../backgrounds/Backgrounds";
 import "./feed.css"
 import LoadingScreen from "../LoadingPage/LoadingPage";
 import { AnimatePresence } from "framer-motion/dist/framer-motion";
+import { useSelector } from "react-redux";
 
 export default function Feed(){
 
   const [posts, setPosts] = useState(null)
   const [postsJSX, setPostsJSX] = useState(null)
-  const [user, setUser] = useState(null)
-  const {getUserID} = useContext(LoggedInContext)
   const {isTablet} = useContext(MediaContext)
   const [loading, setLoading] = useState(true)
+
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
   let selectButtonProps = {
     theme: "white",
@@ -42,15 +42,7 @@ export default function Feed(){
 
       setPosts(posts_json)
     }
-    async function grabUser(){
-      let user = await getUserID()
-      if(user){
-        console.log(user)
-        setUser(user)
-      }
-    }
-    
-    grabUser()
+
     grabPosts()
     document.body.style.background = Backgrounds.CircleBackground()
     document.body.style.backgroundSize = "contain"
@@ -70,7 +62,7 @@ export default function Feed(){
       let post_len = posts.length
       for(let i = 0; i < post_len; i++){
         let post_author = await queryUser(posts[i].post_author_id)
-        posts_jsx.push(<ContentPost key={posts[i].post_id} userInfo={post_author} postInfo = {posts[i]} token={localStorage.getItem("userToken")}/>)
+        posts_jsx.push(<ContentPost index={i} removeIndex={removeIndex} key={posts[i].post_id} userInfo={post_author} postInfo = {posts[i]} token={localStorage.getItem("userToken")}/>)
       }
   
       console.log(posts_jsx)
@@ -89,6 +81,11 @@ export default function Feed(){
     return await response.json() // returns user_info
   }
 
+  function removeIndex(index){
+    let posts_copy = [...posts]
+    posts_copy.splice(index, 1)
+    setPosts(posts_copy)
+  }
 
   return(
     <>
@@ -118,7 +115,7 @@ export default function Feed(){
           <div className="content-home">
             <div className="content-home-right">
               <h2 className = "feed-welcome-text">Welcome, User!</h2>
-              {user &&<PostPrompt posts={posts} setPosts={setPosts} userInfo={user}/>}
+              {client &&<PostPrompt posts={posts} setPosts={setPosts} userInfo={client}/>}
               {postsJSX}
             </div>
           </div>

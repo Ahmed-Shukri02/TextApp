@@ -1,15 +1,15 @@
 import React, { useContext, useRef } from "react";
 import { useState, useEffect } from "react";
-import { LoggedInContext } from "../../../Contexts/UserLoginStatus";
 import ContentPost from "./ContentPost";
 import PostPrompt from "./PostPrompt";
+import { useSelector } from "react-redux";
 
 export default function ContentRight({userInfo, token}){
   
   const [posts, setPosts] = useState([])
   const [noPosts, setNoPosts] = useState(null)
   const [isUser, setIsUser] = useState(null)
-  const {getUserID} = useContext(LoggedInContext)
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
 
   useEffect(() =>{
@@ -35,9 +35,7 @@ export default function ContentRight({userInfo, token}){
     }
     
     async function checkIsUsersPage(){
-      let user_id_res = await getUserID()
-      console.log(user_id_res)
-      if(user_id_res && user_id_res.user_id === userInfo.user_id){
+      if(client && client.user_id === userInfo.user_id){
         setIsUser(true)
       } else setIsUser(false)
     }
@@ -46,8 +44,13 @@ export default function ContentRight({userInfo, token}){
     checkIsUsersPage()
   }, [])
 
+  function popIndex(index){
+    let posts_copy = [...posts]
+    posts_copy.splice(index, 1)
+    setPosts(posts_copy)
+  }
   
-  const postsJSX = posts && posts.map(elem => <ContentPost postInfo={elem} userInfo={userInfo} key={elem.post_id} token={token}/>)
+  const postsJSX = posts && posts.map((elem, index) => <ContentPost index={index} removeIndex = {popIndex} postInfo={elem} userInfo={userInfo} key={elem.post_id} token={token}/>)
 
 
   return (
