@@ -5,7 +5,19 @@ a{
 .content-container{
   margin: 0 auto;
   min-height: 100vh;
+  flex-basis: 50%;
   background-color: rgb(247, 247, 247);
+}
+
+.content-container-full{
+  flex-basis: 100% !important;
+  margin: 0;
+}
+
+@media (max-width: 1000px){
+  .content-home-left{
+    width: 100%;
+  }
 }
 
 .delete-icon{
@@ -124,7 +136,7 @@ a{
 .content-home{
 
   .content-home-right{
-    flex-basis: 55%;
+    flex-basis: 100%;
     overflow: hidden;
 
     // for all profile images within the post
@@ -407,54 +419,111 @@ a{
       }
     }
   }
+}
 
-  .content-home-left{
+.content-home-left{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 90%;
+  margin: 0 auto;
+
+  box-sizing: border-box;
+  *{
+    box-sizing: border-box;
+  }
+
+
+  >*{
+    min-height: 100px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 .5px 5px lightgray;
+    border-radius: 5px;
+    padding: 1em;
+    font-size: 1rem;
+  }
+
+  .about{
     display: flex;
     flex-direction: column;
     gap: 1em;
-    flex-basis: 45%;
 
     >*{
-      min-height: 100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5em;
+    }
+  }
+
+  .photos{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    
+    .photos-grid{
+      display: grid;
+      grid-template: 1fr 1fr / 1fr 1fr;
+      justify-content: center;
+      align-items: center;
+      gap: .5em;
+    }
+
+    .grid-image{
       width: 100%;
-      background-color: white;
-      box-shadow: 0 .5px 5px lightgray;
       border-radius: 5px;
+      cursor: pointer;
+      transition: all .2s ease-out;
+
+      &:hover{
+        transform: scale(1.02);
+        box-shadow: .5px .5px 5px lightslategray;
+      }
+    }
+
+    .grid-image-loading{
+      width: 100%; height: 100px;
+      border-radius: 5px;
+      background-color: lightgray;
+    }
+
+    .photos-more{
+      align-self: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s ease-out;
+      border-radius: 5px;
+      width: 50%;
       padding: 1em;
-      font-size: 1rem;
-    }
 
-    .about{
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-
-      >*{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 0.5em;
+      &:hover{
+        background-color: lightgray;
+        border: .5px .5px 5px lightslategray
       }
     }
+  }
 
-    .photos{
+  .videos{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    .videos-header{
+      display: flex; flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .videos-content{
       display: flex;
       flex-direction: column;
-      gap: 1em;
+      gap: 0.5em;
       
-      .photos-grid{
-        display: grid;
-        grid-template: 1fr 1fr / 1fr 1fr;
-        justify-content: center;
-        align-items: center;
-        gap: .5em;
-      }
-  
-      .grid-image{
+      .video-card{
         width: 100%;
         border-radius: 5px;
-        cursor: pointer;
+        align-self: center;
         transition: all .2s ease-out;
 
         &:hover{
@@ -463,107 +532,56 @@ a{
         }
       }
 
-      .grid-image-loading{
-        width: 100%; height: 100px;
-        border-radius: 5px;
-        background-color: lightgray;
-      }
-
-      .photos-more{
-        align-self: center;
-        text-align: center;
-        cursor: pointer;
-        transition: all .2s ease-out;
-        border-radius: 5px;
-        width: 50%;
-        padding: 1em;
-
-        &:hover{
-          background-color: lightgray;
-          border: .5px .5px 5px lightslategray
-        }
+      .video-card-desc{
+        font-weight: bold;
       }
     }
 
-    .videos{
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-
-      .videos-header{
-        display: flex; flex-direction: row;
-        justify-content: space-between;
+    .videos-interaction{
+      
+      
+      .video-stats{
+        font-size: 0.8rem;
+        color: lightslategray;
       }
-
-      .videos-content{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-        
-        .video-card{
-          width: 100%;
-          border-radius: 5px;
-          align-self: center;
-          transition: all .2s ease-out;
-
-          &:hover{
-            transform: scale(1.02);
-            box-shadow: .5px .5px 5px lightslategray;
-          }
-        }
-
-        .video-card-desc{
-          font-weight: bold;
-        }
-      }
-
-      .videos-interaction{
-        
-        
-        .video-stats{
-          font-size: 0.8rem;
-          color: lightslategray;
-        }
-      }
-    }
-
-    .related-pages{
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-
-      .related-card{
-        display: flex; flex: row;
-        align-items: center;
-
-        >*{
-          padding: 0.5em;
-        }
-        
-        .related-card-image img, .related-image-loading{
-          width: 50px;
-          border-radius: 50%;
-          border: 1px solid lightgray;
-          aspect-ratio: 1/1;
-        }
-
-        .related-image-loading{
-          background-color: gray;
-        }
-
-        .related-about{
-          font-size: 0.9rem;
-        }
-      }
-    }
-
-    .small-talk{
-      font-size: 0.8rem;
-      color: lightslategray;
     }
   }
-}
 
+  .related-pages{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .related-card{
+      display: flex; flex: row;
+      align-items: center;
+
+      >*{
+        padding: 0.5em;
+      }
+      
+      .related-card-image img, .related-image-loading{
+        width: 50px;
+        border-radius: 50%;
+        border: 1px solid lightgray;
+        aspect-ratio: 1/1;
+      }
+
+      .related-image-loading{
+        background-color: gray;
+      }
+
+      .related-about{
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .small-talk{
+    font-size: 0.8rem;
+    color: lightslategray;
+  }
+}
 
 .content-review{
   

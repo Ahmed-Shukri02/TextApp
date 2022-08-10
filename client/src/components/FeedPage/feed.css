@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: row;
   justify-content: start;
-  gap: 5em;
   height: 100%;
 
 }
@@ -15,42 +14,6 @@
   box-sizing: border-box;
 }
 
-.feed-left{
-  background-color: white;
-  flex-basis: 20%;
-  box-shadow: 1px 0 5px -2px lightgray;
-}
-
-.feed-options{
-  padding-top: 2em;
-  display: flex;
-  flex-direction: column;
-  gap: 3em;
-
-  position: sticky;
-  top: 100px;
-}
-
-
-.feed-options .feed-options-basic{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
-  padding-left: 1em;
-}
-
-.friends-flex, .suggested-users{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 20em;
-}
-
-.feed-users{
-  flex-basis: 30%;
-}
-
 .feed-welcome-text{
   background-color: white;
   border: 1px solid lightgray;
@@ -59,9 +22,21 @@
   padding: 1em
 }
 
+.feed-users{
+  flex-basis: 30%;
+}
+
 @media (max-width: 1000px){
   .feed-container .content-home{
     flex-basis: 100%;
   }
 
+}
+
+
+.feed-container .profile-card{
+  position: sticky;
+  top: 0;
+  overflow-y: scroll;
+  height: 100vh;
 }

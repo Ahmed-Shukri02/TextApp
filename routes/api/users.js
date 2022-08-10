@@ -90,7 +90,7 @@ router.post("/login", async (req,res) => {
       // sign user in if everything goes well
       let user = {user_id}
       console.log(user)
-      jwt.sign(user, "thisisasecretpasswordlmao", {expiresIn: "1d"}, (err, token) =>{
+      jwt.sign(user, `${process.env.JWT_SECRET}`, {expiresIn: "1d"}, (err, token) =>{
         if(err) throw err;
     
         res.json({username, token})

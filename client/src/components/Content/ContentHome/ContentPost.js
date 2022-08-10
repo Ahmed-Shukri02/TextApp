@@ -11,7 +11,7 @@ import "../Content.css"
 import e from "cors";
 import { useSelector } from "react-redux";
 
-export default function ContentPost({postInfo, userInfo, token, index, removeIndex}){
+export default function ContentPost({postInfo, userInfo, token, index, removeIndex, fromFeed = false, feedHandleNameClick}){
 
   const {images} = useContext(StockImages)
   const [likes, setLikes] = useState(postInfo.post_likes);
@@ -141,9 +141,16 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   }
 
   function navigateToUser(e){
-    let name = e.target.innerText
-    window.location.href = `/users/${name}/home`
-    return
+    console.log(fromFeed)
+    if(fromFeed){
+      feedHandleNameClick(userInfo)
+    }
+    else{
+      let name = e.target.innerText
+      window.location.href = `/users/${name}/home`
+      return
+    }
+    
   }
   
   function handleCommentingToReply(reply_id){

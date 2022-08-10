@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {Link, Route, Routes, useParams} from "react-router-dom"
 import { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
@@ -10,12 +10,15 @@ import Header from "../Header";
 import Footer from "../Footer";
 import LoadingScreen from "./LoadingPage/LoadingPage";
 import { AnimatePresence } from "framer-motion/dist/framer-motion";
+import { MediaContext } from "../Contexts/MediaContext";
+import Sidebar from "./Sidebars/Sidebar";
 
 export default function User(){
   
   const [userInfo, setUserInfo] = useState(null)
   const [doesExist, setExistStatus] = useState(null)
   const [loading, setLoading] = useState(true)
+  const {isTablet} = useContext(MediaContext)
 
 
   let {id} = useParams();
@@ -69,41 +72,35 @@ export default function User(){
 
   }, [])
 
-  function getPage(){
-    if(!userInfo){
-      return (
-        <div style={{minHeight: "100vh", backgroundColor: "lightgray", opacity: "50%", display: "flex", alignItems:"center"}}>
-          <div className="loading-icon"><IconComponents.LoadingIcon/></div>
-        </div>
-      )
-    }
-    
-    
-    else if(doesExist){
-      return (
-          <div className="main-container">
-            <ProfileCard userInfo={userInfo}/> 
-          
-            <div className="content-container">
-              <Routes>
-                <Route path='home' element={<ContentHome userInfo={userInfo} token={token}/>} />
-                <Route path='review' element={<ContentReview userInfo={userInfo} token={token}/>} />
-              </Routes>
-            </div>
-
+  function userPage(){
+    if(!isTablet) return(
+      <div className="main-container">
+        <div style={{display: "flex"}}>
+          <Sidebar/>
+          <div className="content-container">
+            <Routes>
+              <Route path='home' element={<ContentHome userInfo={userInfo} token={token}/>} />
+              <Route path='review' element={<ContentReview userInfo={userInfo} token={token}/>} />
+            </Routes>
           </div>
-      )
-    }
+          <ProfileCard userInfo={userInfo}/>
+        </div> 
+      </div>
+    )
 
-    else if(!doesExist){
-      return (
-        <div> This user does not exist </div>
-      )
-    }
-
-    else{
-      return;
-    }
+    else return(
+      <div className="main-container">
+        <div style={{display: "flex", flexDirection: "column"}}>
+          <ProfileCard userInfo={userInfo}/>
+          <div className="content-container content-container-full">
+            <Routes>
+              <Route path='home' element={<ContentHome userInfo={userInfo} token={token}/>} />
+              <Route path='review' element={<ContentReview userInfo={userInfo} token={token}/>} />
+            </Routes>
+          </div>
+        </div> 
+      </div>
+    )
   }
   
   
@@ -112,17 +109,7 @@ export default function User(){
       <Header/>
         <AnimatePresence>{loading && <LoadingScreen/>}</AnimatePresence>
         
-        {userInfo && <div className="main-container">
-            <ProfileCard userInfo={userInfo}/> 
-          
-            <div className="content-container">
-              <Routes>
-                <Route path='home' element={<ContentHome userInfo={userInfo} token={token}/>} />
-                <Route path='review' element={<ContentReview userInfo={userInfo} token={token}/>} />
-              </Routes>
-            </div>
-
-          </div>}
+        {userInfo && userPage()}
       <Footer/>
     </div>
   )

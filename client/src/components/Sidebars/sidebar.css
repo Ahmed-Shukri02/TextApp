@@ -1,0 +1,31 @@
+.sidebar-left{
+  background-color: white;
+  flex-basis: 20%;
+  box-shadow: 1px 0 5px -2px lightgray;
+}
+
+.sidebar-options{
+  padding-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+
+  position: sticky;
+  top: 100px;
+}
+
+
+.sidebar-options .sidebar-options-basic{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  padding-left: 1em;
+}
+
+.friends-flex, .suggested-users{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 20em;
+}

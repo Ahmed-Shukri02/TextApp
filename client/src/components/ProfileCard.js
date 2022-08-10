@@ -4,16 +4,32 @@ import ProfileLink from "./profileLink";
 import IconComponents from "../icon-components/icon-components";
 import ProfileNav from "./profileNav";
 import { StockImages } from "../Contexts/StockImages";
+import ContentLeft from "./Content/ContentHome/ContentLeft";
+import LoadingScreen from "./LoadingPage/LoadingPage";
 
-export default function ProfileCard({userInfo}){
+export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
   
+  const [loaded, setLoaded] = useState(false)
   const {images} = useContext(StockImages)
   const bg = useRef()
 
   useEffect(() => {
-    bg.current.style.background = userInfo.bg_image ? `url( /${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
+    if(fromFeed){
+      setTimeout(() => {
+        setLoaded(true)
+      }, 2000);
+    }
+    else{
+      setLoaded(true)
+    }
 
   }, [])
+
+  useEffect(() => {
+    if(bg.current){
+      bg.current.style.background = userInfo.bg_image ? `url( /${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
+    }
+  }, [bg])
 
   function loadSingleImg(num){
     return images? 
@@ -45,6 +61,7 @@ export default function ProfileCard({userInfo}){
   }
   
   return (
+    ! loaded ? <LoadingScreen disableScroll={false}/> :
     <div className="profile-card">
       <div className="bg">
         <div className="bg-image" ref={bg}></div>
@@ -65,11 +82,12 @@ export default function ProfileCard({userInfo}){
             {profileName()}
           </div>
           
-          <ProfileLink />
+          <ProfileLink fromFeed={fromFeed} feedHandleClickOff={feedHandleClickOff}/>
         </div>
       </div>  
 
       <ProfileNav userInfo={userInfo}/>
+      <ContentLeft userInfo={userInfo}/>
 
     </div>
   )

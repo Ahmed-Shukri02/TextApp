@@ -4,12 +4,12 @@ import ClimbingBoxLadder from "react-spinners/ClimbingBoxLoader"
 import { motion } from "framer-motion/dist/framer-motion";
 
 
-export default function LoadingScreen(){
+export default function LoadingScreen({disableScroll = true, elem = document.body}){
 
   useEffect(() => {
-    document.body.style.overflow = "hidden"
+    if(disableScroll) elem.style.overflow = "hidden"
 
-    return () => document.body.style.overflow = "scroll"
+    return () => {if(disableScroll) elem.style.overflow = "scroll"}
   })
 
   return (

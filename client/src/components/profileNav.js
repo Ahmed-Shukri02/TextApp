@@ -48,11 +48,6 @@ export default function ProfileNav({userInfo}){
         </div>
 
         <div>
-          <Link to={`reviews`} onClick={(e) => handleClick(e)}></Link>
-          <div className="selection-content">Reviews</div>
-        </div>
-
-        <div>
           <Link to={`videos`} onClick={(e) => handleClick(e)}> </Link>
           <div className="selection-content">Videos</div>
         </div>

@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 h2, h3, p {
@@ -58,6 +59,7 @@ header, .main, .footer {
 
 .main-container {
   box-shadow: 0 0.5px 5px lightgray;
+  display: flex;
 }
 
 .footer-container {
@@ -111,6 +113,8 @@ header, .main, .footer {
 
 .profile-card {
   box-shadow: 0 0.5px 5px lightgray;
+  flex-basis: 30%;
+  background-color: white;
 }
 .profile-card .bg {
   background: url("/images/bg-image.jpg");

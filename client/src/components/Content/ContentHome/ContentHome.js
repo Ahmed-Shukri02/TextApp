@@ -6,7 +6,6 @@ export default function ContentHome({userInfo, token}){
   
   return (
     <div className="content content-home">
-      <ContentLeft userInfo={userInfo}/>
       <ContentRight userInfo={userInfo} token={token}/>
     </div>
   )
