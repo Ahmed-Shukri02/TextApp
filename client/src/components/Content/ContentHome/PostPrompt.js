@@ -9,6 +9,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
   const {images, loadedImages} = useContext(StockImages)
   const textBox = useRef(null)
   const textContainer = useRef(null)
+  const [isPosting, setIsPosting] = useState(false)
 
   // useEffect used only for checking and initialising post prompt
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
       return;
     }
     
+    setIsPosting(true)
     let {text} = e.target.elements
     
     try{
@@ -51,6 +53,9 @@ export default function PostPrompt({posts, userInfo, setPosts}){
 
       console.log(finalPosts)
       setPosts(finalPosts)
+      setIsPosting(false)
+      setTimeout(() => {
+      }, 2000);
     }
     catch(err){
       console.log(err)
@@ -62,7 +67,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
       <form className="post-form" onSubmit={(e) => handlePost(e)}>
         <div className="person-detail-flex" style={{paddingBottom : "0.5em"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /api/media/${userInfo.user_pfp}`} alt=""/>}
           </div>
           <textarea maxLength="500" name="text" className="post-textbox" placeholder="Post something here!" ref={textBox}></textarea>
         </div>
@@ -86,7 +91,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
         </div>
 
         <div style={{display: "flex", justifyContent: "center"}}>
-          <Buttons.DefaultButton submit={true} contentColor="white" width="60%" height="2.5em" fontSize="0.8rem">
+          <Buttons.DefaultButton isLoading={isPosting} submit={true} contentColor="white" width="60%" height="2.5em" fontSize="0.8rem">
             Post
           </Buttons.DefaultButton>
         </div>

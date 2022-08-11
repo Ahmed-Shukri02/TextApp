@@ -12,6 +12,10 @@
   padding: 0 !important;
 }
 
+.button-loading-icon{
+  font-size: 2rem !important;
+}
+
 .submit-button{
   border: none;
   background-color: rgb(247, 247, 247);

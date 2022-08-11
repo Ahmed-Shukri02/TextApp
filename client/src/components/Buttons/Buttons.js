@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import IconComponents from "../../icon-components/icon-components";
 import "./Buttons_style.css";
 
 export default class Buttons{
 
-  static SubmitButton({children = "Submit", width = "auto", height = null,}){
+  static SubmitButton({children = "Submit", width = "auto", height = null, isLoading = false}){
     const baseStyle = {
       width: width,
     }
@@ -22,17 +23,18 @@ export default class Buttons{
     
     return(
       <button 
-      className="submit-button" 
+      className={`submit-button ${isLoading && "no-padding"}`}
       type="submit" 
+      disabled = {isLoading}
       style={style} 
       onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}
       onTouchEnd ={() => setStyle({...myStyle})}>
-        {children}
+        {isLoading? <IconComponents.LoadingIcon iconClass="button-loading-icon" color= "#fff"/> : children}
       </button>
     )
   }
 
-  static DefaultButton({children, width = "auto", height = null, theme= "blue", fontSize="1rem", contentColor="black", handleClick = () => "", submit = false, addStyle = ""}){
+  static DefaultButton({children, width = "auto", height = null, theme= "blue", fontSize="1rem", contentColor="black", handleClick = () => "", submit = false, addStyle = "", isLoading = false}){
     const baseStyle = {
       width: width,
       fontSize: fontSize,
@@ -72,18 +74,19 @@ export default class Buttons{
 
     return (
       <button 
-      className= {"default-" + theme + ` ${addStyle}`}
+      className= {"default-" + theme + ` ${addStyle}` + `${isLoading && "no-padding"}`}
       onClick={onClick} 
-      style={style} 
+      style={style}
+      disabled={isLoading}
       onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}
       onTouchEnd ={() => setStyle({...myStyle})}>
-        {children && children}
+        {isLoading? <IconComponents.LoadingIcon iconClass="button-loading-icon" color={theme === "white" ? "#1B74E4" : "#fff"}/> : children}
       </button>
     )
   }
 
 
-  static UnderlineButton({children, width = "auto", height = null, theme= "white", fontSize="1rem", contentColor="black", handleClick = () => "", addStyle = ""}){
+  static UnderlineButton({children, width = "auto", height = null, theme= "white", fontSize="1rem", contentColor="black", handleClick = () => "", addStyle = "", isLoading = false}){
     const baseStyle = {
       width: width,
       fontSize: fontSize,
@@ -117,12 +120,13 @@ export default class Buttons{
 
     return (
       <button 
-      className= {"underline-" + theme + ` ${addStyle}`}
+      className= {"underline-" + theme + ` ${addStyle}` + `${isLoading && "no-padding"}`}
       onClick={onClick} 
       style={style} 
+      disabled = {isLoading}
       onTouchStart={() => setStyle({...myStyle, ...mobileStyle})}
       onTouchEnd ={() => setStyle({...myStyle})}>
-        {children && children}
+        {isLoading? <IconComponents.LoadingIcon iconClass="button-loading-icon" color={theme === "white" ? "#1B74E4" : "#fff"}/> : children}
       </button>
     )
   }

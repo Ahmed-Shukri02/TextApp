@@ -2,14 +2,6 @@ const jwt = require("jsonwebtoken")
 const { Pool } = require("pg");
 require("dotenv").config()
 
-/* const devConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  port: process.env.DB_PORT,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DB_DATABASE
-}
- */
 
 const devConfig = `prostgresql://${process.env.DB_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 

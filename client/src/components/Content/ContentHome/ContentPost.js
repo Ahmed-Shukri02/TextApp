@@ -22,6 +22,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   const [commentBoxReference, setCommentBoxReference] = useState(null)
   const [isCommenting, setCommentingStatus] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+  const [likeLoading, setLikeLoading] = useState(false)
 
   const thisPost = useRef()
   
@@ -44,7 +45,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
 
     try{
       console.log(isLiked)
-      
+      setLikeLoading(true)
       // check liked status
       if(isLiked){
         //unlike the post
@@ -103,6 +104,9 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
       }
 
       setLikedStatus((oldVal) => !oldVal);
+      setLikeLoading(false)
+      setTimeout(() => {
+      }, 2000);
       return
     }
     catch(err){
@@ -248,7 +252,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
       <div className="person-detail-flex" ref={thisPost}>
         <div style={{display: "flex", gap: "1em", alignItems: "center"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /${userInfo.user_pfp}`} alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /api/media/${userInfo.user_pfp}`} alt=""/>}
           </div>
           <div className="person-detail-info">
             <Buttons.UnderlineButton handleClick={navigateToUser} addStyle="no-padding">
@@ -306,17 +310,25 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
       input.value = ""
     }
 
+    const buttonStyle= {
+      theme:"white",
+      fontSize:"0.9rem",
+      contentColor:"lightslategray",
+      width:"3em"
+    }
+
     return (
       replies && // ONLY LOAD WHEN REPLIES HAVE LOADED
       <div className="post-interaction">
         <div className="interaction-prompt">
           <div className="interaction-prompt-left">
             { isLiked ?
-            <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> {likes} </div> :
-            <div className="add-like" onClick={handleLike}><IconComponents.ThumbUpIcon/> {likes} </div>
+            <Buttons.DefaultButton {...buttonStyle} handleClick={handleLike} isLoading={likeLoading}><IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> {likes} </Buttons.DefaultButton> :
+            <Buttons.DefaultButton handleClick={handleLike} {...buttonStyle} isLoading={likeLoading}><IconComponents.ThumbUpIcon/> {likes} </Buttons.DefaultButton>
             }
-            <div className="add-comment" onClick={handleComment}><IconComponents.ChatBubbleIcon/> {replies.length} </div>
-            <div className="share"><IconComponents.ArrowIcon/> 0 </div>
+            <Buttons.DefaultButton {...buttonStyle} handleClick={handleComment}><IconComponents.ChatBubbleIcon/> {replies.length} </Buttons.DefaultButton>
+
+            <Buttons.DefaultButton {...buttonStyle}><IconComponents.ArrowIcon/> 0 </Buttons.DefaultButton>
           </div>
           <div className="interaction-prompt-right">
             {replies.length > 0 &&
@@ -329,7 +341,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
           </div>
         </div>
 
-        {isCommenting && <ContentComment loadedImages = {loadedImages} handleReply ={handleReply}  /*replyToStats = {replyStats} closeReply={() => ""} */ />}
+        {isCommenting && <ContentComment loadedImages = {loadedImages} handleReply ={handleReply}/>}
 
           {(replies.length > 0 && showReply) &&
           <div className="replies">

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const {getSqlClause, checkAuthentication, checkAdminStatus, pool} = require("../../Tools/Functions")
 const multer = require("multer")
+const {uploadToCloud} = require(`../../s3`)
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -40,9 +41,11 @@ router.post("/uploads", checkAuthentication(), upload.single("image"), async(req
     res.end("invalid queries in URL")
     return;
   }
-  console.log(req.user)
 
-  let queryRes = await pool.query(`UPDATE user_profile SET ${req.query.type} = '${req.file.path}'\
+  let bucket_obj = await uploadToCloud(req.file)
+  console.log(bucket_obj)
+
+  let queryRes = await pool.query(`UPDATE user_profile SET ${req.query.type} = '${req.file.filename}'\
   WHERE user_id = '${req.user.authorised_user_id}' RETURNING *`)
   res.json(queryRes.rows[0]).end()
 })

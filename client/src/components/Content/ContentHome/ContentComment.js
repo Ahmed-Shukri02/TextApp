@@ -2,6 +2,7 @@ import React from "react";
 import { useState} from "react"
 import {useTransition, animated} from "react-spring"
 import IconComponents from "../../../icon-components/icon-components";
+import { useSelector } from "react-redux";
 
 import Buttons from "../../Buttons/Buttons";
 
@@ -13,8 +14,8 @@ export default function commentBox({loadedImages, handleReply, isReplying, reply
     enter: {opacity: 1, y: "0"},
     leave: {opacity: 0}
   })
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
   
-  var myPfp = 7;
 
   function handleSubmit(e){
     e.preventDefault()
@@ -38,7 +39,7 @@ export default function commentBox({loadedImages, handleReply, isReplying, reply
 
   return (
     <div className="comment-box">
-      <div className="reply-profile-img">{loadedImages(myPfp)}</div>
+      <div className="reply-profile-img">{client.user_pfp ? <img className="media" src={` /api/media/${client.user_pfp}`} alt=""/> :loadedImages(client.stock_pfp)}</div>
       <form onSubmit={handleSubmit} className="comment-form">
         {transition((style, item) => (
           item && <animated.div className="empty-prompt" style={style}> Please write something</animated.div>

@@ -27,6 +27,7 @@ const logger = (req, res, next) => {
 app.use(logger)
 app.use("/api/users", require("./routes/api/users.js"))
 app.use("/api/posts", require("./routes/api/posts.js"))
+app.use("/api/media", require("./routes/api/media.js"))
 
 const PORT = process.env.PORT || 5000
 app.get("*", (req, res) => {

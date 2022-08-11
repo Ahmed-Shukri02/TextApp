@@ -27,7 +27,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
 
   useEffect(() => {
     if(bg.current){
-      bg.current.style.background = userInfo.bg_image ? `url( /${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
+      bg.current.style.background = userInfo.bg_image ? `url(/api/media/${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
     }
   }, [bg])
 
@@ -74,7 +74,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
             <div style={{flexBasis: "20%"}}>
               <div className="profile-img-container">
                 { userInfo && (
-                  userInfo.user_pfp ? <img className = "profile-img" src={` /${userInfo.user_pfp}`} alt=""/> : loadSingleImg(userInfo.stock_pfp)
+                  userInfo.user_pfp ? <img className = "profile-img" src={` /api/media/${userInfo.user_pfp}`} alt=""/> : loadSingleImg(userInfo.stock_pfp)
                   )
                 }
               </div>
