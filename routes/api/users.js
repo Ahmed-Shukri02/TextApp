@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt")
 const {getSqlClause, checkAuthentication, checkAdminStatus, pool} = require("../../Tools/Functions")
 const multer = require("multer")
 const {uploadToCloud} = require(`../../s3`)
+require("dotenv").config()
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

@@ -47,7 +47,7 @@ function checkAuthentication(allow = false){
     let token = bearerHeader.split(" ")[1]
     
     // verify token. if correct, then add authorised_user_id to body
-    jwt.verify(token, "thisisasecretpasswordlmao", (err, authData) => {
+    jwt.verify(token, `${process.env.JWT_SECRET}`, (err, authData) => {
       if(err && !allow){
         res.writeHead(403)
         res.end("403 ACCESS DENIED: Invalid Token")
