@@ -31,7 +31,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     toggleCommentBox(info.reply_id)
 
   }
-
+  
   function popSubReplies(index){
     let subreplies_copy = [...subreplies]
     subreplies_copy.splice(index, 1)

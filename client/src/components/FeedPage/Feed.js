@@ -7,7 +7,7 @@ import PostPrompt from "../Content/ContentHome/PostPrompt";
 import Backgrounds from "../../backgrounds/Backgrounds";
 import "./feed.css"
 import LoadingScreen from "../LoadingPage/LoadingPage";
-import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import Sidebar from "../Sidebars/Sidebar";
 import ProfileCard from "../ProfileCard"

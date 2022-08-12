@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 import Buttons from "../../Buttons/Buttons";
 
-export default function commentBox({loadedImages, handleReply, isReplying, replyTo = null, type=null/* replyToStats, closeReply */}){
+export default function CommentBox({loadedImages, handleReply, isReplying, replyTo = null, type=null/* replyToStats, closeReply */}){
 
   const [isEmpty, setEmptyStatus] = useState(false, [])
   const transition = useTransition(isEmpty, {
@@ -38,7 +38,7 @@ export default function commentBox({loadedImages, handleReply, isReplying, reply
   }
 
   return (
-    <div className="comment-box">
+    <div className="comment-box" data-testid="comment-box">
       <div className="reply-profile-img">{client.user_pfp ? <img className="media" src={` /api/media/${client.user_pfp}`} alt=""/> :loadedImages(client.stock_pfp)}</div>
       <form onSubmit={handleSubmit} className="comment-form">
         {transition((style, item) => (

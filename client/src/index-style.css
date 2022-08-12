@@ -117,7 +117,7 @@ header, .main, .footer {
   background-color: white;
 }
 .profile-card .bg {
-  background: url("/images/bg-image.jpg");
+  background: url("images/bg-image.jpg");
   height: 300px;
 }
 .profile-card .bg .bg-image {

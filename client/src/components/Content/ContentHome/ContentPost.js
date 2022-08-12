@@ -44,7 +44,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
     }
 
     try{
-      console.log(isLiked)
       setLikeLoading(true)
       // check liked status
       if(isLiked){
@@ -58,7 +57,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         })
 
         let likesValue = await likes.json()
-        console.log(likesValue)
         
         let likes_users = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
           method: "DELETE",
@@ -69,7 +67,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         })
 
         likes_users = await likes_users.json()
-        console.log(likes_users)
 
         setLikes((oldVal) => oldVal - 1)
 
@@ -86,7 +83,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         })
 
         let likesValue = await likes.json()
-        console.log(likesValue)
 
         let likes_users = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
           method: "POST",
@@ -97,8 +93,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         })
 
         likes_users = await likes_users.json()
-        console.log(likes_users)
-
         setLikes((oldVal) => oldVal + 1)
 
       }
@@ -130,7 +124,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
       })
 
       let newRowJson = await newRow.json()
-      console.log(newRowJson)
 
       let repliesCopy = [...replies]
       repliesCopy.unshift(newRowJson)
@@ -145,7 +138,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   }
 
   function navigateToUser(e){
-    console.log(fromFeed)
     if(fromFeed){
       feedHandleNameClick(userInfo)
     }
@@ -195,7 +187,6 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
             "Authorization" : `Bearer ${token}`
           }
         })
-  
         let likesObj = await likes.json()
   
         setLikedStatus(likesObj.client_like_status)
@@ -207,7 +198,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
           }
         })
         replies = await replies.json()
-        //console.log(replies)
+
         setReplies(replies)
         
       }
@@ -249,7 +240,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   // COMPONENT
   function personDetails(){
     return (
-      <div className="person-detail-flex" ref={thisPost}>
+      <div data-testid="person-detail-flex" className="person-detail-flex" ref={thisPost}>
         <div style={{display: "flex", gap: "1em", alignItems: "center"}}>
           <div className="person-detail-image">
             {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /api/media/${userInfo.user_pfp}`} alt=""/>}
@@ -261,7 +252,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
             <div className="post-time">{postInfo.post_time}</div>
           </div>
         </div>
-        <div className="deleteOptions">
+        <div data-testid="delete-options" className="deleteOptions">
           {(clientOwns && isHovering) &&<Buttons.DefaultButton theme="white" handleClick={() => deletePost()}><IconComponents.TrashIcon iconClass="delete-icon"/></Buttons.DefaultButton> }
         </div>
       </div>
@@ -280,7 +271,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
 
   // COMPONENT
 
-  function interaction(){
+  function Interaction(){
     const [commentsLength, setCommentsLength] = useState(1)
     
     async function handleComment(e){
@@ -326,7 +317,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
             <Buttons.DefaultButton {...buttonStyle} handleClick={handleLike} isLoading={likeLoading}><IconComponents.ThumbUpIcon fill="#1B74E4" stroke="black"/> {likes} </Buttons.DefaultButton> :
             <Buttons.DefaultButton handleClick={handleLike} {...buttonStyle} isLoading={likeLoading}><IconComponents.ThumbUpIcon/> {likes} </Buttons.DefaultButton>
             }
-            <Buttons.DefaultButton {...buttonStyle} handleClick={handleComment}><IconComponents.ChatBubbleIcon/> {replies.length} </Buttons.DefaultButton>
+            <Buttons.DefaultButton testid="chat-button" {...buttonStyle} handleClick={handleComment}><IconComponents.ChatBubbleIcon/> {replies.length} </Buttons.DefaultButton>
 
             <Buttons.DefaultButton {...buttonStyle}><IconComponents.ArrowIcon/> 0 </Buttons.DefaultButton>
           </div>
@@ -381,11 +372,13 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
     )
   }
 
+  //console.log(replies)
+
   return (
     <div className="content-post">
       {personDetails()}
       {post()}
-      {interaction()}
+      {Interaction()}
     </div>
   )
 }

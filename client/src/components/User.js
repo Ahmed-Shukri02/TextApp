@@ -9,7 +9,7 @@ import { StockImages } from "../Contexts/StockImages";
 import Header from "../Header";
 import Footer from "../Footer";
 import LoadingScreen from "./LoadingPage/LoadingPage";
-import { AnimatePresence } from "framer-motion/dist/framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { MediaContext } from "../Contexts/MediaContext";
 import Sidebar from "./Sidebars/Sidebar";
 

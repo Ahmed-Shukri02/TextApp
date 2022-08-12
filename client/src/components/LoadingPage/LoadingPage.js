@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./loadingPage.css";
 import ClimbingBoxLadder from "react-spinners/ClimbingBoxLoader"
-import { motion } from "framer-motion/dist/framer-motion";
+import { motion } from "framer-motion";
 
 
 export default function LoadingScreen({disableScroll = true, elem = document.body}){
