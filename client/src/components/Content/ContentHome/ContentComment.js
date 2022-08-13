@@ -39,7 +39,7 @@ export default function CommentBox({loadedImages, handleReply, isReplying, reply
 
   return (
     <div className="comment-box" data-testid="comment-box">
-      <div className="reply-profile-img">{client.user_pfp ? <img className="media" src={` /api/media/${client.user_pfp}`} alt=""/> :loadedImages(client.stock_pfp)}</div>
+      <div className="reply-profile-img">{client.user_pfp ? <img className="media" src={client.oauth_login ? client.user_pfp : `/api/media/${client.user_pfp}`} alt=""/> :loadedImages(client.stock_pfp)}</div>
       <form onSubmit={handleSubmit} className="comment-form">
         {transition((style, item) => (
           item && <animated.div className="empty-prompt" style={style}> Please write something</animated.div>

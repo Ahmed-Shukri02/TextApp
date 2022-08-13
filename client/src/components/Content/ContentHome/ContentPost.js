@@ -243,7 +243,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
       <div data-testid="person-detail-flex" className="person-detail-flex" ref={thisPost}>
         <div style={{display: "flex", gap: "1em", alignItems: "center"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={` /api/media/${userInfo.user_pfp}`} alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/>}
           </div>
           <div className="person-detail-info">
             <Buttons.UnderlineButton handleClick={navigateToUser} addStyle="no-padding">

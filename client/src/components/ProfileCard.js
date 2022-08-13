@@ -74,7 +74,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
             <div style={{flexBasis: "20%"}}>
               <div className="profile-img-container">
                 { userInfo && (
-                  userInfo.user_pfp ? <img className = "profile-img" src={` /api/media/${userInfo.user_pfp}`} alt=""/> : loadSingleImg(userInfo.stock_pfp)
+                  userInfo.user_pfp ? <img className = "profile-img" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadSingleImg(userInfo.stock_pfp)
                   )
                 }
               </div>

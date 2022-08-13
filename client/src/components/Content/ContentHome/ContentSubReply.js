@@ -119,7 +119,7 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
     <div className="reply-container">
       <div className="reply" ref={thisSubreply}>
         <div style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
-          <div className="reply-profile-img">{userInfo.user_pfp ? <img className="media" src={` /api/media/${userInfo.user_pfp}`} alt=""/> : loadedImages(info.stock_pfp)}</div>
+          <div className="reply-profile-img">{userInfo.user_pfp ? <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
             {
               info.subreply_reference_id &&

@@ -23,7 +23,7 @@ const router = express.Router()
 router.get("/my_id", checkAuthentication(), async(req, res) => {
   try{
     let user_info = await pool.query(`SELECT user_id, username, user_pfp, stock_pfp, f_name,\
-    l_name, email, is_verified, followers, bg_theme, bg_image FROM user_profile\
+    l_name, email, is_verified, followers, bg_theme, bg_image, oauth_login FROM user_profile\
     WHERE user_id = '${req.user.authorised_user_id}'`)
 
     res.json(user_info.rows[0]).end()
@@ -72,10 +72,13 @@ router.get("/login", checkAuthentication(), async(req, res) => {
 router.post("/login", async (req,res) => {
   try{
     // find the user_id from the password
-    let user_info = await pool.query(`SELECT user_id, username, password FROM user_profile WHERE email='${req.body.email}'`)
+    let user_info = await pool.query(`SELECT user_id, username, password, oauth_login FROM user_profile WHERE email='${req.body.email}'`)
     if(user_info.rowCount === 0){
-      res.status(403).end("there is no user with this email")
+      res.status(404).end("there is no user with this email")
       return
+    }
+    else if(user_info.rows[0].oauth_login){
+      res.status(403).end("Access denied")
     }
     
     const user_id = user_info.rows[0].user_id
@@ -145,10 +148,10 @@ router.get("/:id", async(req, res) => {
   try{
     var qRes
     if(req.query.type == "id"){
-      qRes = await pool.query(`SELECT user_id, username, user_pfp, stock_pfp, f_name, l_name, email, is_verified, followers, bg_theme, bg_image FROM user_profile WHERE user_id = '${req.params.id}'`)
+      qRes = await pool.query(`SELECT user_id, username, user_pfp, stock_pfp, f_name, l_name, email, is_verified, followers, bg_theme, bg_image, oauth_login FROM user_profile WHERE user_id = '${req.params.id}'`)
     }
     else{
-      qRes = await pool.query(`SELECT user_id, username, user_pfp, stock_pfp, f_name, l_name, email, is_verified, followers, bg_theme, bg_image FROM user_profile WHERE username = '${req.params.id}'`)
+      qRes = await pool.query(`SELECT user_id, username, user_pfp, stock_pfp, f_name, l_name, email, is_verified, followers, bg_theme, bg_image, oauth_login FROM user_profile WHERE username = '${req.params.id}'`)
     }
 
     qRes = qRes.rows[0]

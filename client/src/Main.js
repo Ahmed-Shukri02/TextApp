@@ -12,6 +12,7 @@ import Feed from "./components/FeedPage/Feed";
 import { StockImages } from "./Contexts/StockImages";
 import { login } from "./Tools/clientInfo";
 import { useSelector, useDispatch } from "react-redux";
+import OauthLoginRedirect from "./components/LoginPage/OauthLoginRedirect";
 
 
 export default function Main(){
@@ -112,6 +113,7 @@ export default function Main(){
           <Route path="/" element={<Home/>}/>
           <Route path="welcome" element={<Welcome/>}/>
           <Route path="/feed" element={<Feed/>}/>
+          <Route path="/oauth-login" element={<OauthLoginRedirect/>}/>
         </Routes>
       </MediaContext.Provider>
     </StockImages.Provider>

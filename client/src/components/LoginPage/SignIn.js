@@ -100,6 +100,11 @@ export default function SignIn({setIsLogin}){
 
   }
 
+  async function googleOuath(){
+    window.location = "http://localhost:5000/google"
+
+  }
+
   return(
     <>
         <div className="sign-in">
@@ -146,7 +151,7 @@ export default function SignIn({setIsLogin}){
           !isMobile ?
             /* IF REGULAR DEVICE */
           <div className="external-login">
-            <Buttons.DefaultButton theme="gray" height="3.5em">
+            <Buttons.DefaultButton handleClick={() => googleOuath()} theme="gray" height="3.5em">
               <div className="login-button-flex">
                 <IconComponents.GoogleIcon iconClass="login-button-icons"/>
                 Continue with Google

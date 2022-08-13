@@ -84,3 +84,18 @@ CREATE TABLE IF NOT EXISTS admins(
   ON DELETE CASCADE,
   can_delete_posts BOOLEAN NOT NULL
 );
+
+CREATE TABLE oauth_google(
+  google_id VARCHAR(500) NOT NULL PRIMARY KEY,
+  google_user_id uuid NOT NULL REFERENCES user_profile(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE oauth_facebook(
+  facebook_id VARCHAR(500) NOT NULL PRIMARY KEY,
+  facebook_user_id uuid NOT NULL REFERENCES user_profile(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE oauth_linkedin(
+  linkedin_id VARCHAR(500) NOT NULL PRIMARY KEY,
+  linkedin_user_id uuid NOT NULL REFERENCES user_profile(user_id) ON DELETE CASCADE
+);
