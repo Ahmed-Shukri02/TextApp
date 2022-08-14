@@ -5,12 +5,22 @@ export default function OauthLoginRedirect(){
   const [searchParams, setSearchParams] = useSearchParams()
   
   useEffect(() => {
-    let token = searchParams.get("token")
-    if(!token) {window.location= "/login"}
+    let code = searchParams.get("code")
+    console.log(code)
 
-    localStorage.setItem("userToken", token)
-    
-    window.location = "/feed"
+    async function getAccessToken(){
+      
+      let accessRes = await fetch(`https://www.linkedin.com/oauth/v2/accessToken`, {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: `grant_type=authorization_code&code=${code}&redirect_uri=${window.location.origin}/oauth-login&client_id=78sp3v4gmbpcwe&client_secret=0FxmMFjuolBSrlqB`
+      })
+
+      let accessToken = await accessRes.json()
+      console.log(accessToken)
+    }
+
+    getAccessToken()
 
   }, [])
 

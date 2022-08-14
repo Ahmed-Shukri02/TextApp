@@ -128,6 +128,10 @@ header, .main, .footer {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.profile-card .loading-container {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+}
 .profile-card .profile-info-flex {
   display: flex;
   flex-direction: row;

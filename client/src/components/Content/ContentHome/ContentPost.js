@@ -112,7 +112,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   
   async function handleReply(reply_text){
     try{
-      let replyJson = JSON.stringify({text: reply_text})
+      let replyJson = JSON.stringify({text: reply_text.replace("'", "''")})
 
       let newRow = await fetch(` /api/posts/${postInfo.post_id}/replies?type=reply`, {
         method : "POST",

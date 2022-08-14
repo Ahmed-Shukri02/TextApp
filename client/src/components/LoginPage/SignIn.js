@@ -4,6 +4,8 @@ import {useNavigate} from "react-router-dom"
 import IconComponents from "../../icon-components/icon-components";
 import { useContext } from "react";
 import { MediaContext } from "../../Contexts/MediaContext";
+import { useGoogleLogin } from "@react-oauth/google";
+import {useLinkedIn} from "react-linkedin-login-oauth2"
 
 export default function SignIn({setIsLogin}){
 
@@ -15,6 +17,49 @@ export default function SignIn({setIsLogin}){
   const[emailValidated, setEmailValidation] = useState(true)
   const[emailIsEmpty, setEmailIsEmpty] = useState(false)
   const [passwordIsEmpty, setPasswordIsEmpty] = useState(false)
+
+  const {linkedInLogin} = useLinkedIn({
+    clientId: "78sp3v4gmbpcwe",
+    redirectUri: `${window.location.origin}/oauth-login`,
+    onSuccess: (code) => {
+      console.log("success")
+      console.log(code)
+    },
+    onError: (error) => {
+      console.log(error)
+    }
+  })
+
+  const google_login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      // fetch info using token response
+      let userInfo = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`)
+
+      let userInfoJson = await userInfo.json()
+      //console.log(userInfoJson)
+
+      let res = await fetch(`/api/users/oauth_login/${userInfoJson.sub}?provider=google`, {
+        method: "POST",
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify({
+          username: userInfoJson.name,
+          f_name: userInfoJson.given_name, 
+          l_name: userInfoJson.family_name,
+          user_pfp: userInfoJson.picture,
+          email: userInfo.email 
+        })
+      })
+
+      let resJson = await res.json()
+      console.log(resJson)
+
+      localStorage.setItem("userToken", resJson.token)
+      window.location = "/feed"
+
+    },
+    onError: () => console.log("login failed")
+    
+  })
 
   function emailValidationMessage(){
     if(emailIsEmpty){
@@ -101,9 +146,73 @@ export default function SignIn({setIsLogin}){
   }
 
   async function googleOuath(){
-    window.location = "http://localhost:5000/google"
+    //window.location = process.env.NODE_ENV === "production" ? "https://rocky-brook-55283.herokuapp.com/google" : "http://localhost:5000/google"
+
+    google_login()
 
   }
+
+  async function facebookOauth(){
+    var isConnected;
+    window.FB.getLoginStatus(function(response){
+      if(response.status === "connected"){
+        console.log("user is already connected")
+        isConnected = true;
+
+      }
+    })
+    
+    if(isConnected) {return;}
+
+    window.FB.login(function(response){
+      if(!response.authResponse){
+        return;
+      }
+      window.FB.api("/me", {fields: "id, name, picture"}, async function(response){
+        console.log("logged in")
+        console.log(response)
+        // make fetch request to do oauth login
+        let split_name = response.name.split(" ")
+        let [f_name, l_name] = [split_name[0], split_name[split_name.length -1]]
+
+
+        let res = await fetch(`/api/users/oauth_login/${response.id}?provider=facebook`, {
+          method: "POST",
+          headers: {"Content-Type" : "application/json"},
+          body: JSON.stringify({
+            username: response.name,
+            f_name, l_name,
+            user_pfp: response.picture.data.url,
+            email: `${l_name}@facebook.com` 
+          })
+        })
+        
+        let resJson = await res.json()
+        console.log(resJson)
+
+        
+        console.log("logging out...")
+        window.FB.logout(function(response){return;})
+        
+        // user now has token and has logged out of facebook session, return to feed
+        localStorage.setItem("userToken", resJson.token)
+        window.location = "/feed"
+      })
+    }, {
+      auth_type: "reauthenticate"
+    })
+  }
+
+  async function linkedinOauth(){
+    // change window location to linkedin's auth page
+    //window.location = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78sp3v4gmbpcwe&redirect_uri=http://localhost:3000/oauth-login&scope=r_liteprofile%20r_emailaddress%20w_member_social&state=K43XABK3IEVEfLr38cZV`
+
+    window.location = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=78sp3v4gmbpcwe&redirect_uri=${window.location.origin}/oauth-login&scope=r_emailaddress`
+
+    //linkedInLogin()
+  }
+
+
 
   return(
     <>
@@ -157,13 +266,13 @@ export default function SignIn({setIsLogin}){
                 Continue with Google
               </div>
             </Buttons.DefaultButton>
-            <Buttons.DefaultButton theme="gray" height="3.5em">
+            <Buttons.DefaultButton handleClick={() => {facebookOauth()}} theme="gray" height="3.5em">
               <div className="login-button-flex">
                 <IconComponents.FaceBookIcon iconClass="login-button-icons" color="#1B74E4"/>
                 Continue with Facebook
               </div>
             </Buttons.DefaultButton>
-            <Buttons.DefaultButton theme="gray" height="3.5em">
+            <Buttons.DefaultButton handleClick={() => linkedinOauth()} theme="gray" height="3.5em">
               <div className="login-button-flex">
                 <IconComponents.LinkedInIcon iconClass="login-button-icons" color="#1B74E4"/>
                 Continue with LinkedIn

@@ -173,7 +173,7 @@ export default function SignUp({setIsLogin}){
             </div>
 
             <div>
-              {!boxAccepted && <div className="invalidated">Please accept the Terms and Conditions </div>}
+              {!boxAccepted && <div className="invalidated" style={{margin: "0 4em"}}>Please accept the Terms and Conditions </div>}
 
               <CheckBoxes.DefaultCheckbox boxClass="t-and-c" htmlFor="terms" name="terms">I agree with the terms and conditions</CheckBoxes.DefaultCheckbox>
             </div>

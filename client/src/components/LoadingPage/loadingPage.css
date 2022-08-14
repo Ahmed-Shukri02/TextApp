@@ -1,6 +1,6 @@
 .loading-container{
   background-color: white;
-  position: sticky;
+  position: absolute;
   z-index: 100;
   top: 0;
   left: 0;

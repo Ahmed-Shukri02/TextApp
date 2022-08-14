@@ -114,6 +114,71 @@ router.post("/login", async (req,res) => {
   // assume login authentication worked
 })
 
+// log oauth user in
+router.post("/oauth_login/:oauth_id", async(req, res) => {
+  try{
+    var user_info
+    switch(req.query.provider){
+      case "facebook": {
+        // use jwt to sign user in
+        let user_info = await pool.query(`SELECT u.username, u.user_id FROM oauth_facebook f\
+        LEFT JOIN user_profile u ON f.facebook_user_id = u.user_id WHERE f.facebook_id = '${req.params.oauth_id}'`)
+
+        if(!user_info.rowCount){
+          // user is new, create account
+          console.log("new")
+          const {username, f_name, l_name, user_pfp, email} = req.body
+
+          user_info = await pool.query(`INSERT INTO user_profile(username, user_pfp, f_name, l_name, email, password, oauth_login)\
+          VALUES('${username}', '${user_pfp}', '${f_name}', '${l_name}', '${email}', 'facebook_oauth', TRUE) RETURNING user_id, username, user_pfp, f_name, l_name, email, oauth_login`) 
+
+          // insert into oauth facebook so user doesnt create account again
+          await pool.query(`INSERT INTO oauth_facebook(facebook_id, facebook_user_id)\
+          VALUES('${req.params.oauth_id}', '${user_info.rows[0].user_id}')`)
+        }
+
+        let user = {user_id: user_info.rows[0].user_id}
+        jwt.sign(user, `${process.env.JWT_SECRET}`, {expiresIn: "1d"}, (err, token) =>{
+          if(err) throw err;
+          res.status(200).json({username: user_info.rows[0].username, token})
+        })
+        return;
+      }
+
+      case "google": {
+        let user_info = await pool.query(`SELECT u.username, u.user_id FROM oauth_google g\
+        LEFT JOIN user_profile u ON g.google_user_id = u.user_id WHERE g.google_id = '${req.params.oauth_id}'`)
+
+        if(!user_info.rowCount){
+          // user is new, create account
+          console.log("new")
+          const {username, f_name, l_name, user_pfp, email} = req.body
+
+          user_info = await pool.query(`INSERT INTO user_profile(username, user_pfp, f_name, l_name, email, password, oauth_login)\
+          VALUES('${username}', '${user_pfp}', '${f_name}', '${l_name}', '${email}', 'google_oauth', TRUE) RETURNING user_id, username, user_pfp, f_name, l_name, email, oauth_login`) 
+
+          // insert into oauth google so user doesnt create account again
+          await pool.query(`INSERT INTO oauth_google(google_id, google_user_id)\
+          VALUES('${req.params.oauth_id}', '${user_info.rows[0].user_id}')`)
+        }
+
+        let user = {user_id: user_info.rows[0].user_id}
+        jwt.sign(user, `${process.env.JWT_SECRET}`, {expiresIn: "1d"}, (err, token) =>{
+          if(err) throw err;
+          res.status(200).json({username: user_info.rows[0].username, token})
+        })
+        return;
+      }
+
+      default: {res.status(404).end("incorrect query params"); return}
+    }
+  }
+  catch(err){
+    console.log(`ERROR IN POST /oauth_login/${req.params.oauth_id}?provider=${req.query.provider} : ${err.message}`)
+    res.status(500).end("something went wrong")
+  }
+})
+
 router.get("/", async (req, res) => {
   try{
     let users = await pool.query("SELECT * FROM user_profile")

@@ -5,8 +5,9 @@ import Buttons from "../../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function SubReply({info, userInfo , parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, token, handleSubcomment, index, removeSubreply}){
+export default function SubReply({info, parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, token, handleSubcomment, index, removeSubreply}){
 
+  const [subreplyAuthorInfo, setSubReplyAuthorInfo] = useState(null)
   const [reference, setReference] = useState(null)
   const [likeList, setLikeList] = useState(null)
   const [isLiked, setLikedStatus] = useState(null)
@@ -41,6 +42,20 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
   }
 
   useEffect(() => {
+    async function getSubreplyAuthorInfo(){
+      try{
+        let userData = await fetch(` /api/users/${info.subreply_author_id}?type=id`)
+        
+        let userDataJson = await userData.json()
+
+        setSubReplyAuthorInfo(userDataJson)
+
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+    
     async function getReference(){
       if(info.reference_type === "subcomment"){
         // get subreply info by searching parentInfo's subreply list
@@ -78,6 +93,7 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
       }
     }
     
+    getSubreplyAuthorInfo()
     getSubreplyLikes()
     getReference()
     setClientOwns(client && client.user_id === info.subreply_author_id)
@@ -112,14 +128,14 @@ export default function SubReply({info, userInfo , parentInfo, subreplies, loade
     setLikedStatus(oldVal => !oldVal)
   }
 
-  const renderCondition = (reference != null && likeList != null && isLiked != null)
+  const renderCondition = (!subreplyAuthorInfo && reference != null && likeList != null && isLiked != null)
 
   return (
     renderCondition &&
     <div className="reply-container">
       <div className="reply" ref={thisSubreply}>
         <div style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
-          <div className="reply-profile-img">{userInfo.user_pfp ? <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
+          <div className="reply-profile-img">{subreplyAuthorInfo.user_pfp ? <img className="media" src={subreplyAuthorInfo.oauth_login ? subreplyAuthorInfo.user_pfp : `/api/media/${subreplyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
             {
               info.subreply_reference_id &&

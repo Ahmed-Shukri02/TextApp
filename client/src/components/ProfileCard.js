@@ -61,9 +61,9 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
   }
   
   return (
-    ! loaded ? <LoadingScreen disableScroll={false}/> :
     <div className="profile-card">
-      <div className="bg">
+      {!loaded ? <LoadingScreen disableScroll={false}/> :
+      <><div className="bg">
         <div className="bg-image" ref={bg}></div>
       </div>
 
@@ -87,7 +87,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
       </div>  
 
       <ProfileNav userInfo={userInfo}/>
-      <ContentLeft userInfo={userInfo}/>
+      <ContentLeft userInfo={userInfo}/></>}
 
     </div>
   )

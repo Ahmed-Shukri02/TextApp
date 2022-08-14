@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS user_profile(
   user_id uuid NOT NULL PRIMARY KEY DEFAULT uuid_generate_v4(),
   username VARCHAR(20) NOT NULL,
-  user_pfp VARCHAR(200),
+  user_pfp VARCHAR(500),
   stock_pfp INT NOT NULL DEFAULT floor(random() * (30 + 1)),
   f_name VARCHAR(50),
   l_name VARCHAR(50),
@@ -11,8 +11,9 @@ CREATE TABLE IF NOT EXISTS user_profile(
   password VARCHAR(200) NOT NULL,
   is_verified BOOLEAN NOT NULL DEFAULT FALSE,
   followers BIGINT NOT NULL DEFAULT 0,
-  bg_theme VARCHAR(200),
-  bg_image VARCHAR(200),
+  bg_theme VARCHAR(500),
+  bg_image VARCHAR(500),
+  oauth_login BOOLEAN NOT NULL DEFAULT FALSE,
   is_set_up BOOLEAN DEFAULT FALSE
 );
 
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS user_posts (
   post_author_id uuid NOT NULL REFERENCES user_profile(user_id)
   ON DELETE CASCADE,
   post_text VARCHAR(500),
-  post_media VARCHAR(200),
+  post_media VARCHAR(500),
   post_likes INT NOT NULL DEFAULT 0,
   post_replies INT NOT NULL DEFAULT 0,
   post_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP

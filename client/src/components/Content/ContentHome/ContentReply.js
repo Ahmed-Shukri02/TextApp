@@ -6,7 +6,7 @@ import Buttons from "../../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function Reply({info, userInfo, postInfo, loadedImages, commentBoxReference, toggleCommentBox, token, index, removeReply}){
+export default function Reply({info, postInfo, loadedImages, commentBoxReference, toggleCommentBox, token, index, removeReply}){
   
   const [replyAuthorInfo, setReplyAuthorInfo] = useState(null)
   const [subreplies, setSubreplies] = useState(null)
@@ -142,7 +142,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
   if(renderCondition){
     repliesToJSX = subreplies.map((elem, index) =>
       <div className="sub-replies" key={elem.subreply_id}>
-        <SubReply index={index} removeSubreply={popSubReplies} info={elem} userInfo = {userInfo} parentInfo={info} subreplies = {subreplies} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply} token={token} handleSubcomment= {handleSubcomment}/>
+        <SubReply index={index} removeSubreply={popSubReplies} info={elem} parentInfo={info} subreplies = {subreplies} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply} token={token} handleSubcomment= {handleSubcomment}/>
       </div>
     )
 
@@ -216,7 +216,7 @@ export default function Reply({info, userInfo, postInfo, loadedImages, commentBo
     <div className="reply-container">
       <div className="reply" ref={thisReply}>
         <div style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
-          <div className="reply-profile-img">{userInfo.user_pfp ? <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
+          <div className="reply-profile-img">{replyAuthorInfo.user_pfp ? <img className="media" src={replyAuthorInfo.oauth_login ? replyAuthorInfo.user_pfp : `/api/media/${replyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
             <div className="reply-profile-content">
               <div className="reply-profile-name">{replyAuthorInfo.username}</div>
