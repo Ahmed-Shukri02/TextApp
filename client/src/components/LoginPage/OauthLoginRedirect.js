@@ -10,6 +10,17 @@ export default function OauthLoginRedirect(){
 
     async function getAccessToken(){
       
+      // preflight check
+      let corsRes = await fetch(`https://www.linkedin.com/oauth/v2/accessToken`, {
+        method: "OPTIONS",
+        headers: {
+          "Access-Control-Request-Method": "POST",
+          "Access-Control-Request-Headers": "origin, x-requested-with",
+          "Origin": "https://localhost:3000"
+        }
+      })
+      console.log(corsRes)
+
       let accessRes = await fetch(`https://www.linkedin.com/oauth/v2/accessToken`, {
         method: "POST",
         headers: {"Content-Type": "application/x-www-form-urlencoded"},

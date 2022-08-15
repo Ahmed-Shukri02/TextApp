@@ -175,7 +175,6 @@ export default function SignIn({setIsLogin}){
         let split_name = response.name.split(" ")
         let [f_name, l_name] = [split_name[0], split_name[split_name.length -1]]
 
-
         let res = await fetch(`/api/users/oauth_login/${response.id}?provider=facebook`, {
           method: "POST",
           headers: {"Content-Type" : "application/json"},
@@ -272,12 +271,12 @@ export default function SignIn({setIsLogin}){
                 Continue with Facebook
               </div>
             </Buttons.DefaultButton>
-            <Buttons.DefaultButton handleClick={() => linkedinOauth()} theme="gray" height="3.5em">
+            {/* <Buttons.DefaultButton handleClick={() => linkedinOauth()} theme="gray" height="3.5em">
               <div className="login-button-flex">
                 <IconComponents.LinkedInIcon iconClass="login-button-icons" color="#1B74E4"/>
                 Continue with LinkedIn
               </div>
-            </Buttons.DefaultButton>
+            </Buttons.DefaultButton> */}
           </div>
           :
             /* IF MOBILE (650px and under) */
