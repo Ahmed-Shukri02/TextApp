@@ -200,6 +200,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         replies = await replies.json()
 
         setReplies(replies)
+        //console.log(replies)
         
       }
       catch(err){

@@ -50,7 +50,7 @@ const mockClientPost = { // post created by client
 const mockReply = {
   reply_id: "afb4e041-f405-47af-aa8d-c26c28a5b787",
   foreign_post_id: "8dcb9485-bc3e-44bb-a101-ae182325516f",
-  reply_author_id: "e0a0aca0-a4d7-4b74-94b2-f128930c3e81",
+  reply_author_id: "b92b075c-e216-42d6-8d3a-8d5255002cbb",
   reply_text: "wag",
   reply_likes: 0,
   reply_replies: 0,
@@ -65,4 +65,35 @@ const mockClientReply = {
   reply_author_id : mockClient.user_id
 }
 
-export {mockAuthor, mockPost, mockClient, mockClientPost, mockReply, mockClientReply}
+/*
+  ========================= MOCK SUBREPLIES ========================= 
+*/
+
+
+const mockSubreply = {
+  subreply_id: "7c35f24f-3255-4a24-9ff3-d7b9aa11400c",
+  foreign_reply_id: "6fad06e9-e69f-4665-90fa-30a152cbc5b4",
+  subreply_author_id: "813e209f-a989-41a9-a249-b1194b20af6a",
+  reference_type: "comment",
+  subreply_reference_id: null,
+  subreply_text: "d",
+  subreply_likes: 0,
+  subreply_time: "2022-08-19T11:19:17.404Z",
+  username: "ahmed shukri",
+  stock_pfp: 13,
+  user_pfp: "https://lh3.googleusercontent.com/a/AItbvmnXM3kGZyOGORZhZZ0LX70kpyWnoEP7LL7E475a=s96-c"
+}
+
+const mockClientSubreply = {
+  ...mockSubreply,
+  subreply_author_id : mockClient.user_id
+}
+
+export {
+  mockAuthor, mockPost, mockClient, mockClientPost, mockReply, mockClientReply,
+  mockSubreply, mockClientSubreply
+}
+
+export function loadedImages(num){
+  <div className="media-loading"></div>
+}

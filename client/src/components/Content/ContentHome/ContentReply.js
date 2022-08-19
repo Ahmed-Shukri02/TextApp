@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import SubReply from "./ContentSubReply";
@@ -17,7 +17,11 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
   const [isHovering, setIsHovering] = useState(false)
   const [clientOwns, setClientOwns] = useState(false)
 
-  const thisReply = useRef()
+  const thisReply = useCallback((node) => {
+    node?.addEventListener("mouseenter", () => setIsHovering(true));
+    node?.addEventListener("mouseleave", () => setIsHovering(false))
+  })
+
 
   const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
@@ -35,7 +39,6 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
   function popSubReplies(index){
     let subreplies_copy = [...subreplies]
     subreplies_copy.splice(index, 1)
-    console.log(subreplies_copy, index)
     setSubreplies(subreplies_copy)
   }
 
@@ -190,32 +193,16 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
     setSubreplies(info.subreplies)
 
     setClientOwns(client &&  client.user_id === info.reply_author_id)
-    console.log(info)
 
   }, [])
-
-  useEffect(() => {
-    if(thisReply.current){
-      thisReply.current.addEventListener("mouseenter", () => setIsHovering(true))
-      thisReply.current.addEventListener("mouseleave", () => setIsHovering(false))
-    }
-
-    return () => {
-      if(thisReply.current){
-        thisReply.current.removeEventListener("mouseenter", () => setIsHovering(true))
-        thisReply.current.removeEventListener("mouseleave", () => setIsHovering(false))
-      }
-    }
-
-  }, [thisReply.current])
 
 
 
   return (
     (replyAuthorInfo && replyLikeList && replyAuthorInfo && isLiked != null) && // RETURNS WHEN FETCHING AUTHOR INFO IS COMPLETE
     <div className="reply-container">
-      <div className="reply" ref={thisReply}>
-        <div style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
+      <div className="reply" data-testid="reply" ref={thisReply}>
+        <div data-testid="reply-content" style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
           <div className="reply-profile-img">{replyAuthorInfo.user_pfp ? <img className="media" src={replyAuthorInfo.oauth_login ? replyAuthorInfo.user_pfp : `/api/media/${replyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
             <div className="reply-profile-content">
@@ -241,7 +228,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
           </div>
         </div>
 
-        <div>{(isHovering && clientOwns) && <Buttons.DefaultButton theme="white" handleClick={() => handleDeleteReply()}><IconComponents.TrashIcon iconClass="delete-icon"/></Buttons.DefaultButton>}</div>
+        <div>{(isHovering && clientOwns) && <Buttons.DefaultButton testid="delete-icon" theme="white" handleClick={() => handleDeleteReply()}><IconComponents.TrashIcon iconClass="delete-icon"/></Buttons.DefaultButton>}</div>
       </div>
 
       {info.reply_id === commentBoxReference && <ContentComment loadedImages = {loadedImages}  handleReply = {text => handleSubcomment(info, text, "reply")} isReplying = {true} replyTo={info} type="comment"/*replyToStats = {replyToStats} closeReply={ToggleReplyTo} *//>}

@@ -17,6 +17,8 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
   const [clientOwns, setClientOwns] = useState(false)
 
   const thisSubreply = useRef()
+
+  console.log(info)
   
   const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
@@ -133,7 +135,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
   return (
     renderCondition &&
     <div className="reply-container">
-      <div className="reply" ref={thisSubreply}>
+      <div className="reply" data-testid="subreply" ref={thisSubreply}>
         <div style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
           <div className="reply-profile-img">{subreplyAuthorInfo.user_pfp ? <img className="media" src={subreplyAuthorInfo.oauth_login ? subreplyAuthorInfo.user_pfp : `/api/media/${subreplyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
