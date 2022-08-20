@@ -11,3 +11,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.full-screen-loading-container{
+  z-index: 101 !important
+}

@@ -1,22 +1,11 @@
 const express = require("express")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
-const {getSqlClause, checkAuthentication, checkAdminStatus, pool} = require("../../Tools/Functions")
-const multer = require("multer")
+const {getSqlClause, checkAuthentication, checkAdminStatus, pool, upload} = require("../../Tools/Functions")
 const {uploadToCloud} = require(`../../s3`)
 require("dotenv").config()
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads/users")
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + file.originalname)
-  }
 
-})
-
-const upload = multer({storage})
 const router = express.Router()
 
 // get user ID and username securely after authenticating

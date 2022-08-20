@@ -39,6 +39,10 @@ a{
   }
 }
 
+.profile-card .content-home-right{
+  padding: 1em;
+}
+
 @media (max-width: 850px){
   .content{
     flex-direction: column;
@@ -132,6 +136,33 @@ a{
 }
 
 
+.person-detail-image, .reply-profile-img{
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  aspect-ratio: 1/1;
+  transition: all .2s ease-out;
+  background-color: lightslategray;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+
+  &:hover{
+    transform: scale(1.1);
+    cursor: pointer
+  }
+
+  >*{
+    height: 100%;
+  }
+}
+
+.person-detail-image{
+  width: 50px;
+}
+.reply-profile-img{
+  width: 40px;
+}
 
 .content-home{
 
@@ -140,33 +171,6 @@ a{
     overflow: hidden;
 
     // for all profile images within the post
-    .person-detail-image, .reply-profile-img{
-      border-radius: 50%;
-      border: 1px solid lightgray;
-      aspect-ratio: 1/1;
-      transition: all .2s ease-out;
-      background-color: lightslategray;
-      overflow: hidden;
-
-      display: flex;
-      justify-content: center;
-
-      &:hover{
-        transform: scale(1.1);
-        cursor: pointer
-      }
-
-      >*{
-        height: 100%;
-      }
-    }
-
-    .person-detail-image{
-      width: 50px;
-    }
-    .reply-profile-img{
-      width: 40px;
-    }
 
     .person-detail-flex{
       display: flex;
@@ -174,6 +178,7 @@ a{
       align-items: center;
       padding: 1em;
       justify-content: space-between;
+      gap: 1em;
       
       .post-author{
         font-weight: 600;
@@ -435,7 +440,7 @@ a{
 
 
   >*{
-    min-height: 100px;
+    //min-height: 100px;
     width: 100%;
     background-color: white;
     box-shadow: 0 .5px 5px lightgray;
@@ -448,6 +453,7 @@ a{
     display: flex;
     flex-direction: column;
     gap: 1em;
+    margin-top: 1em;
 
     >*{
       display: flex;
@@ -551,6 +557,7 @@ a{
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    margin-bottom: 1em;
 
     .related-card{
       display: flex; flex: row;

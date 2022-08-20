@@ -36,6 +36,10 @@ a {
   box-sizing: border-box;
 }
 
+.profile-card .content-home-right {
+  padding: 1em;
+}
+
 @media (max-width: 850px) {
   .content {
     flex-direction: column;
@@ -115,11 +119,7 @@ a {
   font-size: 1.5em;
 }
 
-.content-home .content-home-right {
-  flex-basis: 100%;
-  overflow: hidden;
-}
-.content-home .content-home-right .person-detail-image, .content-home .content-home-right .reply-profile-img {
+.person-detail-image, .reply-profile-img {
   border-radius: 50%;
   border: 1px solid lightgray;
   aspect-ratio: 1/1;
@@ -129,18 +129,25 @@ a {
   display: flex;
   justify-content: center;
 }
-.content-home .content-home-right .person-detail-image:hover, .content-home .content-home-right .reply-profile-img:hover {
+.person-detail-image:hover, .reply-profile-img:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
-.content-home .content-home-right .person-detail-image > *, .content-home .content-home-right .reply-profile-img > * {
+.person-detail-image > *, .reply-profile-img > * {
   height: 100%;
 }
-.content-home .content-home-right .person-detail-image {
+
+.person-detail-image {
   width: 50px;
 }
-.content-home .content-home-right .reply-profile-img {
+
+.reply-profile-img {
   width: 40px;
+}
+
+.content-home .content-home-right {
+  flex-basis: 100%;
+  overflow: hidden;
 }
 .content-home .content-home-right .person-detail-flex {
   display: flex;
@@ -148,6 +155,7 @@ a {
   align-items: center;
   padding: 1em;
   justify-content: space-between;
+  gap: 1em;
 }
 .content-home .content-home-right .person-detail-flex .post-author {
   font-weight: 600;
@@ -357,7 +365,6 @@ a {
   box-sizing: border-box;
 }
 .content-home-left > * {
-  min-height: 100px;
   width: 100%;
   background-color: white;
   box-shadow: 0 0.5px 5px lightgray;
@@ -369,6 +376,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 1em;
+  margin-top: 1em;
 }
 .content-home-left .about > * {
   display: flex;
@@ -454,6 +462,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  margin-bottom: 1em;
 }
 .content-home-left .related-pages .related-card {
   display: flex;

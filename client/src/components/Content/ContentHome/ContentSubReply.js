@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useRef, useCallback } from "react";
 import ContentComment from "./ContentComment"
 import IconComponents from "../../../icon-components/icon-components";
 import Buttons from "../../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function SubReply({info, parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, token, handleSubcomment, index, removeSubreply}){
+export default function SubReply({info, parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, handleSubcomment, index, removeSubreply}){
 
   const [subreplyAuthorInfo, setSubReplyAuthorInfo] = useState(null)
   const [reference, setReference] = useState(null)
@@ -16,9 +16,10 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
   const [isHovering, setIsHovering] = useState(false)
   const [clientOwns, setClientOwns] = useState(false)
 
-  const thisSubreply = useRef()
-
-  console.log(info)
+  const thisSubreply = useCallback(node => {
+    node?.addEventListener("mouseenter", () => setIsHovering(true))
+    node?.addEventListener("mouseleave", () => setIsHovering(false))
+  })
   
   const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
@@ -80,7 +81,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
         let subreplyLikesList = await fetch(` /api/posts/${info.subreply_id}/likes?type=subreply`, {
           method: "GET",
           headers: {
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
           }
         })
         
@@ -102,21 +103,6 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
 
   }, [])
 
-  useEffect(() => {
-    if(thisSubreply.current){
-      thisSubreply.current.addEventListener("mouseenter", () => setIsHovering(true))
-      thisSubreply.current.addEventListener("mouseleave", () => setIsHovering(false))
-    }
-
-    return () => {
-      if(thisSubreply.current){
-        thisSubreply.current.removeEventListener("mouseenter", () => setIsHovering(true))
-        thisSubreply.current.removeEventListener("mouseleave", () => setIsHovering(false))
-      }
-    }
-
-  }, [thisSubreply.current])
-
   async function handleSubcommentLike(){
     // check if user is logged in, if not, prompt user to log in
     if(!client){
@@ -130,7 +116,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
     setLikedStatus(oldVal => !oldVal)
   }
 
-  const renderCondition = (!subreplyAuthorInfo && reference != null && likeList != null && isLiked != null)
+  const renderCondition = (subreplyAuthorInfo && reference != null && likeList != null && isLiked != null)
 
   return (
     renderCondition &&
@@ -141,7 +127,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
           <div>
             {
               info.subreply_reference_id &&
-              <div className="reply-to"><IconComponents.ReturnUpForwardIcon/> <span style={{fontWeight: "bold"}}>{reference.username}</span>: {info.reference_type === "comment" ? reference.reply_text : reference.subreply_text.length > 20 ? `${reference.subreply_text.slice(0, 20)}...` : reference.subreply_text}</div>
+              <div data-testid="reply-to" className="reply-to"><IconComponents.ReturnUpForwardIcon/> <span role="reference-name" style={{fontWeight: "bold"}}>{reference.username}</span>: {info.reference_type === "comment" ? reference.reply_text : reference.subreply_text.length > 20 ? `${reference.subreply_text.slice(0, 20)}...` : reference.subreply_text}</div>
             }
           
             <div className="reply-profile-content">
@@ -158,7 +144,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
           </div>
         </div>
 
-        {(clientOwns && isHovering) && <Buttons.DefaultButton theme="white" handleClick={() => handleDeleteSubreply()}><IconComponents.TrashIcon iconClass="delete-icon"/></Buttons.DefaultButton>}
+        {(clientOwns && isHovering) && <Buttons.DefaultButton testid="subreply-delete-icon" theme="white" handleClick={() => handleDeleteSubreply()}><IconComponents.TrashIcon iconClass="delete-icon"/></Buttons.DefaultButton>}
       </div>
 
       {info.subreply_id === commentBoxReference && <ContentComment loadedImages = {loadedImages} handleReply = {(text) => handleSubcomment(info, text, "subreply", info.subreply_id)} isReplying={true} replyTo={info} type="subcomment"/>}

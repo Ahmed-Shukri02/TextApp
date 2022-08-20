@@ -50,13 +50,13 @@ export default function ContentRight({userInfo, token}){
     setPosts(posts_copy)
   }
   
-  const postsJSX = posts && posts.map((elem, index) => <ContentPost index={index} removeIndex = {popIndex} postInfo={elem} userInfo={userInfo} key={elem.post_id} token={token}/>)
+  const postsJSX = posts && posts.map((elem, index) => <ContentPost index={index} removeIndex = {popIndex} postInfo={elem} userInfo={userInfo} key={elem.post_id}/>)
 
 
   return (
     <div className="content-home-right">
       { noPosts &&
-        <div style={{textAlign: "center"}}> This user has no posts </div>
+        <div style={{textAlign: "center", marginBottom: "1em"}}> This user has no posts </div>
       }
 
       {isUser && <PostPrompt posts={posts} userInfo = {userInfo} setPosts={setPosts}/>}

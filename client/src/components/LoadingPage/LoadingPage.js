@@ -16,7 +16,7 @@ export default function LoadingScreen({disableScroll = true, elem = document.bod
       <motion.div
       initial={{opacity: 1}}
       animate={{opacity: 1}}
-      exit={{opacity: 0}} className="loading-container">
+      exit={{opacity: 0}} className={`loading-container ${elem === document.body ? "full-screen-loading-container" : ""}`}>
         <ClimbingBoxLadder color="#1B74E4"/>
       </motion.div>
   )

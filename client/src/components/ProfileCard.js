@@ -1,35 +1,35 @@
 import React, { useContext, useRef } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ProfileLink from "./profileLink";
 import IconComponents from "../icon-components/icon-components";
 import ProfileNav from "./profileNav";
 import { StockImages } from "../Contexts/StockImages";
 import ContentLeft from "./Content/ContentHome/ContentLeft";
 import LoadingScreen from "./LoadingPage/LoadingPage";
+import {MediaContext} from "../Contexts/MediaContext"
 
 export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
   
+  // loading screen
   const [loaded, setLoaded] = useState(false)
+  const [allowLoadingScreen, setAllowLoadingScreen] = useState(false)
+  const containerRef = useRef()
+  const containerRefCb = useCallback((node) => {
+    containerRef.current= node
+    setAllowLoadingScreen(true)
+  })
+
+
   const {images} = useContext(StockImages)
+  const {isTablet} = useContext(MediaContext)
   const bg = useRef()
-
-  useEffect(() => {
-    if(fromFeed){
-      setTimeout(() => {
-        setLoaded(true)
-      }, 2000);
-    }
-    else{
-      setLoaded(true)
-    }
-
-  }, [])
 
   useEffect(() => {
     if(bg.current){
       bg.current.style.background = userInfo.bg_image ? `url(/api/media/${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
     }
   }, [bg])
+
 
   function loadSingleImg(num){
     return images? 
@@ -43,7 +43,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
         return(
           <div className="profile-name">
             <h2 style={{margin: "0"}}>{userInfo.f_name} {userInfo.l_name}<span>{userInfo.is_verified && <IconComponents.Checkmark/>}</span> </h2>
-            <div style={{color: "lightslategray"}}>@{userInfo.username}  · user</div>
+            <div style={{color: "lightslategray"}}>@{userInfo.username}</div>
           </div>
         )
       }
@@ -52,7 +52,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
         return(
           <div className="profile-name">
             <h2 style={{margin: "0"}}>{userInfo.username}<span>{userInfo.is_verified && <IconComponents.Checkmark/>}</span> </h2>
-            <div style={{color: "lightslategray"}}>@{userInfo.username}  · App Page</div>
+            <div style={{color: "lightslategray"}}>@{userInfo.username}</div>
           </div>
         )
       }
@@ -62,32 +62,34 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
   
   return (
     <div className="profile-card">
-      {!loaded ? <LoadingScreen disableScroll={false}/> :
-      <><div className="bg">
-        <div className="bg-image" ref={bg}></div>
-      </div>
-
-      <div className="profile-info-flex">
-        <div className="profile-info">
-          
-          <div className="profile-name-img">
-            <div style={{flexBasis: "20%"}}>
-              <div className="profile-img-container">
-                { userInfo && (
-                  userInfo.user_pfp ? <img className = "profile-img" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadSingleImg(userInfo.stock_pfp)
-                  )
-                }
-              </div>
-            </div>
-            {profileName()}
-          </div>
-          
-          <ProfileLink fromFeed={fromFeed} feedHandleClickOff={feedHandleClickOff}/>
+      {(allowLoadingScreen && !loaded) && <LoadingScreen disableScroll={true} elem={containerRef.current}/>}
+      <div style={{height: "100%"}} ref={containerRefCb}>
+        <div className="bg">
+          <div className="bg-image" ref={bg}></div>
         </div>
-      </div>  
 
-      <ProfileNav userInfo={userInfo}/>
-      <ContentLeft userInfo={userInfo}/></>}
+        <div className="profile-info-flex">
+          <div className="profile-info">
+            
+            <div className="profile-name-img">
+              <div style={{flexBasis: "20%"}}>
+                <div className="profile-img-container">
+                  { userInfo && (
+                    userInfo.user_pfp ? <img className = "profile-img" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadSingleImg(userInfo.stock_pfp)
+                    )
+                  }
+                </div>
+              </div>
+              {profileName()}
+            </div>
+            
+            <ProfileLink fromFeed={fromFeed} feedHandleClickOff={feedHandleClickOff}/>
+          </div>
+        </div>  
+
+        {isTablet && <ProfileNav userInfo={userInfo}/>}
+        <ContentLeft userInfo={userInfo} setLoaded={setLoaded}/>
+      </div>
 
     </div>
   )

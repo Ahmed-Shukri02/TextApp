@@ -100,3 +100,10 @@ CREATE TABLE oauth_linkedin(
   linkedin_id VARCHAR(500) NOT NULL PRIMARY KEY,
   linkedin_user_id uuid NOT NULL REFERENCES user_profile(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE post_media(
+  foreign_post_id uuid NOT NULL REFERENCES user_posts ON DELETE CASCADE,
+  media VARCHAR(500) NOT NULL,
+  media_type VARCHAR(20) NOT NULL
+);
+ALTER TABLE post_media ADD CONSTRAINT media_type_constraint CHECK(media_type IN ('image', 'video'));

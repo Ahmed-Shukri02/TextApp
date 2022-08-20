@@ -11,13 +11,14 @@ import "../Content.css"
 import e from "cors";
 import { useSelector } from "react-redux";
 
-export default function ContentPost({postInfo, userInfo, token, index, removeIndex, fromFeed = false, feedHandleNameClick}){
+export default function ContentPost({postInfo, userInfo, index, removeIndex, fromFeed = false, feedHandleNameClick}){
 
   const {images} = useContext(StockImages)
   const [likes, setLikes] = useState(postInfo.post_likes);
   const [isLiked, setLikedStatus] = useState(false);
   const [clientOwns, setClientOwns] = useState(false)
   const [replies, setReplies] = useState(null)
+  const [media, setMedia] = useState([])
   const [showReply, setShowReply] = useState(false)
   const [commentBoxReference, setCommentBoxReference] = useState(null)
   const [isCommenting, setCommentingStatus] = useState(false)
@@ -28,6 +29,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   
   const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
 
+  //console.log(media)
 
   /*
   =============================================================
@@ -52,7 +54,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
           method: "PUT", 
           headers:{
             "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
           },
         })
 
@@ -62,7 +64,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
           method: "DELETE",
           headers:{
             "Content-Type" : "application/json",
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${localStorage.getItem("userToken")}`
           },
         })
 
@@ -78,7 +80,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
           method: "PUT", 
           headers:{
             "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
           },
         })
 
@@ -88,7 +90,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
           method: "POST",
           headers: {
             "Content-Type" : "application/json",
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${localStorage.getItem("userToken")}`
           },
         })
 
@@ -118,7 +120,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         method : "POST",
         headers : {
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
         },
         body : replyJson
       })
@@ -184,7 +186,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         let likes = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
           method : "GET",
           headers : {
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
           }
         })
         let likesObj = await likes.json()
@@ -194,13 +196,17 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
         let replies = await fetch(` /api/posts/${postInfo.post_id}/replies`, {
           method: "GET",
           headers : {
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
           }
         })
         replies = await replies.json()
 
         setReplies(replies)
         //console.log(replies)
+
+        let media = await fetch(`/api/media/${postInfo.post_id}/uploads`, {method: "GET"})
+        let mediaJson = await media.json()
+        setMedia(mediaJson)
         
       }
       catch(err){
@@ -236,7 +242,11 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
   =============================================================
   */
   
-  const repliesJSX = replies && replies.map((elem, index)=> <Reply index={index} removeReply={popRepliesAtIndex} info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo} token={token}/>); 
+  const repliesJSX = replies && replies.map((elem, index)=> <Reply index={index} removeReply={popRepliesAtIndex} info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo}/>);
+
+  const mediaJSX = media.map((elem, index) => 
+    <img className="media" src={`/api/media/${elem.media}`} alt={"single 5"}/>
+  )
 
   // COMPONENT
   function personDetails(){
@@ -265,7 +275,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
     return (
       <div className="post">
         {postInfo.post_text && <div className="post-content">{postInfo.post_text}</div>}
-        {postInfo.post_media && loadedImages(userInfo.stock_pfp)}
+        {mediaJSX && mediaJSX[0]}
       </div>
     )
   }
@@ -306,7 +316,7 @@ export default function ContentPost({postInfo, userInfo, token, index, removeInd
       theme:"white",
       fontSize:"0.9rem",
       contentColor:"lightslategray",
-      width:"3em"
+      minWidth:"3em"
     }
 
     return (

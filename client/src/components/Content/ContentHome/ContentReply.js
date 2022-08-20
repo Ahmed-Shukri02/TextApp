@@ -6,7 +6,7 @@ import Buttons from "../../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function Reply({info, postInfo, loadedImages, commentBoxReference, toggleCommentBox, token, index, removeReply}){
+export default function Reply({info, postInfo, loadedImages, commentBoxReference, toggleCommentBox, index, removeReply}){
   
   const [replyAuthorInfo, setReplyAuthorInfo] = useState(null)
   const [subreplies, setSubreplies] = useState(null)
@@ -67,7 +67,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         method : "PUT",
         headers : {
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
         },
       })
       // make post request to add to likes list
@@ -75,7 +75,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         method: "POST",
         headers : {
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
         },
       })
 
@@ -92,7 +92,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         method : "PUT",
         headers : {
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
         },
       })
       // make delete request to remove from likes list
@@ -100,7 +100,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         method: "DELETE",
         headers : {
           "Content-Type" : "application/json",
-          "Authorization" : `Bearer ${token}`
+          "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
         },
       })
       // set isliked to false here if the type is a reply
@@ -126,7 +126,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         method: "POST",
         headers: {
           "Content-Type" : "application/json",
-          "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${localStorage.getItem("userToken")}`
         },
         body: subreplyJson
     })
@@ -145,7 +145,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
   if(renderCondition){
     repliesToJSX = subreplies.map((elem, index) =>
       <div className="sub-replies" key={elem.subreply_id}>
-        <SubReply index={index} removeSubreply={popSubReplies} info={elem} parentInfo={info} subreplies = {subreplies} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply} token={token} handleSubcomment= {handleSubcomment}/>
+        <SubReply index={index} removeSubreply={popSubReplies} info={elem} parentInfo={info} subreplies = {subreplies} loadedImages={loadedImages} commentBoxReference = {commentBoxReference} toggleCommentBox={toggleCommentBox} handleLike={LikeReply} handleSubcomment= {handleSubcomment}/>
       </div>
     )
 
@@ -172,7 +172,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         let replyLikesList = await fetch(` /api/posts/${info.reply_id}/likes?type=reply`, {
           method: "GET",
           headers: {
-            "Authorization" : `Bearer ${token}`
+            "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
           }
         })
         

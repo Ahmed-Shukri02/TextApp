@@ -4,7 +4,6 @@ const fs = require("fs")
 const {Client} = require("pg")
 const cors = require("cors");
 const passport = require("passport");
-require("./passport")
 const session = require("express-session")
 
 

@@ -1,11 +1,8 @@
 const express = require("express")
 const {Pool} = require("pg")
 const jwt = require("jsonwebtoken")
-const {getSqlClause, checkAuthentication, checkAdminStatus, pool} = require("../../Tools/Functions")
+const {getSqlClause, checkAuthentication, checkAdminStatus, pool, upload} = require("../../Tools/Functions")
 const multer = require("multer")
-
-
-const upload = multer({dest: "uploads/posts/"})
 
 
 const router = express.Router()
