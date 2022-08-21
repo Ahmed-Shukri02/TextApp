@@ -1,0 +1,50 @@
+.overlay{
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10002;
+}
+
+.modal{
+  z-index: 10003;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 500px;
+  width: 90%; max-width: 950px;
+  
+  background-color: white;
+  border-radius: 5px;
+  padding: 1em;
+
+}
+
+.modal-header{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal-close{
+  border: none;
+  background-color: white;
+  border-radius: 5px;
+  padding: 0.5em;
+  
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+.modal-close :hover{
+  cursor: pointer;
+}
+
+.modal-close-icon{
+  width: 3em;
+  aspect-ratio: 1/1;
+}
+
+.modal-content{
+  padding: 1em;
+}

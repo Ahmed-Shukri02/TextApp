@@ -73,7 +73,7 @@ function DefaultButton({children, width = "auto", height = null, theme= "blue", 
 
   return (
     <button 
-    className= {"default-" + theme + ` ${addStyle}` + `${isLoading && "no-padding"}`}
+    className= {"default-" + theme + ` ${addStyle} ` + `${isLoading ? "no-padding" : ""}`}
     onClick={onClick} 
     style={style}
     disabled={isLoading}
@@ -120,7 +120,7 @@ function UnderlineButton({children, width = "auto", height = null, theme= "white
 
   return (
     <button 
-    className= {"underline-" + theme + ` ${addStyle}` + `${isLoading && "no-padding"}`}
+    className= {"underline-" + theme + ` ${addStyle} ` + `${isLoading ? "no-padding" : ""}`}
     onClick={onClick} 
     style={style} 
     disabled = {isLoading}

@@ -4,6 +4,7 @@ import Main from "./Main";
 import {useState} from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import clientInfoReducer from "./Tools/clientInfo";
+import modalStatusReducer from "./Tools/modalStatus";
 import { Provider } from "react-redux";
 
 
@@ -13,7 +14,8 @@ function App() {
 
   const store = configureStore({
     reducer: {
-      clientInfo: clientInfoReducer
+      clientInfo: clientInfoReducer,
+      modalStatus: modalStatusReducer
     }
   })
 

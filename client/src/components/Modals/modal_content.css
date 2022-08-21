@@ -1,0 +1,12 @@
+/* MEDIA MODAL FOR POST PROMPT: FILE PostPrompt.js */
+.media-modal-flex{
+  display: flex;
+}
+.media-modal-flex > *{
+  flex-basis: 100%;
+}
+
+.media-modal-title{
+  text-align: center;
+  margin-top: 0;
+}
