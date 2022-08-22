@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from "react";
-import ContentLeftVideos from "./ContentLeftVideos";
 import IconComponents from "../../../icon-components/icon-components"
 import { StockImages } from "../../../Contexts/StockImages";
 import ContentPost from "./ContentPost"
@@ -9,25 +8,6 @@ export default function ContentLeft({userInfo, setLoaded}){
   const [noPosts, setNoPosts] = useState(false)
   const [posts, setPosts] = useState([])
   const {images} = useContext(StockImages)
-
-  const loadedImages = function(){
-    return(
-      images ? 
-      (<>
-        <img className="grid-image" src={images[0].download_url} alt="grid-1"/>
-        <img className="grid-image" src={images[1].download_url} alt="grid-2"/>
-        <img className="grid-image" src={images[2].download_url} alt="grid-3"/>
-        <img className="grid-image" src={images[3].download_url} alt="grid-4"/>
-      </>) : 
-      (<>
-        <div className="grid-image-loading"></div>
-        <div className="grid-image-loading"></div>
-        <div className="grid-image-loading"></div>
-        <div className="grid-image-loading"></div>
-      </>)
-
-    )
-  }
 
   function loadSingleImg(num){
     return images? 
@@ -94,14 +74,6 @@ export default function ContentLeft({userInfo, setLoaded}){
         </div>
       </div>
 
-      <div className="photos">
-        <h3>Photos</h3>
-        <div className="photos-grid">
-          {loadedImages()}
-        </div>
-        <div className="photos-more"> See more </div>
-      </div>
-      <ContentLeftVideos images={images}/>
       <div className="related-pages">
         <h3>Followers</h3>
         <div className="related-card">

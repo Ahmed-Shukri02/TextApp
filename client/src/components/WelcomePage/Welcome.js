@@ -104,7 +104,7 @@ export default function Welcome(){
             body: imagesForm
           })
           
-          window.location.href = `/users/${username}`
+          window.location.href = `/users/${username}/home`
         }
         catch(err){
           console.log(err)

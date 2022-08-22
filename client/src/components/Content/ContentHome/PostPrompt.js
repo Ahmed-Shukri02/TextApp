@@ -8,6 +8,7 @@ import {MediaContext} from "../../../Contexts/MediaContext"
 import { useSelector, useDispatch } from "react-redux";
 import { setModalStatus } from "../../../Tools/modalStatus";
 import Modal from "../../Modals/Modal";
+import ContentPostMock from "../ContentMocks/ContentPostMock";
 
 export default function PostPrompt({posts, userInfo, setPosts}){
 
@@ -17,11 +18,13 @@ export default function PostPrompt({posts, userInfo, setPosts}){
   const textContainer = useRef(null)
   const [isPosting, setIsPosting] = useState(false)
   const [uploadImages, setUploadImages] = useState([])
+  const [mockPost, setMockPost] = useState({})
 
   const dispatch = useDispatch()
   const modalStatus = useSelector((state) => state.modalStatus.value)
-  console.log(modalStatus)
+  const client = useSelector((state) => state.clientInfo.value? state.clientInfo.value.payload : null)
   
+
   // useEffect used only for checking and initialising post prompt
   useEffect(() => {
     // add event listener to ref object
@@ -84,38 +87,94 @@ export default function PostPrompt({posts, userInfo, setPosts}){
 
       setPosts(finalPosts)
       setIsPosting(false)
+
+      // reset post prompt
+      setUploadImages([])
+      e.target.elements["text"].value = ""
     }
     catch(err){
       console.log(err)
     }
   }
 
+  function refreshMockPost(){
+
+  }
+
   function addMedia(e){
     e.preventDefault()
-    let image = e.target.elements["image"].files[0]
+    let image = e.target.files[0]
     console.log(image)
 
     if(image) setUploadImages([image])
-    
+  }
+  
+  function submitMedia(e){
+    e.preventDefault()
     dispatch(setModalStatus(false))
+  }
+
+  function openMediaModal(modalID){
+    console.log(textBox)
+    if(textBox.current?.value){
+      setMockPost({post_text: textBox.current.value})
+    }
+    else{
+      setMockPost({})
+    }
+
+    dispatch(setModalStatus(modalID))
+  }
+
+  // COMPONENT
+  function ImageModal(){
+    return (
+      <Modal modalID="image-modal">
+        <div className="media-modal">
+          <h1 className="media-modal-title"> Upload your image here </h1>
+          <div className="media-modal-flex">
+            <form onChange={addMedia} onSubmit={submitMedia} className="media-modal-left">
+              <input type="file" accept="image/*" name="image"/>
+              <div style={{marginTop: "1em"}}><Buttons.DefaultButton contentColor="white" height="2em" width="7em" submit={true}>Submit</Buttons.DefaultButton></div>
+            </form>
+            <div className="media-modal-right content-home">
+              <h3 style={{textAlign: "center"}}> This is how your post will look like </h3>
+              <div className="content-home-right">
+                <ContentPostMock postInfo={mockPost} userInfo={client} media={uploadImages}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    )
+  }
+
+  function VideoModal(){
+    return (
+      <Modal modalID="video-modal">
+        <div className="media-modal">
+          <h1 className="media-modal-title"> Upload your video here </h1>
+          <div className="media-modal-flex">
+            <form onChange={addMedia} onSubmit={submitMedia} className="media-modal-left">
+              <input type="file" accept="image/*" name="image"/>
+              <div style={{marginTop: "1em"}}><Buttons.DefaultButton contentColor="white" height="2em" width="7em" submit={true}>Submit</Buttons.DefaultButton></div>
+            </form>
+            <div className="media-modal-right content-home">
+              <h3 style={{textAlign: "center"}}> This is how your post will look like </h3>
+              <div className="content-home-right">
+                <ContentPostMock postInfo={mockPost} userInfo={client} media={uploadImages}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    )
   }
 
   return(
     <div className="post-prompt" ref={textContainer}>
-      <Modal>
-        <div className="media-modal">
-          <h1 className="media-modal-title"> Upload your image here </h1>
-          <div className="media-modal-flex">
-            <form onSubmit={addMedia} className="media-modal-left">
-              <input type="file" name="image"/>
-              <div style={{marginTop: "1em"}}><Buttons.DefaultButton contentColor="white" height="2em" width="7em" submit={true}>Submit</Buttons.DefaultButton></div>
-            </form>
-            {! isTablet && <div className="media-modal-right">
-              <h3 style={{textAlign: "center"}}> This is how your post will look like </h3>
-            </div>}
-          </div>
-        </div>
-      </Modal>
+      {ImageModal()}
+      {VideoModal()}
       
       <form className="post-form" onSubmit={(e) => handlePost(e)}>
         <div className="person-detail-flex" style={{paddingBottom : "0.5em"}}>
@@ -125,20 +184,17 @@ export default function PostPrompt({posts, userInfo, setPosts}){
           <textarea maxLength="500" name="text" className="post-textbox" placeholder="Post something here!" ref={textBox}></textarea>
         </div>
         
-        {uploadImages[0] && <div>
-          Media attached: {uploadImages[0].name}
+        {uploadImages[0] && <div className="media-attached">
+          <div>Media attached: {uploadImages[0].name}</div>
+          <Buttons.DefaultButton theme="blue" contentColor="white" fontSize="0.8rem" handleClick={() => setUploadImages([])}>Clear Media</Buttons.DefaultButton>
         </div>}
 
         <div className="attach-media">
-          <Buttons.DefaultButton handleClick={() => dispatch(setModalStatus(true))} theme="white" width="2.5em" height="2.5em">
-              <IconComponents.AttachIcon iconClass="attach-icon"/>
-            </Buttons.DefaultButton>
-        
           <div className="attach-icons">
-            <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">
+            <Buttons.DefaultButton handleClick={() => openMediaModal("image-modal")} theme="white" width="2.5em" height="2.5em">
               <IconComponents.ImagesIcon iconClass="attach-icon"/>
             </Buttons.DefaultButton>
-            <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">
+            <Buttons.DefaultButton handleClick={() => openMediaModal("video-modal")} theme="white" width="2.5em" height="2.5em">
               <IconComponents.VideoIcon iconClass="attach-icon"/>
             </Buttons.DefaultButton>
             <Buttons.DefaultButton theme="white" width="2.5em" height="2.5em">

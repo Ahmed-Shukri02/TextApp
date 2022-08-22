@@ -83,6 +83,13 @@ a{
   padding-bottom: 1em;
   min-height: 10em;
 
+  .media-attached{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+
   .media, .media-loading{
     height: 100%;
   }

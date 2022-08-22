@@ -74,6 +74,11 @@ a {
   padding-bottom: 1em;
   min-height: 10em;
 }
+.post-prompt .media-attached {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
 .post-prompt .media, .post-prompt .media-loading {
   height: 100%;
 }

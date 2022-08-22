@@ -1,6 +1,7 @@
 /* MEDIA MODAL FOR POST PROMPT: FILE PostPrompt.js */
 .media-modal-flex{
   display: flex;
+  flex-direction: row;
 }
 .media-modal-flex > *{
   flex-basis: 100%;
@@ -9,4 +10,14 @@
 .media-modal-title{
   text-align: center;
   margin-top: 0;
+}
+
+.media-modal-right .content-post{
+  box-shadow: none !important;
+}
+
+@media (max-width: 950px){
+  .media-modal-flex{
+    flex-direction: column;
+  }
 }
