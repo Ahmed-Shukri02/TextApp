@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import Buttons from "../Buttons/Buttons";
 import "./Inputs_style.css"
 
-export default class Inputs{
-
-
-  static Number({width = "5em", height = "2em", placeholder = ""}){
+  function Number({width = "5em", height = "2em", placeholder = ""}){
     var style = {
       width: width,
       height: height
@@ -22,4 +20,50 @@ export default class Inputs{
 
   }
 
-}
+  function File({accept, name}){
+    
+    const [inputRef, setInputRef] = useState(null)
+    const [customText, setCustomText] = useState("No file selected")
+    const inputRefCb = useCallback((node) => {
+      if(node){
+        node.addEventListener("change", () => handleInputChange(node))
+        setInputRef(node)
+      }
+    }, [])
+
+    useEffect(() => {
+      return () => {
+        if(inputRef){
+          inputRef.removeEventListener("change", handleInputChange)
+        }
+      }
+    }, [])
+
+    function handleInputChange(node){
+      console.log("changed")
+      console.log(node.files[0].name)
+      if(node.files[0]){
+        setCustomText(node.files[0].name)
+      }
+      else{
+        setCustomText("No file selected")
+      }
+    }
+    
+    return (
+      <>
+        <input hidden ref={inputRefCb} type="file" name={name} accept={accept}/>
+
+
+        { inputRef && 
+          <div style={{display: "inline-flex", gap: "1em", alignItems: "center"}}>
+          <Buttons.DefaultButton handleClick={ () => inputRef.click()} theme="gray" fontSize="0.8rem" >{inputRef.files[0]? "Change File" : "Select File"}</Buttons.DefaultButton>
+          <span className="file-custom-text">{customText}</span>
+          </div>
+        }
+      </>
+    )
+  }
+
+const Inputs = {Number, File}
+export default Inputs

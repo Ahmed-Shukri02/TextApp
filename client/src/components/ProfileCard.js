@@ -22,14 +22,11 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
 
   const {images} = useContext(StockImages)
   const {isTablet} = useContext(MediaContext)
-  const bg = useRef()
-
-  useEffect(() => {
-    if(bg.current){
-      bg.current.style.background = userInfo.bg_image ? `url(/api/media/${userInfo.bg_image})` : `url( /uploads/users/1659621653816logo192.png)`
+  const bgCb = useCallback((node) => {
+    if(node){
+      node.style.background = userInfo.bg_image ? `url(/api/media/${userInfo.bg_image})` : `url( /uploads/users/photo-1553095066-5014bc7b7f2d.jpeg)`
     }
-  }, [bg])
-
+  })
 
   function loadSingleImg(num){
     return images? 
@@ -65,7 +62,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
       {(allowLoadingScreen && !loaded) && <LoadingScreen disableScroll={true} elem={containerRef.current}/>}
       <div style={{height: "100%"}} ref={containerRefCb}>
         <div className="bg">
-          <div className="bg-image" ref={bg}></div>
+          <div className="bg-image" ref={bgCb}></div>
         </div>
 
         <div className="profile-info-flex">

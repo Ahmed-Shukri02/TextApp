@@ -6,11 +6,12 @@ import { StockImages } from "../../../Contexts/StockImages";
 import "../Content.css"
 import { useSelector } from "react-redux";
 
-export default function ContentPostMock({userInfo, media, postInfo = {}}){
+export default function ContentPostMock({userInfo, media, postInfo = {}, mediaType}){
 
   const {images} = useContext(StockImages)
   const [mockMedia, setMockMedia] = useState([])
   const mockText = postInfo?.post_text || "Lorem ipsum dolor sit amet..."
+  console.log(mediaType)
 
   function loadedImages(num){
     return images ?
@@ -33,7 +34,12 @@ export default function ContentPostMock({userInfo, media, postInfo = {}}){
   }, [media])
   
   const mediaJSX = mockMedia.map((elem, index) => 
-    <img className="media" src={elem} alt={"single 5"}/>
+    mediaType === "image" ?
+    <img className="media" src={elem} alt={"single 5"}/>:
+    <video controls className="media">
+      <source src={elem} type="video/mp4"/>
+      Sorry, your browser does not support this video format
+    </video>
   )
 
   // COMPONENT

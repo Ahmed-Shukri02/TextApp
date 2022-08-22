@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setModalStatus } from "../../../Tools/modalStatus";
 import Modal from "../../Modals/Modal";
 import ContentPostMock from "../ContentMocks/ContentPostMock";
+import { motion, AnimatePresence } from "framer-motion";
+import Inputs from "../../Inputs/Inputs";
 
 export default function PostPrompt({posts, userInfo, setPosts}){
 
@@ -17,8 +19,21 @@ export default function PostPrompt({posts, userInfo, setPosts}){
   const textBox = useRef(null)
   const textContainer = useRef(null)
   const [isPosting, setIsPosting] = useState(false)
+  const [longLoading, setLongLoading] = useState(false)
   const [uploadImages, setUploadImages] = useState([])
   const [mockPost, setMockPost] = useState({})
+
+  const [ErrorStatus, setErrorStatus] = useState({error: false, message: null})
+  const errorStatuses = {
+    noError: {error: false, message: null},
+    imageTooBig: {
+      error: true, message: "image size should be less than 2MB!"
+    },
+    videoTooBig: {
+      error: true, message: "video size should be less than 100MB!"
+    }
+  }
+  //console.log(isPosting)
 
   const dispatch = useDispatch()
   const modalStatus = useSelector((state) => state.modalStatus.value)
@@ -38,6 +53,15 @@ export default function PostPrompt({posts, userInfo, setPosts}){
     })
 
   }, [])
+
+  useEffect(() => {
+    if(isPosting){
+      setTimeout(() => {
+        console.log(isPosting)
+        setLongLoading(isPosting)
+      }, 3000);
+    }
+  }, [isPosting])
   
   async function handlePost(e){
     e.preventDefault()
@@ -47,6 +71,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
     }
     
     setIsPosting(true)
+    console.log(isPosting)
     let {text} = e.target.elements
     
     try{
@@ -65,14 +90,18 @@ export default function PostPrompt({posts, userInfo, setPosts}){
       let finalPosts = [...posts]
       finalPosts.unshift(newPostsJson[0])
 
-      console.log(finalPosts)
-
-      console.log(uploadImages.length)
       if(uploadImages.length){
         const imagesForm = new FormData();
         imagesForm.append("image", uploadImages[0])
+        
+        var type = uploadImages[0].type
+        if (!type.match("video/*") && !type.match("image/*")){
+          console.log("wrong file format")
+          return;
+        } type = type.match("video/*")? "video" : "image";
+        console.log(type)
   
-        let res = await fetch(`/api/media/${newPostsJson[0].post_id}/uploads?type=image`, {
+        let res = await fetch(`/api/media/${newPostsJson[0].post_id}/uploads?type=${type}`, {
           method: "POST",
           headers: {
             "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
@@ -87,6 +116,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
 
       setPosts(finalPosts)
       setIsPosting(false)
+      setLongLoading(false)
 
       // reset post prompt
       setUploadImages([])
@@ -101,12 +131,36 @@ export default function PostPrompt({posts, userInfo, setPosts}){
 
   }
 
-  function addMedia(e){
+  function addMedia(e, type){
     e.preventDefault()
-    let image = e.target.files[0]
-    console.log(image)
+    let media = e.target.files[0]
 
-    if(image) setUploadImages([image])
+    switch(type){
+      case "image": {
+        if(media.size > 2097152){
+          setErrorStatus(errorStatuses.imageTooBig)
+          return;
+        }
+    
+        setErrorStatus(errorStatuses.noError)
+        console.log(media)
+    
+        if(media) setUploadImages([media])
+
+      }
+      case "video": {
+        if(media.size > 104857600){
+          setErrorStatus(errorStatuses.videoTooBig)
+          return;
+        }
+    
+        setErrorStatus(errorStatuses.noError)
+        console.log(media)
+    
+        if(media) setUploadImages([media])
+      }
+      default : {console.log("incorrect query"); return}
+    }
   }
   
   function submitMedia(e){
@@ -133,14 +187,16 @@ export default function PostPrompt({posts, userInfo, setPosts}){
         <div className="media-modal">
           <h1 className="media-modal-title"> Upload your image here </h1>
           <div className="media-modal-flex">
-            <form onChange={addMedia} onSubmit={submitMedia} className="media-modal-left">
-              <input type="file" accept="image/*" name="image"/>
+            <form onChange={e => addMedia(e, "image")} onSubmit={e => submitMedia(e, "image")} className="media-modal-left">
+              <div style={{textAlign: "justified", padding: "1em 0", maxWidth: "45ch"}}>This current version does not support multiple file uploads. But don't worry, this feature is currently being worked on and will be added soon</div>
+              {ErrorStatus.error && ErrorStatus.message}
+              <Inputs.File accept="image/*" name="image"/>
               <div style={{marginTop: "1em"}}><Buttons.DefaultButton contentColor="white" height="2em" width="7em" submit={true}>Submit</Buttons.DefaultButton></div>
             </form>
             <div className="media-modal-right content-home">
               <h3 style={{textAlign: "center"}}> This is how your post will look like </h3>
               <div className="content-home-right">
-                <ContentPostMock postInfo={mockPost} userInfo={client} media={uploadImages}/>
+                <ContentPostMock postInfo={mockPost} userInfo={client} media={uploadImages} mediaType="image"/>
               </div>
             </div>
           </div>
@@ -155,14 +211,16 @@ export default function PostPrompt({posts, userInfo, setPosts}){
         <div className="media-modal">
           <h1 className="media-modal-title"> Upload your video here </h1>
           <div className="media-modal-flex">
-            <form onChange={addMedia} onSubmit={submitMedia} className="media-modal-left">
-              <input type="file" accept="image/*" name="image"/>
+            <form onChange={e => addMedia(e, "video")} onSubmit={e => submitMedia(e, "video")}  className="media-modal-left">
+              <div style={{textAlign: "justified", padding: "1em 0", maxWidth: "45ch"}}>This current version does not support multiple file uploads. But don't worry, this feature is currently being worked on and will be added soon</div>
+              {ErrorStatus.error && ErrorStatus.message}
+              <Inputs.File accept="video/mp4,video/x-m4v,video/*" name="image"/>
               <div style={{marginTop: "1em"}}><Buttons.DefaultButton contentColor="white" height="2em" width="7em" submit={true}>Submit</Buttons.DefaultButton></div>
             </form>
             <div className="media-modal-right content-home">
               <h3 style={{textAlign: "center"}}> This is how your post will look like </h3>
               <div className="content-home-right">
-                <ContentPostMock postInfo={mockPost} userInfo={client} media={uploadImages}/>
+                <ContentPostMock postInfo={mockPost} userInfo={client} media={uploadImages} mediaType="video"/>
               </div>
             </div>
           </div>
@@ -185,7 +243,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
         </div>
         
         {uploadImages[0] && <div className="media-attached">
-          <div>Media attached: {uploadImages[0].name}</div>
+          <div style={{maxWidth: "50ch"}}>Media attached: {uploadImages[0].name}</div>
           <Buttons.DefaultButton theme="blue" contentColor="white" fontSize="0.8rem" handleClick={() => setUploadImages([])}>Clear Media</Buttons.DefaultButton>
         </div>}
 
@@ -203,7 +261,20 @@ export default function PostPrompt({posts, userInfo, setPosts}){
           </div>
         </div>
 
+        <AnimatePresence>
+          {longLoading &&
+            <motion.div style={{fontSize: "0.8rem", color: "lightslategray", textAlign: "center"}}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 1}}
+            >
+              This may take a while...
+            </motion.div>
+          }
+        </AnimatePresence>
         <div style={{display: "flex", justifyContent: "center"}}>
+          
           <Buttons.DefaultButton isLoading={isPosting} submit={true} contentColor="white" width="60%" height="2.5em" fontSize="0.8rem">
             Post
           </Buttons.DefaultButton>

@@ -245,7 +245,12 @@ export default function ContentPost({postInfo, userInfo, index, removeIndex, fro
   const repliesJSX = replies && replies.map((elem, index)=> <Reply index={index} removeReply={popRepliesAtIndex} info={elem} userInfo ={userInfo} key={elem.reply_id} loadedImages = {loadedImages} commentBoxReference={commentBoxReference} toggleCommentBox={handleCommentingToReply} postInfo = {postInfo}/>);
 
   const mediaJSX = media.map((elem, index) => 
-    <img className="media" src={`/api/media/${elem.media}`} alt={"single 5"}/>
+    elem.media_type === "image" ?
+    <img className="media" src={`/api/media/${elem.media}`} alt={"single 5"}/>:
+    <video controls className="media">
+      <source src={`/api/media/${elem.media}`} type="video/mp4"/>
+      Sorry, your browser does not support this video format
+    </video>
   )
 
   // COMPONENT

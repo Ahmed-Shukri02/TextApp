@@ -1,6 +1,7 @@
 const express = require("express")
 const {Pool} = require("pg")
 const jwt = require("jsonwebtoken")
+const fs = require("fs")
 const {getSqlClause, checkAuthentication, checkAdminStatus, checkPostExistence, pool, upload} = require("../../Tools/Functions")
 const {uploadToCloud, readFromCloud} = require(`../../s3`)
 
@@ -32,6 +33,11 @@ router.post("/:id/uploads", checkAuthentication(), checkPostExistence, upload.si
 
     // upload to cloud
     let bucket_obj = await uploadToCloud(req.file)
+    fs.unlink(req.file.path, (err) => {
+      if(err) throw err;
+      console.log("file was sucessfully deleted")
+    })
+
     console.log(bucket_obj)
 
     let queryRes = await pool.query(`INSERT INTO post_media(foreign_post_id, media, media_type)\

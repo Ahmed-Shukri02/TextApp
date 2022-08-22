@@ -11,3 +11,8 @@ input[type=number]{
   -moz-appearance: textfield;
 }
 
+.file-custom-text{
+  font-size: 0.8rem;
+  max-width: 40ch;
+}
+

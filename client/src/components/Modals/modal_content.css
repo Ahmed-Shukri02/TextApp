@@ -2,6 +2,7 @@
 .media-modal-flex{
   display: flex;
   flex-direction: row;
+  gap: 1em;
 }
 .media-modal-flex > *{
   flex-basis: 100%;

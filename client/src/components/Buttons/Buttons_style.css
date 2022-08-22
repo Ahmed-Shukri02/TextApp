@@ -16,6 +16,10 @@
   font-size: 2rem !important;
 }
 
+.gray-button{
+  background-color: rgb(247, 247, 247) !important;
+}
+
 .submit-button{
   border: none;
   background-color: rgb(247, 247, 247);
@@ -74,6 +78,10 @@
   .default-white:hover{
     cursor: pointer;
     background-color: lightgray;
+  }
+
+  .gray-button:hover{
+    background-color: lightgrey !important;
   }
 
   .default-gray:hover{
