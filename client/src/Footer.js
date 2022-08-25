@@ -1,7 +1,7 @@
 import React from "react";
-import "./index-style.css"
+import "./index-style.css";
 
-export default function Footer(){
+export default function Footer() {
   return (
     <div className="footer-container">
       <div className="footer">
@@ -9,5 +9,5 @@ export default function Footer(){
         <div> Made with React </div>
       </div>
     </div>
-  )
+  );
 }
