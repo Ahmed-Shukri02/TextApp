@@ -4,7 +4,9 @@ body {
   overflow-x: hidden;
 }
 
-h2, h3, p {
+h2,
+h3,
+p {
   padding: 0;
   margin: 0;
 }
@@ -18,7 +20,9 @@ h2, h3, p {
   grid-template-rows: auto 1fr auto;
 }
 
-header, .main, .footer {
+header,
+.main,
+.footer {
   width: 90%;
 }
 
@@ -30,7 +34,7 @@ header, .main, .footer {
   z-index: 10000;
   padding-bottom: 0.5em;
   box-shadow: 0 0.5px 5px lightgray;
-  color: #1B74E4;
+  color: #1b74e4;
 }
 .header-container header {
   display: flex;
@@ -46,10 +50,43 @@ header, .main, .footer {
 }
 .header-container header ul {
   all: unset;
+  display: flex;
+  justify-content: flex-end;
+  gap: 2em;
 }
 .header-container header li {
   all: unset;
-  padding: 2em;
+  padding: 1em;
+}
+
+.drop-down {
+  background-color: white;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 1em;
+}
+.drop-down .drop-down-header {
+  display: flex;
+  justify-content: end;
+}
+
+.header-user-profile {
+  display: flex;
+  color: black;
+  align-items: center;
+  gap: 1em;
+}
+
+.cross-icon-div:hover {
+  cursor: pointer;
+}
+.cross-icon-div .cross-icon {
+  height: 2em;
+  width: 2em;
 }
 
 .loading-icon {
@@ -79,9 +116,6 @@ header, .main, .footer {
 }
 
 @media (max-width: 650px) {
-  .header-container header {
-    flex-direction: column;
-  }
   .profile-info {
     flex-direction: column !important;
   }
@@ -107,7 +141,7 @@ header, .main, .footer {
 
 .checkmark {
   width: 0.8rem;
-  background-color: #1B74E4;
+  background-color: #1b74e4;
   border-radius: 50%;
 }
 
@@ -177,14 +211,14 @@ header, .main, .footer {
 }
 .profile-card .profile-name .inline-icon {
   width: 15px;
-  background-color: #1B74E4;
+  background-color: #1b74e4;
   border-radius: 50%;
 }
 .profile-card .profile-link {
   flex-basis: 35%;
 }
 .profile-card .profile-link .profile-link-button {
-  background-color: #1B74E4;
+  background-color: #1b74e4;
   border: none;
   width: 90%;
   padding: 0 2em;
@@ -272,10 +306,10 @@ header, .main, .footer {
   border-radius: 4px;
 }
 .profile-nav .profile-nav-selections .currentNav {
-  border-bottom: 5px solid #1B74E4;
+  border-bottom: 5px solid #1b74e4;
 }
 .profile-nav .curr-selection {
-  border-bottom: 2px solid #1B74E4;
+  border-bottom: 2px solid #1b74e4;
 }
 .profile-nav .dropdown-selection {
   position: relative;
