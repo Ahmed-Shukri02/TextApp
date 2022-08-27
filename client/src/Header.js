@@ -61,6 +61,7 @@ export default function Header() {
           <div style={{ paddingTop: "0.5em" }}>
             <Buttons.DefaultButton
               handleClick={openDropdown}
+              title="dropdown-button"
               contentColor="#1b74e4"
               theme="white"
             >
