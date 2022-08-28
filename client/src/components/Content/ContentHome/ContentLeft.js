@@ -76,27 +76,7 @@ export default function ContentLeft({userInfo, setLoaded}){
 
       <div className="related-pages">
         <h3>Followers</h3>
-        <div className="related-card">
-          <div className="related-card-image">{loadSingleImg(12)}</div>
-          <div>
-            <div>Google play <IconComponents.Checkmark/> </div>
-            <div className="related-about">product/service</div>
-          </div>
-        </div>
-        <div className="related-card">
-          <div className="related-card-image">{loadSingleImg(13)}</div>
-          <div>
-            <div>Twitter <IconComponents.Checkmark/> </div>
-            <div className="related-about">App page</div>
-          </div>
-        </div>
-        <div className="related-card">
-          <div className="related-card-image">{loadSingleImg(14)}</div>
-          <div>
-            <div>Harry styles <IconComponents.Checkmark/> </div>
-            <div className="related-about">Musician</div>
-          </div>
-        </div>
+        <div style={{textAlign: "center"}}>This feature has not been added yet.</div>
       </div>
     </div>
   )
