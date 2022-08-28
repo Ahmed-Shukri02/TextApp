@@ -38,6 +38,7 @@ export default function Feed(){
     grabPosts()
     document.body.style.background = Backgrounds.CircleBackground()
     document.body.style.backgroundSize = "contain"
+    document.title = "Feed"
 
     setTimeout(() => {
       setLoading(false)

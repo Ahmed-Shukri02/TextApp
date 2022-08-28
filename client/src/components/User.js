@@ -61,6 +61,7 @@ export default function User() {
       }
     }
 
+    document.title = id;
     getData();
   }, []);
 

@@ -17,6 +17,8 @@ export default function Login() {
   );
 
   useEffect(() => {
+    document.title = "Login"
+    
     window.fbAsyncInit = () => {
       window.FB.init({
         appId: process.env.REACT_APP_FACEBOOK_CLIENT_ID,

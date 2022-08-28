@@ -14,6 +14,7 @@ export default function Welcome(){
   const navigate = useNavigate()
   
   useEffect(() => {
+    document.title = "Welcome"
     document.body.style.background = isTablet ? Backgrounds.LoginBackgroundMobile() : Backgrounds.LoginBackground()
 
     document.body.style.backgroundRepeat = "no-repeat"

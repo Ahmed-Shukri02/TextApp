@@ -9,7 +9,7 @@ export default function OauthLoginRedirect(){
     console.log(code)
 
     async function getAccessToken(){
-
+      document.title = "Redirecting..."
       let accessRes = await fetch(`https://www.linkedin.com/oauth/v2/accessToken`, {
         method: "POST",
         headers: {"Content-Type": "application/x-www-form-urlencoded"},
