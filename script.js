@@ -5,7 +5,7 @@ const {Client} = require("pg")
 const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session")
-
+require("dotenv").config(".env")
 
 const app = express()
 const client_url = process.env.NODE_ENV === "production" ? "https://rocky-brook-55283.herokuapp.com" 
