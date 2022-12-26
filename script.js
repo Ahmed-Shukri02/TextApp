@@ -11,6 +11,7 @@ const app = express()
 const client_url = process.env.NODE_ENV === "production" ? "https://rocky-brook-55283.herokuapp.com" 
 : "http://localhost:3000"
 
+console.log(process.env.NODE_ENV)
 
 app.use("/uploads", express.static("uploads"));
 if(process.env.NODE_ENV === "production"){
