@@ -7,6 +7,7 @@ import { StockImages } from "../Contexts/StockImages";
 import ContentLeft from "./Content/ContentHome/ContentLeft";
 import LoadingScreen from "./LoadingPage/LoadingPage";
 import {MediaContext} from "../Contexts/MediaContext"
+import serverLocation from "../Tools/serverLocation";
 
 export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
   
@@ -24,7 +25,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
   const {isTablet} = useContext(MediaContext)
   const bgCb = useCallback((node) => {
     if(node){
-      node.style.background = userInfo.bg_image ? `url(/api/media/${userInfo.bg_image})` : `url( /uploads/users/photo-1553095066-5014bc7b7f2d.jpeg)`
+      node.style.background = userInfo.bg_image ? `url(${serverLocation}/api/media/${userInfo.bg_image})` : `url( /uploads/users/photo-1553095066-5014bc7b7f2d.jpeg)`
     }
   })
 
@@ -72,7 +73,7 @@ export default function ProfileCard({userInfo, fromFeed, feedHandleClickOff}){
               <div style={{flexBasis: "20%"}}>
                 <div className="profile-img-container">
                   { userInfo && (
-                    userInfo.user_pfp ? <img className = "profile-img" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadSingleImg(userInfo.stock_pfp)
+                    userInfo.user_pfp ? <img className = "profile-img" src={userInfo.oauth_login ? userInfo.user_pfp : `${serverLocation}/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadSingleImg(userInfo.stock_pfp)
                     )
                   }
                 </div>

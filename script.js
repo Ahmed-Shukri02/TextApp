@@ -8,7 +8,8 @@ const session = require("express-session")
 require("dotenv").config(".env")
 
 const app = express()
-const client_url = process.env.NODE_ENV === "production" ? "https://rocky-brook-55283.herokuapp.com" 
+const node_env = "production" // in production
+const client_url = node_env === "production" ? "http://13.40.189.125" 
 : "http://localhost:3000"
 
 console.log(process.env.NODE_ENV)

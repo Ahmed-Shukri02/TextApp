@@ -5,6 +5,7 @@ import IconComponents from "../../icon-components/icon-components";
 import { useContext } from "react";
 import { MediaContext } from "../../Contexts/MediaContext";
 import { useGoogleLogin } from "@react-oauth/google";
+import serverLocation from "../../Tools/serverLocation";
 
 export default function SignIn({ setIsLogin }) {
   let navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function SignIn({ setIsLogin }) {
       //console.log(userInfoJson)
 
       let res = await fetch(
-        `/api/users/oauth_login/${userInfoJson.sub}?provider=google`,
+        `${serverLocation}/api/users/oauth_login/${userInfoJson.sub}?provider=google`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -115,7 +116,7 @@ export default function SignIn({ setIsLogin }) {
       // make a query to try to log in
       (async () => {
         try {
-          let res = await fetch(` /api/users/login`, {
+          let res = await fetch(` ${serverLocation}/api/users/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -172,7 +173,7 @@ export default function SignIn({ setIsLogin }) {
             ];
 
             let res = await fetch(
-              `/api/users/oauth_login/${response.id}?provider=facebook`,
+              `${serverLocation}/api/users/oauth_login/${response.id}?provider=facebook`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import ContentPost from "./ContentPost";
 import PostPrompt from "./PostPrompt";
 import { useSelector } from "react-redux";
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function ContentRight({userInfo, token}){
   
@@ -16,7 +17,7 @@ export default function ContentRight({userInfo, token}){
     // do get request for users posts
     async function getPosts(){
       try{
-        let posts = await fetch(` /api/posts?author_id=${userInfo.user_id}`, {
+        let posts = await fetch(` ${serverLocation}/api/posts?author_id=${userInfo.user_id}`, {
           method: "GET",
           headers: {"Authorization" : `Bearer ${token}`}
         })

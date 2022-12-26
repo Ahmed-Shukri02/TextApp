@@ -8,6 +8,7 @@ import { FaBars } from "react-icons/fa";
 import { AnimatePresence } from "framer-motion";
 import HeaderDropdown from "./components/Dropdowns/HeaderDropdown";
 import { StockImages } from "./Contexts/StockImages";
+import serverLocation from "./Tools/serverLocation"
 
 export default function Header() {
   const [loggedInState, setLoggedInState] = useState(null);
@@ -86,7 +87,7 @@ export default function Header() {
                           src={
                             client.oauth_login
                               ? client.user_pfp
-                              : `/api/media/${client.user_pfp}`
+                              : `${serverLocation}/api/media/${client.user_pfp}`
                           }
                           referrerPolicy="no-referrer"
                           alt=""

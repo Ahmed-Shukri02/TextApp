@@ -5,6 +5,7 @@ import SubReply from "./ContentSubReply";
 import Buttons from "../../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function Reply({info, postInfo, loadedImages, commentBoxReference, toggleCommentBox, index, removeReply}){
   
@@ -43,7 +44,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
   }
 
   async function handleDeleteReply(){
-    let res = await fetch(`/api/posts/replies/${info.reply_id}?type=reply`, {
+    let res = await fetch(`${serverLocation}/api/posts/replies/${info.reply_id}?type=reply`, {
       method: "DELETE",
       headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
     })
@@ -63,7 +64,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
     
     if(!likeStatus){
       // make put request to increment likes by one
-      await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
+      await fetch(` ${serverLocation}/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=like`, {
         method : "PUT",
         headers : {
           "Content-Type" : "application/json",
@@ -71,7 +72,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         },
       })
       // make post request to add to likes list
-      let likers = await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
+      let likers = await fetch(` ${serverLocation}/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}`, {
         method: "POST",
         headers : {
           "Content-Type" : "application/json",
@@ -88,7 +89,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
     }
     else{
       // make put request to decrement likes by one
-      await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
+      await fetch(` ${serverLocation}/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}&method=unlike`, {
         method : "PUT",
         headers : {
           "Content-Type" : "application/json",
@@ -96,7 +97,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
         },
       })
       // make delete request to remove from likes list
-      let likers = await fetch(` /api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}/likes`, {
+      let likers = await fetch(` ${serverLocation}/api/posts/replies/${type === "reply" ? info.reply_id : info.subreply_id}?type=${type}/likes`, {
         method: "DELETE",
         headers : {
           "Content-Type" : "application/json",
@@ -122,7 +123,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
       subreply_ref : ref
     })
 
-    let subreply_info = await fetch(` /api/posts/replies/${info.reply_id}/replies?type=${ref_type}`, {
+    let subreply_info = await fetch(` ${serverLocation}/api/posts/replies/${info.reply_id}/replies?type=${ref_type}`, {
         method: "POST",
         headers: {
           "Content-Type" : "application/json",
@@ -155,7 +156,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
 
     async function getReplyInfo(){
       try{
-        let userData = await fetch(` /api/users/${info.reply_author_id}?type=id`)
+        let userData = await fetch(` ${serverLocation}/api/users/${info.reply_author_id}?type=id`)
         
         let userDataJson = await userData.json()
 
@@ -169,7 +170,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
     
     async function getReplyLikes(){
       try{
-        let replyLikesList = await fetch(` /api/posts/${info.reply_id}/likes?type=reply`, {
+        let replyLikesList = await fetch(` ${serverLocation}/api/posts/${info.reply_id}/likes?type=reply`, {
           method: "GET",
           headers: {
             "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
@@ -203,7 +204,7 @@ export default function Reply({info, postInfo, loadedImages, commentBoxReference
     <div className="reply-container">
       <div className="reply" data-testid="reply" ref={thisReply}>
         <div data-testid="reply-content" style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
-          <div className="reply-profile-img">{replyAuthorInfo.user_pfp ? <img className="media" src={replyAuthorInfo.oauth_login ? replyAuthorInfo.user_pfp : `/api/media/${replyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
+          <div className="reply-profile-img">{replyAuthorInfo.user_pfp ? <img className="media" src={replyAuthorInfo.oauth_login ? replyAuthorInfo.user_pfp : `${serverLocation}/api/media/${replyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
             <div className="reply-profile-content">
               <div className="reply-profile-name">{replyAuthorInfo.username}</div>

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import IconComponents from "../../../icon-components/icon-components"
 import { StockImages } from "../../../Contexts/StockImages";
 import ContentPost from "./ContentPost"
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function ContentLeft({userInfo, setLoaded}){
   
@@ -18,7 +19,7 @@ export default function ContentLeft({userInfo, setLoaded}){
   useEffect(() => {
     async function getPosts(){
       try{
-        let posts = await fetch(` /api/posts?author_id=${userInfo.user_id}`, {
+        let posts = await fetch(` ${serverLocation}/api/posts?author_id=${userInfo.user_id}`, {
           method: "GET",
           headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
         })

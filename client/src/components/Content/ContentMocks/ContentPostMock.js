@@ -5,6 +5,7 @@ import Inputs from "../../Inputs/Inputs";
 import { StockImages } from "../../../Contexts/StockImages";
 import "../Content.css"
 import { useSelector } from "react-redux";
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function ContentPostMock({userInfo, media, postInfo = {}, mediaType}){
 
@@ -48,7 +49,7 @@ export default function ContentPostMock({userInfo, media, postInfo = {}, mediaTy
       <div data-testid="person-detail-flex" className="person-detail-flex">
         <div style={{display: "flex", gap: "1em", alignItems: "center"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `${serverLocation}/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/>}
           </div>
           <div className="person-detail-info">
             <Buttons.UnderlineButton addStyle="no-padding">

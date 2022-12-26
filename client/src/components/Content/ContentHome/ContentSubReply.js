@@ -4,6 +4,7 @@ import IconComponents from "../../../icon-components/icon-components";
 import Buttons from "../../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function SubReply({info, parentInfo, subreplies, loadedImages, handleLike, commentBoxReference, toggleCommentBox, handleSubcomment, index, removeSubreply}){
 
@@ -34,7 +35,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
   }
 
   async function handleDeleteSubreply(){
-    let res = await fetch(`/api/posts/replies/${info.subreply_id}?type=subreply`, {
+    let res = await fetch(`${serverLocation}/api/posts/replies/${info.subreply_id}?type=subreply`, {
       method: "DELETE",
       headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
     })
@@ -47,7 +48,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
   useEffect(() => {
     async function getSubreplyAuthorInfo(){
       try{
-        let userData = await fetch(` /api/users/${info.subreply_author_id}?type=id`)
+        let userData = await fetch(` ${serverLocation}/api/users/${info.subreply_author_id}?type=id`)
         
         let userDataJson = await userData.json()
 
@@ -78,7 +79,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
 
     async function getSubreplyLikes(){
       try{
-        let subreplyLikesList = await fetch(` /api/posts/${info.subreply_id}/likes?type=subreply`, {
+        let subreplyLikesList = await fetch(` ${serverLocation}/api/posts/${info.subreply_id}/likes?type=subreply`, {
           method: "GET",
           headers: {
             "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
@@ -123,7 +124,7 @@ export default function SubReply({info, parentInfo, subreplies, loadedImages, ha
     <div className="reply-container">
       <div className="reply" data-testid="subreply" ref={thisSubreply}>
         <div style={{display: "flex", gap: "0.5em", alignItems: "flex-start"}}>
-          <div className="reply-profile-img">{subreplyAuthorInfo.user_pfp ? <img className="media" src={subreplyAuthorInfo.oauth_login ? subreplyAuthorInfo.user_pfp : `/api/media/${subreplyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
+          <div className="reply-profile-img">{subreplyAuthorInfo.user_pfp ? <img className="media" src={subreplyAuthorInfo.oauth_login ? subreplyAuthorInfo.user_pfp : `${serverLocation}/api/media/${subreplyAuthorInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/> : loadedImages(info.stock_pfp)}</div>
           <div>
             {
               info.subreply_reference_id &&

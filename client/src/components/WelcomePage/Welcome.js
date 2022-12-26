@@ -5,6 +5,7 @@ import { MediaContext } from "../../Contexts/MediaContext";
 import "./welcome.css"
 import Buttons from "../Buttons/Buttons";
 import { useNavigate } from "react-router-dom";
+import serverLocation from "../../Tools/serverLocation";
 
 export default function Welcome(){
 
@@ -36,7 +37,7 @@ export default function Welcome(){
 
     async function checkNewUser(){
       try{
-        let userStatus = await fetch(` /api/users/login`, {
+        let userStatus = await fetch(` ${serverLocation}/api/users/login`, {
           method: "GET",
           headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
         })
@@ -80,7 +81,7 @@ export default function Welcome(){
     else{
       (async () => {
         try{
-          let response = await fetch(` /api/users/update`, {
+          let response = await fetch(` ${serverLocation}/api/users/update`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -97,7 +98,7 @@ export default function Welcome(){
           const imagesForm = new FormData();
           imagesForm.append("image", user_pfp.files[0])
           
-          await fetch(` /api/users/uploads?type=user_pfp`, {
+          await fetch(` ${serverLocation}/api/users/uploads?type=user_pfp`, {
             method: "POST",
             headers: {
               "Authorization": `Bearer ${localStorage.getItem("userToken")}`

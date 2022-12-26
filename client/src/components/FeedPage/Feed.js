@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Sidebar from "../Sidebars/Sidebar";
 import ProfileCard from "../ProfileCard"
 import { useMediaQuery } from "react-responsive";
+import serverLocation from "../../Tools/serverLocation";
 
 export default function Feed(){
 
@@ -28,7 +29,7 @@ export default function Feed(){
 
   useEffect(() => {
     async function grabPosts(){
-      let posts = await fetch(` /api/posts/all`, {method: "GET"})
+      let posts = await fetch(` ${serverLocation}/api/posts/all`, {method: "GET"})
 
       let posts_json = await posts.json()
 
@@ -77,7 +78,7 @@ export default function Feed(){
   }, [posts])
 
   async function queryUser(user_id){
-    let response = await fetch(` /api/users/${user_id}?type=id`, {method: "GET"})
+    let response = await fetch(` ${serverLocation}/api/users/${user_id}?type=id`, {method: "GET"})
     
     return await response.json() // returns user_info
   }

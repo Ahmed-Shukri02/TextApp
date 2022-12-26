@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import "../Content.css";
 import e from "cors";
 import { useSelector } from "react-redux";
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function ContentPost({
   postInfo,
@@ -59,7 +60,7 @@ export default function ContentPost({
       if (isLiked) {
         //unlike the post
         let likes = await fetch(
-          ` /api/posts/${postInfo.post_id}?method=unlike`,
+          ` ${serverLocation}/api/posts/${postInfo.post_id}?method=unlike`,
           {
             method: "PUT",
             headers: {
@@ -71,7 +72,7 @@ export default function ContentPost({
 
         let likesValue = await likes.json();
 
-        let likes_users = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
+        let likes_users = await fetch(` ${serverLocation}/api/posts/${postInfo.post_id}/likes`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -84,7 +85,7 @@ export default function ContentPost({
         setLikes((oldVal) => oldVal - 1);
       } else {
         // like the post
-        let likes = await fetch(` /api/posts/${postInfo.post_id}?method=like`, {
+        let likes = await fetch(` ${serverLocation}/api/posts/${postInfo.post_id}?method=like`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -94,7 +95,7 @@ export default function ContentPost({
 
         let likesValue = await likes.json();
 
-        let likes_users = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
+        let likes_users = await fetch(` ${serverLocation}/api/posts/${postInfo.post_id}/likes`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -120,7 +121,7 @@ export default function ContentPost({
       let replyJson = JSON.stringify({ text: reply_text.replace("'", "''") });
 
       let newRow = await fetch(
-        ` /api/posts/${postInfo.post_id}/replies?type=reply`,
+        ` ${serverLocation}/api/posts/${postInfo.post_id}/replies?type=reply`,
         {
           method: "POST",
           headers: {
@@ -162,7 +163,7 @@ export default function ContentPost({
   }
 
   async function deletePost() {
-    let res = await fetch(`/api/posts/${postInfo.post_id}`, {
+    let res = await fetch(`${serverLocation}/api/posts/${postInfo.post_id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
     });
@@ -183,7 +184,7 @@ export default function ContentPost({
     async function fetchData() {
       // make get request for this posts likes
       try {
-        let likes = await fetch(` /api/posts/${postInfo.post_id}/likes`, {
+        let likes = await fetch(` ${serverLocation}/api/posts/${postInfo.post_id}/likes`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -193,7 +194,7 @@ export default function ContentPost({
 
         setLikedStatus(likesObj.client_like_status);
 
-        let replies = await fetch(` /api/posts/${postInfo.post_id}/replies`, {
+        let replies = await fetch(` ${serverLocation}/api/posts/${postInfo.post_id}/replies`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -204,7 +205,7 @@ export default function ContentPost({
         setReplies(replies);
         //console.log(replies)
 
-        let media = await fetch(`/api/media/${postInfo.post_id}/uploads`, {
+        let media = await fetch(`${serverLocation}/api/media/${postInfo.post_id}/uploads`, {
           method: "GET",
         });
         let mediaJson = await media.json();
@@ -266,12 +267,12 @@ export default function ContentPost({
     elem.media_type === "image" ? (
       <img
         className="media"
-        src={`/api/media/${elem.media}`}
+        src={`${serverLocation}/api/media/${elem.media}`}
         alt={"single 5"}
       />
     ) : (
       <video controls className="media">
-        <source src={`/api/media/${elem.media}`} type="video/mp4" />
+        <source src={`${serverLocation}/api/media/${elem.media}`} type="video/mp4" />
         Sorry, your browser does not support this video format
       </video>
     )
@@ -295,7 +296,7 @@ export default function ContentPost({
                 src={
                   userInfo.oauth_login
                     ? userInfo.user_pfp
-                    : `/api/media/${userInfo.user_pfp}`
+                    : `${serverLocation}/api/media/${userInfo.user_pfp}`
                 }
                 referrerPolicy="no-referrer"
                 alt=""

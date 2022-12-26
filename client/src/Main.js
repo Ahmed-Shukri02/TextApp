@@ -13,6 +13,7 @@ import { StockImages } from "./Contexts/StockImages";
 import { login } from "./Tools/clientInfo";
 import { useSelector, useDispatch } from "react-redux";
 import OauthLoginRedirect from "./components/LoginPage/OauthLoginRedirect";
+import serverLocation from "./Tools/serverLocation";
 
 
 export default function Main(){
@@ -33,7 +34,7 @@ export default function Main(){
     }
     
     try{
-      let userStatus = await fetch(` /api/users/login`, {
+      let userStatus = await fetch(` ${serverLocation}/api/users/login`, {
         method: "GET",
         headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
       })
@@ -57,7 +58,7 @@ export default function Main(){
     }
   
     try{
-      let user_id = await fetch(` /api/users/my_id`, {
+      let user_id = await fetch(` ${serverLocation}/api/users/my_id`, {
         method: "GET",
         headers: {"Authorization" : `Bearer ${localStorage.getItem("userToken")}`}
       })

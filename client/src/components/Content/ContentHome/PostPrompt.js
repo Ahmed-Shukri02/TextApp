@@ -11,6 +11,7 @@ import Modal from "../../Modals/Modal";
 import ContentPostMock from "../ContentMocks/ContentPostMock";
 import { motion, AnimatePresence } from "framer-motion";
 import Inputs from "../../Inputs/Inputs";
+import serverLocation from "../../../Tools/serverLocation";
 
 export default function PostPrompt({posts, userInfo, setPosts}){
 
@@ -75,7 +76,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
     let {text} = e.target.elements
     
     try{
-      let newPosts = await fetch(` /api/users/user_posts`, {
+      let newPosts = await fetch(` ${serverLocation}/api/users/user_posts`, {
         method: "POST",
         headers: {
           "Content-Type" : "application/json",
@@ -101,7 +102,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
         } type = type.match("video/*")? "video" : "image";
         console.log(type)
   
-        let res = await fetch(`/api/media/${newPostsJson[0].post_id}/uploads?type=${type}`, {
+        let res = await fetch(`${serverLocation}/api/media/${newPostsJson[0].post_id}/uploads?type=${type}`, {
           method: "POST",
           headers: {
             "Authorization" : `Bearer ${localStorage.getItem("userToken")}`
@@ -237,7 +238,7 @@ export default function PostPrompt({posts, userInfo, setPosts}){
       <form className="post-form" onSubmit={(e) => handlePost(e)}>
         <div className="person-detail-flex" style={{paddingBottom : "0.5em"}}>
           <div className="person-detail-image">
-            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/>}
+            {!userInfo.user_pfp? loadedImages(userInfo.stock_pfp) : <img className="media" src={userInfo.oauth_login ? userInfo.user_pfp : `${serverLocation}/api/media/${userInfo.user_pfp}`} referrerPolicy="no-referrer" alt=""/>}
           </div>
           <textarea maxLength="500" name="text" className="post-textbox" placeholder="Post something here!" ref={textBox}></textarea>
         </div>

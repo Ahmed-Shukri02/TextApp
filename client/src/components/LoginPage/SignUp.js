@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { MediaContext } from "../../Contexts/MediaContext";
 import userEvent from "@testing-library/user-event";
 import { useNavigate } from "react-router-dom";
+import serverLocation from "../../Tools/serverLocation";
 
 
 export default function SignUp({setIsLogin}){
@@ -99,7 +100,7 @@ export default function SignUp({setIsLogin}){
         let submitCondition = (username.value && email.value && password.value && emailValidated && passwordMatches && terms.checked)
   
       if(submitCondition){
-        let response = await fetch(` /api/users`, {
+        let response = await fetch(` ${serverLocation}/api/users`, {
           method: "POST",
           headers: {"Content-Type" : "application/json"},
           body: JSON.stringify({username: username.value, email: email.value, password: password.value})
@@ -109,7 +110,7 @@ export default function SignUp({setIsLogin}){
         console.log(newUserInfo)
 
         // log in to the new user
-        let loginRes = await fetch(` /api/users/login`, {
+        let loginRes = await fetch(` ${serverLocation}/api/users/login`, {
           method: "POST",
           headers: {"Content-Type" : "application/json"},
           body: JSON.stringify({email: email.value, password: password.value})

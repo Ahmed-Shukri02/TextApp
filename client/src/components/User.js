@@ -12,6 +12,7 @@ import LoadingScreen from "./LoadingPage/LoadingPage";
 import { AnimatePresence } from "framer-motion";
 import { MediaContext } from "../Contexts/MediaContext";
 import Sidebar from "./Sidebars/Sidebar";
+import serverLocation from "../Tools/serverLocation";
 
 export default function User() {
   const [userInfo, setUserInfo] = useState(null);
@@ -33,7 +34,7 @@ export default function User() {
   useEffect(() => {
     async function getData() {
       try {
-        let response = await fetch(` /api/users/${id}`, { method: "GET" });
+        let response = await fetch(` ${serverLocation}/api/users/${id}`, { method: "GET" });
 
         if (response.status === 400) {
           let errMessage = await response.text();
